@@ -18,7 +18,7 @@ public class CompensationManagementList {
 	 * 
 	 * @param CompensationManagement
 	 */
-	public boolean add(compensationManagement CompensationManagement){
+	public boolean add(CompensationManagement compensationManagement){
 		return false;
 	}
 

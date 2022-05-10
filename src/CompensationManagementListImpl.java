@@ -1,4 +1,3 @@
-package º¸Çè»ç.Design;
 
 
 /**
@@ -23,7 +22,7 @@ public class CompensationManagementListImpl extends CompensationManagementList {
 	 * 
 	 * @param CompensationManagement
 	 */
-	public boolean add(compensationManagement CompensationManagement){
+	public boolean add(CompensationManagement compensationManagement){
 		return false;
 	}
 
