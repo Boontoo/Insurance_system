@@ -1,11 +1,11 @@
-
+import java.util.ArrayList;
 
 /**
  * @author dlsqo
  * @version 1.0
  * @created 10-5-2022 ¿ÀÈÄ 9:00:56
  */
-public class InsuranceImpl extends InsuranceList {
+public class InsuranceImpl implements InsuranceList {
 
 	private ArrayList<Insurance> insuranceList;
 	public Insurance m_Insurance;

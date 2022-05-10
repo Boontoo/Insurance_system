@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * @author dlsqo
@@ -10,7 +11,7 @@ public class Customer {
 	private int birthDate;
 	private boolean gender;
 	private String id;
-	private enum job;
+	private enum job{};
 	private String name;
 	private String phoneNum;
 	private String ssn;

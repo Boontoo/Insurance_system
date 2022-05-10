@@ -1,10 +1,11 @@
+import java.util.ArrayList;
 
 /**
  * @author dlsqo
  * @version 1.0
  * @created 10-5-2022 ¿ÀÈÄ 9:00:55
  */
-public class AccidentReceptionListImpl extends AccidentReceptionList {
+public class AccidentReceptionListImpl implements AccidentReceptionList {
 
 	private ArrayList<AccidentReception> accidentReceptionList;
 	public AccidentReception m_AccidentReception;
