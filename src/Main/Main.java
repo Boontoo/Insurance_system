@@ -10,7 +10,7 @@ import Control.Control;
  */
 public class Main {
 
-	private Control m_Control = new Control();
+	private Control control = new Control();
 
 	public Main(){
 
@@ -21,7 +21,9 @@ public class Main {
 	}
 
 	private void manageCustomerInformation(Scanner scanner) {
-
+		// 檣寡
+	// ex
+//		this.control.enquireCustomerInformation();
 	}
 	
 	private void startContractMaintenanceActivities(Scanner scanner) {
@@ -33,19 +35,19 @@ public class Main {
 	}
 
 	private void applyForMembership(Scanner scanner) {
-
+		// 團營
 	}
 	
 	private void startUW(Scanner scanner) {
-
+		// 團營
 	}
 	
 	private void joinInsurance(Scanner scanner) {
-
+		// 團營
 	}
 	
 	private void reinsurance(Scanner scanner) {
-		
+		// 團營
 	}
 	
 	private void manageCompensationManagement(Scanner scanner) {
@@ -57,7 +59,7 @@ public class Main {
 	}
 	
 	private void reportAccident(Scanner scanner) {
-
+		// 團辦
 	}
 	
 	private void manageExpirationContract(Scanner scanner) {
@@ -102,6 +104,7 @@ public class Main {
 				break;
 			switch(choice) {
 				case 1:
+					// 檣寡
 					main.manageCustomerInformation(scanner);
 					break;
 				case 2:
@@ -111,15 +114,19 @@ public class Main {
 					main.payInsuranceFee(scanner);
 					break;
 				case 4:
+					// 團營
 					main.applyForMembership(scanner);
 					break;
 				case 5:
+					// 團營
 					main.startUW(scanner);
 					break;
 				case 6:
+					// 團營
 					main.joinInsurance(scanner);
 					break;
 				case 7:
+					// 團營
 					main.reinsurance(scanner);
 					break;
 				case 8:
@@ -129,6 +136,7 @@ public class Main {
 					main.payInsuranceMoney(scanner);
 					break;
 				case 10:
+					// 團辦
 					main.reportAccident(scanner);
 					break;
 				case 11:
