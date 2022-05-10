@@ -16,7 +16,7 @@ public class Insurance {
 	private int monthlyPaymentAmount;
 	private int target;
 	private int term;
-	private enum type;
+	private enum type{};
 	public CompensationCondition m_CompensationCondition;
 
 	public Insurance(){

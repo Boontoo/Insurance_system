@@ -1,12 +1,11 @@
-package 보험사.Design;
-
+import java.util.ArrayList;
 
 /**
  * @author dlsqo
  * @version 1.0
  * @created 10-5-2022 오후 9:00:55
  */
-public class CompensationManagementListImpl extends CompensationManagementList {
+public class CompensationManagementListImpl implements CompensationManagementList {
 
 	private ArrayList<CompensationManagement> compensationManagementList;
 	public CompensationManagement m_CompensationManagement;
@@ -23,7 +22,7 @@ public class CompensationManagementListImpl extends CompensationManagementList {
 	 * 
 	 * @param CompensationManagement
 	 */
-	public boolean add(compensationManagement CompensationManagement){
+	public boolean add(CompensationManagement compensationManagement){
 		return false;
 	}
 

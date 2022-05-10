@@ -1,43 +1,27 @@
-package 보험사.Design;
-
 
 /**
  * @author dlsqo
  * @version 1.0
  * @created 10-5-2022 오후 9:00:55
  */
-public class ContractList {
-
-	public ContractList(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
+public interface ContractList {
 
 	/**
 	 * 
 	 * @param contract
 	 */
-	public boolean add(Contract contract){
-		return false;
-	}
+	public boolean add(Contract contract);
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public boolean delete(String id){
-		return false;
-	}
+	public boolean delete(String id);
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public Contract get(String id){
-		return null;
-	}
+	public Contract get(String id);
 
 }
