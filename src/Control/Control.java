@@ -1,4 +1,14 @@
+package Control;
 import java.util.ArrayList;
+
+import AccidentReception.AccidentReceptionListImpl;
+import ApplicationForMembership.ApplicationForMembershipListImpl;
+import CompensationManagement.CompensationManagementListImpl;
+import Contract.ContractListImpl;
+import Customer.Customer;
+import Customer.CustomerImpl;
+import Insurance.Insurance;
+import Insurance.InsuranceImpl;
 
 /**
  * @author dlsqo

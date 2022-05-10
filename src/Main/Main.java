@@ -1,4 +1,7 @@
+package Main;
 import java.util.Scanner;
+
+import Control.Control;
 
 /**
  * @author dlsqo
