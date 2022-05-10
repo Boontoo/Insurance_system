@@ -95,13 +95,15 @@ public class Main {
 			System.out.println("11.만기계약 관리하기");
 			System.out.println("12.납입정보 관리하기");
 			System.out.println("13.보험 상품 설계하기");
-	//		System.out.println();
+
 			int choice = scanner.nextInt();
+			
 			if(choice == 0)
 				break;
 			switch(choice) {
 				case 1:
 					main.manageCustomerInformation(scanner);
+					break;
 				case 2:
 					main.startContractMaintenanceActivities(scanner);
 					break;
