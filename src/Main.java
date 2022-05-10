@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-	public Control m_Control;
+	private Control m_Control = new Control();
 
 	public Main(){
 
