@@ -35,19 +35,19 @@ public class Main {
 	}
 
 	private void applyForMembership(Scanner scanner) {
-		// 團營
+		// 團營 - 陛殮 褐羶 嫡晦
 	}
 	
 	private void startUW(Scanner scanner) {
-		// 團營
+		// 團營 - 檣熱褕餌 霞чж晦
 	}
 	
 	private void joinInsurance(Scanner scanner) {
-		// 團營
+		// 團營 - 爾я 陛殮ж晦
 	}
 	
 	private void reinsurance(Scanner scanner) {
-		// 團營
+		// 團營 - 營爾я 籀葬ж晦
 	}
 	
 	private void manageCompensationManagement(Scanner scanner) {
