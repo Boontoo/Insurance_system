@@ -36,24 +36,6 @@ public class Main {
 
 	private void applyForMembership(Scanner scanner) {
 		// 민재 - 가입 신청 받기
-		System.out.print("고객 이름 : ");
-		String name = scanner.next();
-		System.out.print("가입 희망 보험 : ");
-		String wishInsurance = scanner.next();
-		System.out.print("전화번호 : ");
-		String phoneNum = scanner.next();
-		System.out.print("나이 : ");
-		int age = scanner.nextInt();
-		System.out.print("성별(1.남자, 그 이외.여자) : ");
-		boolean gender = (scanner.nextInt() == 1);
-		System.out.print("직업 : ");
-		String jop = scanner.next();
-		System.out.print("주민번호 : ");
-		String citizenNum = scanner.next();
-		System.out.println("가입신청을 진행하시겠습니까? (1.진행, 그 이외.뒤로가기)");
-		if(scanner.nextInt() == 1) 
-			this.control.applyForMembership(name, wishInsurance, phoneNum, age, gender, jop, citizenNum);
-		System.out.println("==================================");
 	}
 	
 	private void startUW(Scanner scanner) {

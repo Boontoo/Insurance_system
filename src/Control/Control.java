@@ -45,10 +45,8 @@ public class Control {
 	 * @param 직업
 	 * @param 주민번호
 	 */
-	public void applyForMembership(String name, String wishInsurance, String phoneNum, int age, boolean gender, String jop, String citizenNum){
-		// 가입 신청하기
-		String genderStr = gender? "남자":"여자";
-		System.out.println(name+", "+wishInsurance+", "+phoneNum+", "+age+", "+genderStr+", "+jop+", "+citizenNum);
+	public void applyForMembership(String 가입희망보험, String 고객전화번호, int 나이, boolean 성별, String 이름, String 직업, String 주민번호){
+
 	}
 
 	/**
