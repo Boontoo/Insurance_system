@@ -1,6 +1,8 @@
 package Main;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import AccidentReception.AccidentReception;
 import Control.Control;
 
 /**
@@ -11,6 +13,7 @@ import Control.Control;
 public class Main {
 
 	private Control control = new Control();
+	public static  ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
 
 	public Main(){
 
@@ -59,6 +62,7 @@ public class Main {
 	}
 	
 	private void reportAccident(Scanner scanner) {
+		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기 
 		// 민우
 	}
 	
@@ -136,7 +140,8 @@ public class Main {
 					main.payInsuranceMoney(scanner);
 					break;
 				case 10:
-					// 민우 사고접수 시나리오 보고 code 작성해오기.
+					// 민우 사고 접수를 하다
+					// 일단 이 내용은 사고처리
 					main.reportAccident(scanner);
 					break;
 				case 11:

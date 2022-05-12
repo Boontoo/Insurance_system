@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * @created 10-5-2022 ¿ÀÈÄ 9:00:55
  */
 public class AccidentReceptionListImpl implements AccidentReceptionList {
-
-	private ArrayList<AccidentReception> accidentReceptionList;
+	
+	private ArrayList<AccidentReception> accidentReceptionList = new ArrayList<>();
 	public AccidentReception m_AccidentReception;
 
 	public AccidentReceptionListImpl(){
