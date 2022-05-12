@@ -136,7 +136,7 @@ public class Main {
 					main.payInsuranceMoney(scanner);
 					break;
 				case 10:
-					// 민우
+					// 민우 사고접수 시나리오 보고 code 작성해오기.
 					main.reportAccident(scanner);
 					break;
 				case 11:
