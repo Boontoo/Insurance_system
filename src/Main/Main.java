@@ -65,7 +65,7 @@ public class Main {
 	}
 	
 	private void reinsurance(Scanner scanner) {
-		// 민재 - 재보험 처리하기
+		// 민재 - 재보험 처리하기(할 수 있으면)
 	}
 	
 	private void manageCompensationManagement(Scanner scanner) {

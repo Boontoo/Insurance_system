@@ -24,6 +24,8 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 	 * @param applicationForMembership
 	 */
 	public boolean add(ApplicationForMembership applicationForMembership){
+		boolean result = this.applicationForMembershipList.add(applicationForMembership);
+		this.applicationForMembershipList.get(applicationForMembershipList.size()-1);
 		return false;
 	}
 
