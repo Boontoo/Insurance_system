@@ -1,4 +1,5 @@
 package Control;
+
 import java.util.ArrayList;
 
 import AccidentReception.AccidentReceptionListImpl;
@@ -13,7 +14,7 @@ import Insurance.InsuranceImpl;
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 오후 9:00:55
+ * @created 16-5-2022 占쏙옙占쏙옙 2:40:57
  */
 public class Control {
 
@@ -37,58 +38,58 @@ public class Control {
 
 	/**
 	 * 
-	 * @param 가입희망보험
-	 * @param 고객전화번호
-	 * @param 나이
-	 * @param 성별
-	 * @param 이름
-	 * @param 직업
-	 * @param 주민번호
+	 * @param insurance
+	 * @param phoneNum
+	 * @param age
+	 * @param gender
+	 * @param name
+	 * @param job
+	 * @param SSN
 	 */
-	public void applyForMembership(String 가입희망보험, String 고객전화번호, int 나이, boolean 성별, String 이름, String 직업, String 주민번호){
+	public void applyForMembership(String insurance, String phoneNum, int age, boolean gender, String name, String job, String SSN){
 
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @param 본인소유건물
-	 * @param 리모델링여부
-	 * @param 건물연식점수
-	 * @param 화재설비상태점수
-	 * @param 건물위치점수
-	 * @param 건물상태점수
+	 * @param isOwnedBuilding
+	 * @param isRemodeling
+	 * @param buildingAgeScore
+	 * @param fireEquipmentConditionScore
+	 * @param buildingLocationScore
+	 * @param buildingConditionScore
 	 */
-	public boolean automaticJudge(String id, boolean 본인소유건물, boolean 리모델링여부, int 건물연식점수, int 화재설비상태점수, int 건물위치점수, int 건물상태점수){
+	public boolean automaticJudge(String id, boolean isOwnedBuilding, boolean isRemodeling, int buildingAgeScore, int fireEquipmentConditionScore, int buildingLocationScore, int buildingConditionScore){
 		return false;
 	}
 
 	/**
 	 * 
-	 * @param 납입금액
+	 * @param amountOfInsuranceFee
 	 */
-	public boolean checkAmountOfInsuranceFee(int 납입금액){
+	public boolean checkAmountOfInsuranceFee(int amountOfInsuranceFee){
 		return false;
 	}
 
 	/**
 	 * 
-	 * @param 입력날짜
+	 * @param date
 	 */
-	private String checkInputDateFormat(String 입력날짜){
+	private String checkInputDateFormat(String date){
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param 가입희망보험이름
-	 * @param 고객전화번호
-	 * @param 나이
-	 * @param 성별
-	 * @param 이름
-	 * @param 직업
+	 * @param insurance
+	 * @param phoneNum
+	 * @param age
+	 * @param gender
+	 * @param name
+	 * @param job
 	 */
-	private boolean checkInputImformation(String 가입희망보험이름, String 고객전화번호, int 나이, boolean 성별, String 이름, String 직업){
+	private boolean checkInputImformation(String insurance, String phoneNum, int age, boolean gender, String name, String job){
 		return false;
 	}
 
@@ -102,9 +103,9 @@ public class Control {
 
 	/**
 	 * 
-	 * @param 가입고객이름
+	 * @param customerName
 	 */
-	public String enquireAccidentInformation(String 가입고객이름){
+	public String enquireAccidentInformation(String customerName){
 		return "";
 	}
 
@@ -135,10 +136,10 @@ public class Control {
 	/**
 	 * 
 	 * @param id
-	 * @param 사고위치
-	 * @param 사고유형
+	 * @param accidentLocation
+	 * @param accidentType
 	 */
-	public String enquireEmployeeCallStatusImformation(String id, String 사고위치, String 사고유형){
+	public String enquireEmployeeCallStatusImformation(String id, String accidentLocation, String accidentType){
 		return "";
 	}
 
@@ -184,13 +185,13 @@ public class Control {
 
 	/**
 	 * 
-	 * @param 자동심사결과
-	 * @param 진단심사결과
-	 * @param 이미지심사결과
-	 * @param 특인심사결과
-	 * @param 일반심사결과
+	 * @param automaticExaminationResult
+	 * @param diagnosticExaminationResult
+	 * @param imageExaminationResult
+	 * @param specialExaminationResult
+	 * @param generalExaminationResult
 	 */
-	public String enquireUWResult(boolean 자동심사결과, boolean 진단심사결과, boolean 이미지심사결과, boolean 특인심사결과, boolean 일반심사결과){
+	public String enquireUWResult(boolean automaticExaminationResult, boolean diagnosticExaminationResult, boolean imageExaminationResult, boolean specialExaminationResult, boolean generalExaminationResult){
 		return "";
 	}
 
@@ -200,9 +201,9 @@ public class Control {
 
 	/**
 	 * 
-	 * @param 연장된만료일
+	 * @param extendedExpirationDate
 	 */
-	public String extendContract(String 연장된만료일){
+	public String extendContract(String extendedExpirationDate){
 		return "";
 	}
 
@@ -232,10 +233,10 @@ public class Control {
 
 	/**
 	 * 
-	 * @param 새로운만기일
+	 * @param newExpirationDate
 	 * @param id
 	 */
-	public String renewExpirationDate(String 새로운만기일, String id){
+	public String renewExpirationDate(String newExpirationDate, String id){
 		return "";
 	}
 
@@ -250,20 +251,20 @@ public class Control {
 	/**
 	 * 
 	 * @param id
-	 * @param 납입금액
+	 * @param amountOfInsuranceFee
 	 */
-	public String saveAmountOfInsuranceFee(String id, int 납입금액){
+	public String saveAmountOfInsuranceFee(String id, int amountOfInsuranceFee){
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param 대상고객
-	 * @param 보상개발안
-	 * @param 보험상품이름
-	 * @param 평가안
+	 * @param targetCustomer
+	 * @param compensationDevelopmentPlan
+	 * @param InsuranceProductName
+	 * @param evaluation
 	 */
-	public void saveCompensationManagementInformation(String 대상고객, String 보상개발안, String 보험상품이름, String 평가안){
+	public void saveCompensationManagementInformation(String targetCustomer, String compensationDevelopmentPlan, String InsuranceProductName, String evaluation){
 
 	}
 
@@ -273,9 +274,9 @@ public class Control {
 
 	/**
 	 * 
-	 * @param 기획한내용
+	 * @param plannedContents
 	 */
-	public String savePlannedContents(String 기획한내용){
+	public String savePlannedContents(String plannedContents){
 		return "";
 	}
 

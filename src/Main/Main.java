@@ -1,79 +1,99 @@
 package Main;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import AccidentReception.AccidentReception;
 import Control.Control;
 
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 ¿ÀÈÄ 9:00:56
+ * @created 10-5-2022 ì˜¤í›„ 9:00:56
  */
 public class Main {
-
+	
 	private Control control = new Control();
+	
+	public static  ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
 
 	public Main(){
-
+		
 	}
 
 	public void finalize() throws Throwable {
-
+		
 	}
 
 	private void manageCustomerInformation(Scanner scanner) {
-		// ÀÎ¹è
-	// ex
-//		this.control.enquireCustomerInformation();
+		// ì¸ë°°
+		while(true) {
+			System.out.println("ê³ ê°ì •ë³´ê´€ë¦¬í•˜ê¸° ë©”ë‰´ì…ë‹ˆë‹¤.");
+			System.out.println("1.ê³ ê°ì •ë³´ì¡°íšŒ");
+			System.out.println("2.ë©”ì¸í˜ì´ì§€ë¡œ ëŒì•„ê°€ê¸°");
+			int choice = scanner.nextInt();
+	   
+			switch(choice) {
+		   		case 1:
+		   			this.control.enquireCustomerInformation();
+		   			break;
+		   		case 2:
+		   			return;
+		   		default:
+		   			System.out.println("ì˜ëª» ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì„ íƒí•´ì£¼ì„¸ìš”.");
+		   			break;
+   			}
+		}
 	}
-	
+   
 	private void startContractMaintenanceActivities(Scanner scanner) {
 
 	}
-	
+   
 	private void payInsuranceFee(Scanner scanner) {
 
 	}
 
 	private void applyForMembership(Scanner scanner) {
-		// ¹ÎÀç
+		// ë¯¼ì¬
 	}
-	
+   
 	private void startUW(Scanner scanner) {
-		// ¹ÎÀç
+		// ë¯¼ì¬
 	}
-	
+   
 	private void joinInsurance(Scanner scanner) {
-		// ¹ÎÀç
+		// ë¯¼ì¬
 	}
-	
+   
 	private void reinsurance(Scanner scanner) {
-		// ¹ÎÀç
+		// ë¯¼ì¬
 	}
-	
+   
 	private void manageCompensationManagement(Scanner scanner) {
 
 	}
-	
+   
 	private void payInsuranceMoney(Scanner scanner) {
 
 	}
-	
+   
 	private void reportAccident(Scanner scanner) {
-		// ¹Î¿ì
+		// EA ì‹œë‚˜ë¦¬ì˜¤ ì‚¬ê³ ë¥¼ ì ‘ìˆ˜í•˜ë‹¤? -> ì‚¬ê³  ì²˜ë¦¬ í•˜ê¸° 
+		// ë¯¼ìš°
 	}
-	
+   
 	private void manageExpirationContract(Scanner scanner) {
 
 	}
-	
+   
 	private void managePaymentInformation(Scanner scanner) {
 
 	}
-	
+   
 	private void designInsuranceProduct(Scanner scanner) {
 		this.requestAuthorization(scanner);
 	}
-	
+   
 	private void requestAuthorization(Scanner scanner) {
 
 	}
@@ -82,80 +102,78 @@ public class Main {
 		Main main = new Main();
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
-			System.out.println("ºĞ»êÅõÀÚÈ­Àç º¸Çè ½Ã½ºÅÛÀÔ´Ï´Ù.");
-			System.out.println("0.½Ã½ºÅÛ Á¾·áÇÏ±â");
-			System.out.println("1.°í°´Á¤º¸ °ü¸®ÇÏ±â");
-			System.out.println("2.°è¾àÀ¯ÁöÈ°µ¿ ÁøÇàÇÏ±â");
-			System.out.println("3.¿ùº¸Çè·á ³³ÀÔÇÏ±â");
-			System.out.println("4.°¡ÀÔ½ÅÃ» ¹Ş±â");
-			System.out.println("5.ÀÎ¼ö½É»ç ÁøÇàÇÏ±â");
-			System.out.println("6.º¸Çè °¡ÀÔÇÏ±â");
-			System.out.println("7.Àçº¸Çè Ã³¸®ÇÏ±â");
-			System.out.println("8.º¸»ó¿î¿ë °ü¸®ÇÏ±â");
-			System.out.println("9.º¸Çè±İ Áö±ŞÇÏ±â");
-			System.out.println("10.»ç°í Á¢¼öÇÏ±â");
-			System.out.println("11.¸¸±â°è¾à °ü¸®ÇÏ±â");
-			System.out.println("12.³³ÀÔÁ¤º¸ °ü¸®ÇÏ±â");
-			System.out.println("13.º¸Çè »óÇ° ¼³°èÇÏ±â");
+			System.out.println("ë¶„ì‚°íˆ¬ìí™”ì¬ ë³´í—˜ ì‹œìŠ¤í…œì…ë‹ˆë‹¤.");
+			System.out.println("0.ì‹œìŠ¤í…œ ì¢…ë£Œí•˜ê¸°");
+			System.out.println("1.ê³ ê°ì •ë³´ ê´€ë¦¬í•˜ê¸°");
+			System.out.println("2.ê³„ì•½ìœ ì§€í™œë™ ì§„í–‰í•˜ê¸°");
+			System.out.println("3.ì›”ë³´í—˜ë£Œ ë‚©ì…í•˜ê¸°");
+			System.out.println("4.ê°€ì…ì‹ ì²­ ë°›ê¸°");
+			System.out.println("5.ì¸ìˆ˜ì‹¬ì‚¬ ì§„í–‰í•˜ê¸°");
+			System.out.println("6.ë³´í—˜ ê°€ì…í•˜ê¸°");
+			System.out.println("7.ì¬ë³´í—˜ ì²˜ë¦¬í•˜ê¸°");
+			System.out.println("8.ë³´ìƒìš´ìš© ê´€ë¦¬í•˜ê¸°");
+			System.out.println("9.ë³´í—˜ê¸ˆ ì§€ê¸‰í•˜ê¸°");
+			System.out.println("10.ì‚¬ê³  ì ‘ìˆ˜í•˜ê¸°");
+			System.out.println("11.ë§Œê¸°ê³„ì•½ ê´€ë¦¬í•˜ê¸°");
+			System.out.println("12.ë‚©ì…ì •ë³´ ê´€ë¦¬í•˜ê¸°");
+			System.out.println("13.ë³´í—˜ ìƒí’ˆ ì„¤ê³„í•˜ê¸°");
 
 			int choice = scanner.nextInt();
-			
+         
 			if(choice == 0)
 				break;
 			switch(choice) {
-				case 1:
-					// ÀÎ¹è
-					main.manageCustomerInformation(scanner);
-					break;
-				case 2:
-					main.startContractMaintenanceActivities(scanner);
-					break;
-				case 3:
-					main.payInsuranceFee(scanner);
-					break;
-				case 4:
-					// ¹ÎÀç
-					main.applyForMembership(scanner);
-					break;
-				case 5:
-					// ¹ÎÀç
-					main.startUW(scanner);
-					break;
-				case 6:
-					// ¹ÎÀç
-					main.joinInsurance(scanner);
-					break;
-				case 7:
-					// ¹ÎÀç
-					main.reinsurance(scanner);
-					break;
-				case 8:
-					main.manageCompensationManagement(scanner);
-					break;
-				case 9:
-					main.payInsuranceMoney(scanner);
-					break;
-				case 10:
-					// ¹Î¿ì
-					main.reportAccident(scanner);
-					break;
-				case 11:
-					main.manageExpirationContract(scanner);
-					break;
-				case 12:
-					main.managePaymentInformation(scanner);
-					break;
-				case 13:
-					main.designInsuranceProduct(scanner);
-					break;
-				default :
-					System.out.println("ÀÔ·ÂÁ¤º¸°¡ Àß¸øµÇ¾ú½À´Ï´Ù. ´Ù½Ã ¸Ş´º¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
-					break;
+        		case 1:
+            		// ì¸ë°°
+            		main.manageCustomerInformation(scanner);
+            		break;
+            	case 2:
+            		main.startContractMaintenanceActivities(scanner);
+            		break;
+            	case 3:
+	               main.payInsuranceFee(scanner);
+	               break;
+	            case 4:
+	               // ë¯¼ì¬
+	               main.applyForMembership(scanner);
+	               break;
+	            case 5:
+	               // ë¯¼ì¬
+	               main.startUW(scanner);
+	               break;
+	            case 6:
+	               // ë¯¼ì¬
+	               main.joinInsurance(scanner);
+	               break;
+	            case 7:
+	               // ë¯¼ì¬
+	               main.reinsurance(scanner);
+	               break;
+	            case 8:
+	               main.manageCompensationManagement(scanner);
+	               break;
+	            case 9:
+	               main.payInsuranceMoney(scanner);
+	               break;
+	            case 10:
+	               // ë¯¼ìš° ì‚¬ê³  ì ‘ìˆ˜ë¥¼ í•˜ë‹¤
+	               // ì¼ë‹¨ ì´ ë‚´ìš©ì€ ì‚¬ê³ ì²˜ë¦¬ë¥¼ ì ì–´ ë†“ì€ ê²ƒ 
+	               main.reportAccident(scanner);
+	               break;
+	            case 11:
+	               main.manageExpirationContract(scanner);
+	               break;
+	            case 12:
+	               main.managePaymentInformation(scanner);
+	               break;
+	            case 13:
+	               main.designInsuranceProduct(scanner);
+	               break;
+	            default :
+	               System.out.println("ì…ë ¥ì •ë³´ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ë©”ë‰´ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
+	               break;
 			}
 		}
 		scanner.close();
 	}
-
-	
-
 }
