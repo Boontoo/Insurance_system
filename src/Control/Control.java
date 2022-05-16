@@ -2,6 +2,7 @@ package Control;
 import java.util.ArrayList;
 
 import AccidentReception.AccidentReceptionListImpl;
+import ApplicationForMembership.ApplicationForMembership;
 import ApplicationForMembership.ApplicationForMembershipListImpl;
 import CompensationManagement.CompensationManagementListImpl;
 import Contract.ContractListImpl;
@@ -49,20 +50,23 @@ public class Control {
 		// 가입 신청을 한다 - 가입 신청하기
 		String genderStr = gender? "남자":"여자";
 		System.out.println(name+", "+wishInsurance+", "+phoneNum+", "+age+", "+genderStr+", "+jop+", "+citizenNum);
+		if(checkInputImformation(name, wishInsurance, phoneNum, age, jop, citizenNum)) 
+			m_ApplicationForMembershipListImpl.add(new ApplicationForMembership(wishInsurance, phoneNum, age, gender, name, jop));
 		// 입력 고객 정보 저장까지 포함
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @param 본인소유건물
-	 * @param 리모델링여부
-	 * @param 건물연식점수
-	 * @param 화재설비상태점수
-	 * @param 건물위치점수
-	 * @param 건물상태점수
+	 * @param isYourBuilding
+	 * @param isRemodel
+	 * @param buildingOldPoint
+	 * @param preventFirePoint
+	 * @param buildingPositionPoint
+	 * @param buildingStatusPoint
 	 */
-	public boolean automaticJudge(String id, boolean 본인소유건물, boolean 리모델링여부, int 건물연식점수, int 화재설비상태점수, int 건물위치점수, int 건물상태점수){
+	public boolean automaticJudge(String id, boolean isYourBuilding, boolean isRemodel, int buildingOldPoint, 
+			int preventFirePoint, int buildingPositionPoint, int buildingStatusPoint){
 		// 자동 심사를 진행한다 - 인수심사 진행하기
 		return false;
 	}
@@ -93,9 +97,22 @@ public class Control {
 	 * @param 이름
 	 * @param 직업
 	 */
-	private boolean checkInputImformation(String 가입희망보험이름, String 고객전화번호, int 나이, boolean 성별, String 이름, String 직업){
+	private boolean checkInputImformation(String name, String wishInsurance, String phoneNum, int age, String jop, String citizenNum){
 		// 입력 정보를 확인한다 - 가입 신청하기
-		return false;
+		if(!(age > 0 && age < 120)) return false;
+		for(int i = 0; i <= 9; i++) {
+			if(name.contains(i + "")) return false;
+			if(wishInsurance.contains(i + "")) return false;
+			if(jop.contains(i + "")) return false;
+		}
+		if(phoneNum.charAt(0) != '0') return false;
+		if(phoneNum.charAt(3) != '-') return false;
+		if(phoneNum.charAt(8) != '-') return false;
+		for(int i = 0; i <= phoneNum.length(); i++) {
+			if(i == 0 || i == 3 || i == 8) continue;
+			
+		}
+		return true;
 	}
 
 	public int countInsuranceFeeNotPaid(){
