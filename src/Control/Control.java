@@ -7,9 +7,9 @@ import ApplicationForMembership.ApplicationForMembershipListImpl;
 import CompensationManagement.CompensationManagementListImpl;
 import Contract.ContractListImpl;
 import Customer.Customer;
-import Customer.CustomerImpl;
+import Customer.CustomerListImpl;
 import Insurance.Insurance;
-import Insurance.InsuranceImpl;
+import Insurance.InsuranceListImpl;
 
 /**
  * @author dlsqo
@@ -21,15 +21,15 @@ public class Control {
 	private int customerID;
 	private ArrayList<Customer> customerList;
 	private ArrayList<Insurance> insuranceList;
-	public CustomerImpl m_CustomerImpl;
-	public InsuranceImpl m_InsuranceImpl;
+	public CustomerListImpl m_CustomerListImpl;
+	public InsuranceListImpl m_InsuranceListImpl;
 	public AccidentReceptionListImpl m_AccidentReceptionListImpl;
 	public CompensationManagementListImpl m_CompensationManagementListImpl;
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
 
 	public Control(){
-
+		this.m_CustomerListImpl = new CustomerListImpl();
 	}
 
 	public void finalize() throws Throwable {
@@ -115,14 +115,60 @@ public class Control {
 
 	/**
 	 * 
+	 * @param type
+	 * @param key
+	 */
+	public String enquireCustomerInformation(int type, String key){
+		switch(type) {
+			case 1: 
+				this.customerList = this.m_CustomerListImpl.get(type, key);
+				break;
+			case 2:
+			case 4:
+				int keyInt = Integer.parseInt(key);
+				this.customerList = this.m_CustomerListImpl.get(type, keyInt);
+				break;
+			case 3:
+				if(key == "1")
+					this.customerList = this.m_CustomerListImpl.get(true);
+				else if(key == "2")
+					this.customerList = this.m_CustomerListImpl.get(false);
+				break;
+		}
+		String result = null;
+		int index = 1;
+		for (Customer customer : this.customerList) {
+			result = result + index + "." + customer.getName() + customer.getAge() + customer.isGender() + customer.getBirthDate() + "\n";
+			index++;
+		}
+		return result;
+	}
+	
+	/**
+	 * 
 	 * @param choice
 	 */
 	public String enquireCustomerDetailInformation(int choice){
-		return "";
-	}
-
-	public String enquireCustomerInformation(){
-		return "";
+		Customer customer = this.customerList.get(choice-1);
+		String result = null;
+		result = result + "이름: " + customer.getName() + ", ";
+		result = result + "나이: " + customer.getAge() + ", ";
+		result = result + "성별: " + customer.isGender() + ", ";
+		result = result + "주민등록번호: " + customer.getSsn() + ", ";
+		result = result + "직업: " + ", ";
+		result = result + "전화번호: " + customer.getPhoneNum() + ", ";
+		result = result + "가입보험: (";
+		boolean isFirst = false;
+		for(String subscribedInsurance : customer.getSubscribedInsurance()) {
+			if(isFirst) {
+				result = result + ", ";
+				isFirst = true;
+			}
+			result = result + subscribedInsurance;
+		}
+		result = result + "), ";
+		result = result + "특이사항: " + customer.getUniqueness();
+		return result;
 	}
 
 	/**

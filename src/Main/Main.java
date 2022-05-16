@@ -34,8 +34,19 @@ public class Main {
 	   
 			switch(choice) {
 		   		case 1:
-		   			this.control.enquireCustomerInformation();
-		   			break;
+		   			System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
+		   			System.out.println("1.이름");
+		   			System.out.println("2.나이");
+		   			System.out.println("3.성별");
+		   			System.out.println("4.생년월일");
+		   			int type = scanner.nextInt();
+		   			System.out.println("조회할 고객 정보를 입력하세요.");
+		   			String key = scanner.next();
+		   			System.out.println(this.control.enquireCustomerInformation(type, key));
+		   			System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
+		   			int index = scanner.nextInt();
+		   			System.out.println(this.control.enquireCustomerDetailInformation(index));
+		   			return;
 		   		case 2:
 		   			return;
 		   		default:
