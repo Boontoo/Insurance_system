@@ -255,6 +255,13 @@ public class Main {
 	private void reportAccident(Scanner scanner) {
 		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기 
 		// 민우
+		System.out.println("----------------------------");
+		System.out.println("��� ó���� �����մϴ�.");
+		while(true) {
+			String accidentID = null; String customerID = null; String customerName = null; boolean employeeCallStatus = false; int remainingNumberOfTowTruckCalls = 0; boolean towTruckCallPresent = false;
+			control.saveAccident(new AccidentReception(accidentID, customerID, customerName, employeeCallStatus, remainingNumberOfTowTruckCalls, towTruckCallPresent));
+			System.out.println();
+		}
 	}
    
 	private void manageExpirationContract(Scanner scanner) {

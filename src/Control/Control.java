@@ -3,6 +3,7 @@ package Control;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import AccidentReception.AccidentReception;
 import AccidentReception.AccidentReceptionListImpl;
 import ApplicationForMembership.ApplicationForMembership;
 import ApplicationForMembership.ApplicationForMembershipListImpl;
@@ -41,9 +42,9 @@ public class Control {
 		this.m_CustomerListImpl = new CustomerListImpl();
 	}
 
-	public void finalize() throws Throwable {
+   public void finalize() throws Throwable {
 
-	}
+   }
 
 	/**
 	 * 
@@ -330,10 +331,13 @@ public class Control {
 	 * @param accidentType
 	 */
 	
-	public String enquireEmployeeCallStatusImformation(String id, String accidentLocation, String accidentType){
-		// ������ ������ ����Ѵ�
-		return "";
-	}
+	   public String enquireEmployeeCallStatusImformation(String id, String accidentLocation, String accidentType){
+	  AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
+	  String temp =  accidentReception.getAccidentID()+" "+accidentReception.getCustomerID()
+	  +" "+accidentReception.getCustomerName()+" "+accidentReception.isEmployeeCallStatus()
+	  +" "+accidentReception.getRemainingNumberOfTowTruckCalls()+" "+accidentReception.isTowTruckCallPresent();
+      return temp;
+   }
 
 	public String enquireExpirationContractInformation(){
 		// ���� ��������� ��ȸ�Ѵ�
@@ -470,7 +474,7 @@ public class Control {
 	public void requestAuthorizationOfCompany(){
 		// ȸ�� ���� ��û �ޱ�
 
-	}
+   }
 
 	public void requestAuthorizationOfFSS(){
 		// FSS�� ���� �ο��� ��û�ϱ�...?
