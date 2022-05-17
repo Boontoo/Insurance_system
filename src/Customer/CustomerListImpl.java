@@ -17,13 +17,15 @@ public class CustomerListImpl implements CustomerList {
 		customer.setAge(22);
 		customer.setBirthDate(20010213);
 		customer.setGender(true);
-		customer.setName("문잉배");
+		customer.setName("문인배");
 		customer.setPhoneNum("01068004320");
 		customer.setSsn("60201672");
 		ArrayList<String> subscribedInsurance = new ArrayList<String>();
 		subscribedInsurance.add("일반화재보험");
 		customer.setSubscribedInsurance(subscribedInsurance);
 		customer.setUniqueness("하이");
+		ArrayList<String> accidentId = new ArrayList<String>();
+		accidentId.add("0");
 		this.customerList.add(customer);
 	}
 
@@ -74,8 +76,17 @@ public class CustomerListImpl implements CustomerList {
 	public ArrayList<Customer> get(int type, String key) {
 //		type : 1
 		ArrayList<Customer> result = new ArrayList<Customer>();
-		for(Customer customer : this.customerList) {
-			if(customer.getName().equals(key)) result.add(customer);
+		switch(type) {
+			case 1:
+				for(Customer customer : this.customerList) {
+					if(customer.getName().equals(key)) result.add(customer);
+				}
+				break;
+			case 5:
+				for(Customer customer : this.customerList) {
+					if(customer.getPhoneNum().equals(key)) result.add(customer);
+				}
+				break;
 		}
 		return result;
 	}

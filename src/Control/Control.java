@@ -8,6 +8,7 @@ import AccidentReception.AccidentReceptionListImpl;
 import ApplicationForMembership.ApplicationForMembership;
 import ApplicationForMembership.ApplicationForMembershipListImpl;
 import CompensationManagement.CompensationManagementListImpl;
+import Contract.Contract;
 import Contract.ContractListImpl;
 import Customer.Customer;
 import Customer.CustomerListImpl;
@@ -35,6 +36,8 @@ public class Control {
 
 	public Control(){
 		this.m_CustomerListImpl = new CustomerListImpl();
+		this.m_AccidentReceptionListImpl = new AccidentReceptionListImpl();
+		this.m_ContractListImpl = new ContractListImpl();
 		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허엄", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보엉", "010-3737-2855", 24, true, "황혜경", "대학생", "990713-1058827"));
@@ -213,10 +216,34 @@ public class Control {
 	/**
 	 * 
 	 * @param customerName
+	 * @param phoneNum 
 	 */
-	public String enquireAccidentInformation(String customerName){
+	public String enquireAccidentInformation(String customerName, String phoneNum){
 		// 사고접수 정보를 조회한다
-		return "";
+		this.customerList = this.m_CustomerListImpl.get(1, customerName);
+		ArrayList<String> accidentIds = new ArrayList<String>();
+		Customer customer = null;
+		for(Customer customer1 : this.customerList) {
+			if(customer1.getPhoneNum().equals(customerName)) customer = customer1;
+		}
+		// customer가 null일 때 null처리
+		accidentIds = customer.getAccidentId();
+		String accidentId = accidentIds.get(accidentIds.size()-1);
+		AccidentReception accidentReception = this.m_AccidentReceptionListImpl.get(accidentId);
+		
+		String contractID = accidentReception.getContractID();
+		Contract contract = m_ContractListImpl.get(contractID);
+		String insuranceName = contract.getInsuranceName();
+		
+		int remainingNumberOfTowTruckCalls = accidentReception.getRemainingNumberOfTowTruckCalls();
+		
+		String result = "";
+		result = result + "보험이름: " + insuranceName + ", ";
+		result = result + "잔여 무료 렉카 서비스 횟수: " + remainingNumberOfTowTruckCalls;
+		
+//		break;
+//		this.m_AccidentReceptionListImpl.get
+		return result;
 	}
 
 	public String enquireAccidentList(){

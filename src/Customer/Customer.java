@@ -18,6 +18,7 @@ public class Customer {
 	private String ssn;
 	private ArrayList<String> subscribedInsurance;
 	private String uniqueness;
+	private ArrayList<String> accidentId;
 
 	public Customer(){
 
@@ -97,6 +98,14 @@ public class Customer {
 
 	public void setUniqueness(String uniqueness) {
 		this.uniqueness = uniqueness;
+	}
+	
+	public ArrayList<String> getAccidentId() {
+		return accidentId;
+	}
+
+	public void setAccidentId(ArrayList<String> accidentId) {
+		this.accidentId = accidentId;
 	}
 
 	
