@@ -129,13 +129,13 @@ public class Control {
 				this.customerList = this.m_CustomerListImpl.get(type, keyInt);
 				break;
 			case 3:
-				if(key == "1")
+				if(key.equals("1"))
 					this.customerList = this.m_CustomerListImpl.get(true);
-				else if(key == "2")
+				else if(key.equals("2"))
 					this.customerList = this.m_CustomerListImpl.get(false);
 				break;
 		}
-		String result = null;
+		String result = "";
 		int index = 1;
 		for (Customer customer : this.customerList) {
 			result = result + index + "." + customer.getName() + customer.getAge() + customer.isGender() + customer.getBirthDate() + "\n";
@@ -150,7 +150,7 @@ public class Control {
 	 */
 	public String enquireCustomerDetailInformation(int choice){
 		Customer customer = this.customerList.get(choice-1);
-		String result = null;
+		String result = "";
 		result = result + "이름: " + customer.getName() + ", ";
 		result = result + "나이: " + customer.getAge() + ", ";
 		result = result + "성별: " + customer.isGender() + ", ";
@@ -171,6 +171,43 @@ public class Control {
 		return result;
 	}
 
+	public String checkCustomerInformation(int index, int choice, String newInformation) {
+		Customer customer = this.customerList.get(index-1);
+		String result = "";
+		result = result + "이름: " + customer.getName() + ", ";
+		result = result + "나이: " + customer.getAge() + ", ";
+		result = result + "직업: " + ", ";
+		result = result + "전화번호: " + customer.getPhoneNum();
+		result = result + " -> ";
+		switch(choice) {
+			case 1:
+				result = result + "이름: " + newInformation + ", ";
+				result = result + "나이: " + customer.getAge() + ", ";
+				result = result + "직업: " + ", ";
+				result = result + "전화번호: " + customer.getPhoneNum();
+				break;
+			case 2:
+				result = result + "이름: " + customer.getName() + ", ";
+				result = result + "나이: " + newInformation + ", ";
+				result = result + "직업: " + ", ";
+				result = result + "전화번호: " + customer.getPhoneNum();
+				break;
+			case 3:
+				result = result + "이름: " + customer.getName() + ", ";
+				result = result + "나이: " + customer.getAge() + ", ";
+				result = result + "직업: " + newInformation + ", ";
+				result = result + "전화번호: " + customer.getPhoneNum();
+				break;
+			case 4:
+				result = result + "이름: " + customer.getName() + ", ";
+				result = result + "나이: " + customer.getAge() + ", ";
+				result = result + "직업: " + ", ";
+				result = result + "전화번호: " + newInformation;
+				break;
+		}
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @param choice
@@ -269,7 +306,8 @@ public class Control {
 		return false;
 	}
 
-	public String modifyCustomerInformation(){
+	public String modifyCustomerInformation(String newInformation){
+		
 		return "";
 	}
 
@@ -329,5 +367,7 @@ public class Control {
 	public void saveProductSalesSupportDetails(){
 
 	}
+
+
 
 }

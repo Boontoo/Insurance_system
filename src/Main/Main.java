@@ -26,7 +26,8 @@ public class Main {
 
 	private void manageCustomerInformation(Scanner scanner) {
 		// 인배
-		while(true) {
+		boolean bOnLoop = true;
+		while(bOnLoop) {
 			System.out.println("고객정보관리하기 메뉴입니다.");
 			System.out.println("1.고객정보조회");
 			System.out.println("2.메인페이지로 돌아가기");
@@ -43,16 +44,72 @@ public class Main {
 		   			System.out.println("조회할 고객 정보를 입력하세요.");
 		   			String key = scanner.next();
 		   			System.out.println(this.control.enquireCustomerInformation(type, key));
+		   			//if null 필요
 		   			System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
 		   			int index = scanner.nextInt();
 		   			System.out.println(this.control.enquireCustomerDetailInformation(index));
-		   			return;
+		   			
+		   			this.modifyOrDeleteCustomerInformation(scanner, bOnLoop,index);
+		   			break;
+//		   			bOnLoop = false;
 		   		case 2:
-		   			return;
+		   			bOnLoop = false;
+		   			break;
 		   		default:
 		   			System.out.println("잘못 선택하셨습니다. 다시 선택해주세요.");
 		   			break;
    			}
+		}
+	}
+	
+	private void modifyOrDeleteCustomerInformation(Scanner scanner, boolean bOnLoop, int index) {
+//		boolean bOnLoop = true;
+		while(true) {
+			System.out.println("1.고객 정보를 수정한다.");
+			System.out.println("2.고객 정보를 삭제한다.");
+			System.out.println("3.고객 정보 재조회");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 1:
+					System.out.println("고객 정보를 수정한다.");
+					while(true) {
+						System.out.println("어떤 정보를 수정하시겠습니까?");
+						System.out.println("1.이름");
+						System.out.println("2.나이");
+						System.out.println("3.직업");
+						System.out.println("4.전화번호");
+						//	   				System.out.println();
+						choice = scanner.nextInt();
+						System.out.println("새로운 정보를 입력해주세요.");
+						String newInformation = scanner.next();
+						if(newInformation != null) {
+							System.out.println(control.checkCustomerInformation(index, choice, newInformation));
+							System.out.println("1.저장");
+							System.out.println("2.재작성");
+							choice = scanner.nextInt();
+//							switch(choose)
+							if(choice == 1) {
+								control.modifyCustomerInformation(newInformation);
+								return;
+//								bOnLoop = false;
+							}
+							else if(choice == 2) {
+//								break;
+							}
+						} else {
+							System.out.println("수정 정보를 다시 입력해주세요.");
+						}
+					}
+//					break;
+				case 2:
+					control.deleteCustomerInformation();
+					bOnLoop = false;
+					break;
+				case 3:
+					return;
+//					bOnLoop = false;
+//					break;
+			}
 		}
 	}
    
@@ -112,7 +169,8 @@ public class Main {
 	public static void main(String[] args) {
 		Main main = new Main();
 		Scanner scanner = new Scanner(System.in);
-		while(true) {
+		boolean bOnLoop = true;
+		while(bOnLoop) {
 			System.out.println("분산투자화재 보험 시스템입니다.");
 			System.out.println("0.시스템 종료하기");
 			System.out.println("1.고객정보 관리하기");
@@ -131,9 +189,10 @@ public class Main {
 
 			int choice = scanner.nextInt();
          
-			if(choice == 0)
-				break;
 			switch(choice) {
+				case 0:
+					bOnLoop = false;
+					break;
         		case 1:
             		// 인배
             		main.manageCustomerInformation(scanner);

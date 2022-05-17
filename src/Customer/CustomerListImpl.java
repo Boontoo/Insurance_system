@@ -2,8 +2,6 @@ package Customer;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Insurance.Insurance;
-
 /**
  * @author dlsqo
  * @version 1.0
@@ -15,7 +13,18 @@ public class CustomerListImpl implements CustomerList {
 	public Customer m_Customer;
 
 	public CustomerListImpl(){
-
+		Customer customer = new Customer();
+		customer.setAge(22);
+		customer.setBirthDate(20010213);
+		customer.setGender(true);
+		customer.setName("문인배");
+		customer.setPhoneNum("01068004320");
+		customer.setSsn("60201672");
+		ArrayList<String> subscribedInsurance = new ArrayList<String>();
+		subscribedInsurance.add("일반화재보험");
+		customer.setSubscribedInsurance(subscribedInsurance);
+		customer.setUniqueness("하이");
+		this.customerList.add(customer);
 	}
 
 	public void finalize() throws Throwable {
@@ -31,7 +40,11 @@ public class CustomerListImpl implements CustomerList {
 	}
 
 	public ArrayList<Customer> get(boolean gender){
-		return null;
+		ArrayList<Customer> result = new ArrayList<Customer>();
+		for(Customer customer : this.customerList) {
+			if(customer.isGender() == gender) result.add(customer);
+		}
+		return result;
 	}
 
 
@@ -41,15 +54,28 @@ public class CustomerListImpl implements CustomerList {
 
 	@Override
 	public ArrayList<Customer> get(int type, int key) {
-		return null;
+		ArrayList<Customer> result = new ArrayList<Customer>();
+		switch(type) {
+			case 2:
+				for(Customer customer : this.customerList) {
+					if(customer.getAge() == key) result.add(customer);
+				}
+				break;
+			case 4:
+				for(Customer customer : this.customerList) {
+					if(customer.getBirthDate() == key) result.add(customer);
+				}
+				break;
+		}
+		return result;
 	}
 
 	@Override
 	public ArrayList<Customer> get(int type, String key) {
-//		type
+//		type : 1
 		ArrayList<Customer> result = new ArrayList<Customer>();
 		for(Customer customer : this.customerList) {
-			if(customer.getName() == key) result.add(customer);
+			if(customer.getName().equals(key)) result.add(customer);
 		}
 		return result;
 	}
