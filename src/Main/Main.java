@@ -201,7 +201,7 @@ public class Main {
 	}
 
 	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException{
-		// 새로 만든 함수
+		// 새로 만든 함수(자동심사)
 		while(true) {
 			System.out.print("본인 소유의 건물(1.예, 그이외.아니오) : ");
 			boolean isOwnedBuilding = (scanner.nextInt()==1);
@@ -229,11 +229,16 @@ public class Main {
 
 	private void joinInsurance(Scanner scanner) {
 		// 민재 - 보험 가입하기
-		System.out.println(control.enquirePassedCustomerInUW());
-		System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
-		int choice = scanner.nextInt();
-		if(choice == 0) return;
-
+		while(true) {
+			System.out.println(control.enquirePassedCustomerInUW());
+			System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
+			int choice = scanner.nextInt();
+			if(choice == 0) return;
+			if(!control.checkInIDUW(choice)) {
+				System.out.println("번호에 해당하는 고객이 없습니다");
+				continue;
+			}
+		}
 	}
 
 	private void reinsurance(Scanner scanner) {

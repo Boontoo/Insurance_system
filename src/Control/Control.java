@@ -64,10 +64,6 @@ public class Control {
 		return result;
 		// 입력 고객 정보 저장까지 포함
 	}
-
-	
-	
-
 	/**
 	 * 
 	 * @param id
@@ -261,7 +257,6 @@ public class Control {
 	 * @param choice
 	 */
 	public String enquireCustomerDetailInformation(int choice) {
-		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)
 		Customer customer = this.customerList.get(choice-1);
 		String result = "";
 		result = result + "이름: " + customer.getName() + ", ";
@@ -282,6 +277,13 @@ public class Control {
 		result = result + "), ";
 		result = result + "특이사항: " + customer.getUniqueness();
 		return result;
+	}
+	
+	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
+		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)
+		String result = "이름 : " + enquirePassedCustomerList.get(choice-1).getName() + 
+						"주민번호 : " + enquirePassedCustomerList.get(choice-1);
+		return null;
 	}
 
 	public String checkCustomerInformation(int index, int choice, String newInformation) {
@@ -393,16 +395,26 @@ public class Control {
 	public String enquirePassedCustomerInUW(){
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
 		String temp = "";
+		enquirePassedCustomerList = new ArrayList<ApplicationForMembership>();
+		
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
-			if(m_ApplicationForMembershipListImpl.get(i).isUWResult())
+			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
+				enquirePassedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
 				temp += m_ApplicationForMembershipListImpl.get(i).getId() + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " +  
 						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
+			}
 		}
 		return temp;
 	}
-
+	public boolean checkInIDUW(int choice) {
+		for(ApplicationForMembership applicationForMembership : enquirePassedCustomerList) {
+			if(applicationForMembership.getId().equals(choice+"")) return true;
+		}
+		return false;
+	}
+	
 	public void enquireProductSalesSupportDetails(){
 		// 제품 판매 지원 세부정보 지원하기..?
 	}
