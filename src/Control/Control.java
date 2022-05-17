@@ -1,4 +1,5 @@
 package Control;
+
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -8,35 +9,36 @@ import ApplicationForMembership.ApplicationForMembershipListImpl;
 import CompensationManagement.CompensationManagementListImpl;
 import Contract.ContractListImpl;
 import Customer.Customer;
-import Customer.CustomerImpl;
+import Customer.CustomerListImpl;
 import Insurance.Insurance;
-import Insurance.InsuranceImpl;
+import Insurance.InsuranceListImpl;
 
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 ¿ÀÈÄ 9:00:55
+ * @created 16-5-2022 ï¿½ï¿½ï¿½ï¿½ 2:40:57
  */
 public class Control {
 
 	private int customerID;
 	private ArrayList<Customer> customerList;
 	private ArrayList<Insurance> insuranceList;
-	public CustomerImpl m_CustomerImpl;
-	public InsuranceImpl m_InsuranceImpl;
+	public CustomerListImpl m_CustomerListImpl;
+	public InsuranceListImpl m_InsuranceListImpl;
 	public AccidentReceptionListImpl m_AccidentReceptionListImpl;
 	public CompensationManagementListImpl m_CompensationManagementListImpl;
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
 	private ArrayList<ApplicationForMembership> enquirePassedCustomerList;
-	// Implµé ¸ğµÎ privateÀ¸·Î ¹Ù²Ü °Í
+	// Implï¿½ï¿½ ï¿½ï¿½ï¿½ privateï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½
 
 	public Control(){
 		m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
-		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("º¸Çã¾ö", "010-3737-2855", 24, true, "À¯¹ÎÀç", "´ëÇĞ»ı", "990713-1058827"));
-		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("º¸¾û", "010-3737-2855", 24, true, "È²Çı°æ", "´ëÇĞ»ı", "990713-1058827"));
-		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("º¸Çã¾î¾î", "010-3737-2855", 24, true, "À¯Ã¶¹Î", "´ëÇĞ»ı", "990713-1058827"));
-		// À§ ¼¼°³´Â ÀÓ½ÃÀÓ
+		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("ï¿½ï¿½ï¿½ï¿½ï¿½", "010-3737-2855", 24, true, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½Ğ»ï¿½", "990713-1058827"));
+		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("ï¿½ï¿½ï¿½ï¿½", "010-3737-2855", 24, true, "È²ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½Ğ»ï¿½", "990713-1058827"));
+		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "010-3737-2855", 24, true, "ï¿½ï¿½Ã¶ï¿½ï¿½", "ï¿½ï¿½ï¿½Ğ»ï¿½", "990713-1058827"));
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½ï¿½ï¿½ï¿½
+		this.m_CustomerListImpl = new CustomerListImpl();
 	}
 
 	public void finalize() throws Throwable {
@@ -45,58 +47,57 @@ public class Control {
 
 	/**
 	 * 
-	 * @param °¡ÀÔÈñ¸Áº¸Çè
-	 * @param °í°´ÀüÈ­¹øÈ£
-	 * @param ³ªÀÌ
-	 * @param ¼ºº°
-	 * @param ÀÌ¸§
-	 * @param Á÷¾÷
-	 * @param ÁÖ¹Î¹øÈ£
+	 * @param insurance
+	 * @param phoneNum
+	 * @param age
+	 * @param gender
+	 * @param name
+	 * @param job
+	 * @param SSN
 	 */
 	public boolean applyForMembership(String insurance, String phoneNum, int age, boolean gender, String name, String jop, String SSN){
-		// °¡ÀÔ ½ÅÃ»À» ÇÑ´Ù - °¡ÀÔ ½ÅÃ»ÇÏ±â
-		// ¹İÈ¯Çü º¯°æ(void -> boolean)
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Ñ´ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï±ï¿½
+		// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(void -> boolean)
 		if(!checkInputImformation(insurance, phoneNum, age, SSN, name, jop)) return false;
 		boolean result = m_ApplicationForMembershipListImpl.add(new ApplicationForMembership(insurance, phoneNum, age, gender, name, jop, SSN));
 		return result;
-		// ÀÔ·Â °í°´ Á¤º¸ ÀúÀå±îÁö Æ÷ÇÔ
-	}
+		// ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
 	
 	
 
 	/**
 	 * 
 	 * @param id
-	 * @param isYourBuilding
-	 * @param isRemodel
-	 * @param buildingOldPoint
-	 * @param preventFirePoint
-	 * @param buildingPositionPoint
-	 * @param buildingStatusPoint
+	 * @param isOwnedBuilding
+	 * @param isRemodeling
+	 * @param buildingAgeScore
+	 * @param fireEquipmentConditionScore
+	 * @param buildingLocationScore
+	 * @param buildingConditionScore
 	 */
 	public boolean automaticJudge(String id, boolean isOwnedBuilding, boolean isRemodeling, 
 			int buildingAgeScore, int fireEquipmentConditionScore, int buildingLocationScore, int buildingConditionScore){
-		// ÀÚµ¿ ½É»ç¸¦ ÁøÇàÇÑ´Ù - ÀÎ¼ö½É»ç ÁøÇàÇÏ±â
-		// id´Â Áö¿öµµ µÉ µí?? °¡ÀÔ ½ÅÃ»ÇÑ º¸Çè¿¡ µû¶ó ÀÎ¼ö½É»ç ±âÁØÀ» ´Ù¸£°Ô µÎ·Á´Â °Çµ¥ ¿ì¼± ÀÎ¼ö½É»ç ±âÁØÀÌ 70Á¡ ÀÌ»ó ÇÏ³ª¶ó¼­ ÇöÀç´Â ÀÇ¹Ì ¾øÀ½
-		// ÀÎ¼ö½É»ç ±âÁØÀÌ ¿©·¯°³ »ı±â¸é °¡ÀÔ½ÅÃ» Á¤º¸ÀÇ ½ÅÃ» º¸Çë ÀÌ¸§¿¡ µû¶ó ÀÎ¼ö½É»ç ±âÁØÀ» ´Ù¸£°Ô µÎ¾î¾ß ÇÔ
+		// ï¿½Úµï¿½ ï¿½É»ç¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ - ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+		// idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½?? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½è¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Î·ï¿½ï¿½ï¿½ ï¿½Çµï¿½ ï¿½ì¼± ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 70ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Î¾ï¿½ï¿½ ï¿½ï¿½
 		if(!isOwnedBuilding) return false;
-		int remodelPoint = isOwnedBuilding? 0:20; // ¸®¸ğµ¨ Á¡¼ö ´Ù½Ã È®ÀÎÇØ º¼ °Í
+		int remodelPoint = isOwnedBuilding? 0:20; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
 		int totalPoint = remodelPoint + buildingAgeScore + fireEquipmentConditionScore + buildingLocationScore + buildingConditionScore;
 		if(totalPoint < 70) return false;
 		return true;
-	}
 	
 	public boolean checkAlreadyJudged(String id) {
 		return m_ApplicationForMembershipListImpl.get(id).isUWExecutionStatus();
 	}
 	
 	public boolean checkInID(String id) {
-		// »õ·Î ¸¸µç ÇÔ¼ö
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 		return m_ApplicationForMembershipListImpl.checkInID(id);
 	}
 	public boolean checkPointInput(int buildingAgeScore, int fireEquipmentConditionScore, 
 			int buildingLocationScore, int buildingConditionScore) {
-		// »õ·Î ¸¸µç ÇÔ¼ö
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 		if(!(buildingAgeScore >= 0 && buildingAgeScore <= 20)) return false;
 		if(!(fireEquipmentConditionScore >= 0 && fireEquipmentConditionScore <= 20)) return false;
 		if(!(buildingLocationScore >= 0 && buildingLocationScore <= 20)) return false;
@@ -106,7 +107,7 @@ public class Control {
 	
 	/**
 	 * 
-	 * @param ³³ÀÔ±İ¾×
+	 * @param amountOfInsuranceFee
 	 */
 	public boolean checkAmountOfInsuranceFee(int amountOfInsuranceFee){
 		return false;
@@ -114,25 +115,25 @@ public class Control {
 
 	/**
 	 * 
-	 * @param ÀÔ·Â³¯Â¥
+	 * @param date
 	 */
 	private String checkInputDateFormat(String date){
-		// ÀÔ·Â ³¯Â¥Çü½ÄÀ» È®ÀÎÇÏ±â
+		// ï¿½Ô·ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param °¡ÀÔÈñ¸Áº¸ÇèÀÌ¸§
-	 * @param °í°´ÀüÈ­¹øÈ£
-	 * @param ³ªÀÌ
-	 * @param ¼ºº°
-	 * @param ÀÌ¸§
-	 * @param Á÷¾÷
+	 * @param insurance
+	 * @param phoneNum
+	 * @param age
+	 * @param gender
+	 * @param name
+	 * @param job
 	 */
 	private boolean checkInputImformation(String insurance, String phoneNum, int age, String citizenNum, String name, String jop){
-		// ÀÔ·Â Á¤º¸¸¦ È®ÀÎÇÑ´Ù - °¡ÀÔ ½ÅÃ»ÇÏ±â
-		// ÆÄ¶ó¹ÌÅÍ(¼ºº° -> ÁÖ¹Î¹øÈ£)
+		// ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï±ï¿½
+		// ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ö¹Î¹ï¿½È£)
 		if(!checkKoreanFormat(name)) return false;
 		if(!checkKoreanFormat(insurance)) return false;
 		if(!checkPhoneNumFormat(phoneNum)) return false;
@@ -142,47 +143,47 @@ public class Control {
 		return true;
 	}
 	private boolean checkKoreanFormat(String input) {
-		// »õ·Î ¸¸µç ÇÔ¼ö(ÇÑ±Û¸¸ Á¸ÀçÇÏ´ÂÁö È®ÀÎ)
-		if(input.matches(".*[°¡-ÆR]+.*")
-				  && !input.matches(".*[¤¡-¤¾¤¿-¤Ó]+.*")
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½(ï¿½Ñ±Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½)
+		if(input.matches(".*[ï¿½ï¿½-ï¿½R]+.*")
+				  && !input.matches(".*[ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½]+.*")
 				  && !input.matches(".*[a-zA-Z]+.*")
 	              && !input.matches(".*[0-9]+.*")
 	              && !input.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return true;
-		return false;
 	}
+
 	private boolean checkPhoneNumFormat(String input) {
-		// »õ·Î ¸¸µç ÇÔ¼ö(ÈŞ´ëÆù ¹øÈ£¸¸ À¯È¿ ex010-3737-2855)
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½(ï¿½Ş´ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½È¿ ex010-3737-2855)
 		if(input.length() != 13) return false;
 		if(input.charAt(3) != '-' || input.charAt(8) != '-') return false;
 		if(!input.substring(0, 3).equals("010")) return false;
-		if(input.substring(4, 8).matches(".*[°¡-ÆR]+.*")
-				|| input.substring(4, 8).matches(".*[¤¡-¤¾¤¿-¤Ó]+.*")
+		if(input.substring(4, 8).matches(".*[ï¿½ï¿½-ï¿½R]+.*")
+				|| input.substring(4, 8).matches(".*[ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½]+.*")
 				|| input.substring(4, 8).matches(".*[a-zA-Z]+.*")
 				|| input.substring(4, 8).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return false;
-		if(input.substring(9, 13).matches(".*[°¡-ÆR]+.*")
-				|| input.substring(9, 13).matches(".*[¤¡-¤¾¤¿-¤Ó]+.*")
+		if(input.substring(9, 13).matches(".*[ï¿½ï¿½-ï¿½R]+.*")
+				|| input.substring(9, 13).matches(".*[ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½]+.*")
 				|| input.substring(9, 13).matches(".*[a-zA-Z]+.*")
 				|| input.substring(9, 13).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return false;
 		return true;
 	}
 	private boolean checkCitizenNumFormat(String input) {
-		// »õ·Î ¸¸µç ÇÔ¼ö
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 		if(input.length() != 14) return false;
 		if(input.charAt(6) != '-') return false;
 		if(!(input.charAt(7) == '1'
 				|| input.charAt(7) == '2'
 				|| input.charAt(7) == '3'
 				|| input.charAt(7) == '4')) return false;
-		if(input.substring(0, 6).matches(".*[°¡-ÆR]+.*")
-				|| input.substring(0, 6).matches(".*[¤¡-¤¾¤¿-¤Ó]+.*")
+		if(input.substring(0, 6).matches(".*[ï¿½ï¿½-ï¿½R]+.*")
+				|| input.substring(0, 6).matches(".*[ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½]+.*")
 				|| input.substring(0, 6).matches(".*[a-zA-Z]+.*")
 				|| input.substring(0, 6).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*"))
 			return false;
-		if(input.substring(7, 14).matches(".*[°¡-ÆR]+.*")
-				|| input.substring(7, 14).matches(".*[¤¡-¤¾¤¿-¤Ó]+.*")
+		if(input.substring(7, 14).matches(".*[ï¿½ï¿½-ï¿½R]+.*")
+				|| input.substring(7, 14).matches(".*[ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½]+.*")
 				|| input.substring(7, 14).matches(".*[a-zA-Z]+.*")
 				|| input.substring(7, 14).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*"))
 			return false;
@@ -190,17 +191,17 @@ public class Control {
 	}
 
 	public int countInsuranceFeeNotPaid(){
-		// º¸Çè·á ¹Ì³³ÀÔ °í°´À» ¼¾´Ù
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		return 0;
 	}
 
 	public String deleteCustomerInformation(){
-		// °í°´ Á¤º¸¸¦ »èÁ¦ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		return "";
 	}
 	
 	public String enquireApplicationForMembership(String id) {
-		// »õ·Î ¸¸µç ÇÔ¼ö
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 		return m_ApplicationForMembershipListImpl.get(id).toString();
 	}
 
@@ -209,67 +210,148 @@ public class Control {
 	 * @param customerName
 	 */
 	public String enquireAccidentInformation(String customerName){
-		// »ç°íÁ¢¼ö Á¤º¸¸¦ Á¶È¸ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ñ´ï¿½
 		return "";
 	}
 
 	public String enquireAccidentList(){
-		// »ç°í ¸ñ·Ï Á¶È¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï±ï¿½
 		return "";
 	}
 
 	/**
 	 * 
+	 * @param type
+	 * @param key
+	 */
+	public String enquireCustomerInformation(int type, String key){
+		switch(type) {
+			case 1: 
+				this.customerList = this.m_CustomerListImpl.get(type, key);
+				break;
+			case 2:
+			case 4:
+				int keyInt = Integer.parseInt(key);
+				this.customerList = this.m_CustomerListImpl.get(type, keyInt);
+				break;
+			case 3:
+				if(key.equals("1"))
+					this.customerList = this.m_CustomerListImpl.get(true);
+				else if(key.equals("2"))
+					this.customerList = this.m_CustomerListImpl.get(false);
+				break;
+		}
+		String result = "";
+		int index = 1;
+		for (Customer customer : this.customerList) {
+			result = result + index + "." + customer.getName() + customer.getAge() + customer.isGender() + customer.getBirthDate() + "\n";
+			index++;
+		}
+		return result;
+	}
+	
+	/**
+	 * 
 	 * @param choice
 	 */
-	public String enquireCustomerDetailInformation(int choice){
-		// °í°´ ¼¼ºÎÁ¤º¸¸¦ Á¶È¸ÇÑ´Ù - º¸Çè °¡ÀÔÇÏ±â(choice : ¼±ÅÃ ¹øÈ£)
-		return "";
+	public String enquireCustomerDetailInformation(int choice) {
+		Customer customer = this.customerList.get(choice-1);
+		String result = "";
+		result = result + "ì´ë¦„: " + customer.getName() + ", ";
+		result = result + "ë‚˜ì´: " + customer.getAge() + ", ";
+		result = result + "ì„±ë³„: " + customer.isGender() + ", ";
+		result = result + "ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸: " + customer.getSsn() + ", ";
+		result = result + "ì§ì—…: " + ", ";
+		result = result + "ì „í™”ë²ˆí˜¸: " + customer.getPhoneNum() + ", ";
+		result = result + "ê°€ì…ë³´í—˜: (";
+		boolean isFirst = false;
+		for(String subscribedInsurance : customer.getSubscribedInsurance()) {
+			if(isFirst) {
+				result = result + ", ";
+				isFirst = true;
+			}
+			result = result + subscribedInsurance;
+		}
+		result = result + "), ";
+		result = result + "íŠ¹ì´ì‚¬í•­: " + customer.getUniqueness();
+		return result;
 	}
 
-	public String enquireCustomerInformation(){
-		// °í°´ Á¤º¸¸¦ Á¶È¸ÇÑ´Ù
-		return "";
+	public String checkCustomerInformation(int index, int choice, String newInformation) {
+		Customer customer = this.customerList.get(index-1);
+		String result = "";
+		result = result + "ì´ë¦„: " + customer.getName() + ", ";
+		result = result + "ë‚˜ì´: " + customer.getAge() + ", ";
+		result = result + "ì§ì—…: " + ", ";
+		result = result + "ì „í™”ë²ˆí˜¸: " + customer.getPhoneNum();
+		result = result + " -> ";
+		switch(choice) {
+			case 1:
+				result = result + "ì´ë¦„: " + newInformation + ", ";
+				result = result + "ë‚˜ì´: " + customer.getAge() + ", ";
+				result = result + "ì§ì—…: " + ", ";
+				result = result + "ì „í™”ë²ˆí˜¸: " + customer.getPhoneNum();
+				break;
+			case 2:
+				result = result + "ì´ë¦„: " + customer.getName() + ", ";
+				result = result + "ë‚˜ì´: " + newInformation + ", ";
+				result = result + "ì§ì—…: " + ", ";
+				result = result + "ì „í™”ë²ˆí˜¸: " + customer.getPhoneNum();
+				break;
+			case 3:
+				result = result + "ì´ë¦„: " + customer.getName() + ", ";
+				result = result + "ë‚˜ì´: " + customer.getAge() + ", ";
+				result = result + "ì§ì—…: " + newInformation + ", ";
+				result = result + "ì „í™”ë²ˆí˜¸: " + customer.getPhoneNum();
+				break;
+			case 4:
+				result = result + "ì´ë¦„: " + customer.getName() + ", ";
+				result = result + "ë‚˜ì´: " + customer.getAge() + ", ";
+				result = result + "ì§ì—…: " + ", ";
+				result = result + "ì „í™”ë²ˆí˜¸: " + newInformation;
+				break;
+		}
+		return result;
 	}
-
+	
 	/**
 	 * 
 	 * @param choice
 	 */
 	public String enquireEmergencyCustomerList(int choice){
-		// ±ä±Ş °í°´ ¸ñ·Ï Á¶È¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï±ï¿½
 		return "";
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @param »ç°íÀ§Ä¡
-	 * @param »ç°íÀ¯Çü
+	 * @param accidentLocation
+	 * @param accidentType
 	 */
 	
 	public String enquireEmployeeCallStatusImformation(String id, String accidentLocation, String accidentType){
-		// Á÷¿øÄİ Á¤º¸¸¦ Ãâ·ÂÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 		return "";
 	}
 
 	public String enquireExpirationContractInformation(){
-		// ¸¸±â °è¾àÁ¤º¸¸¦ Á¶È¸ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ñ´ï¿½
 		return "";
 	}
 
 	public String enquireInformationAboutApplicationForMembership(){
-		// °¡ÀÔ ½ÅÃ» Á¤º¸¸¦ Á¶È¸ÇÑ´Ù - ÀÎ¼ö½É»ç ÁøÇàÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ñ´ï¿½ - ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		return m_ApplicationForMembershipListImpl.toString();
 	}
 
 	public String enquireInsuranceFeePaymentStatus(){
-		// º¸Çè·á ³³ÀÔ Á¤º¸¸¦ Á¶È¸ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ñ´ï¿½
 		return "";
 	}
 
 	public String enquireInsuranceList(){
-		// º¸Çè ¸®½ºÆ® Á¶È¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸ï¿½Ï±ï¿½
 		return "";
 	}
 
@@ -278,22 +360,22 @@ public class Control {
 	 * @param choice
 	 */
 	public String enquireInsuranceProductDetails(int choice){
-		// º¸Çè »óÇ° ¼¼ºÎ Á¤º¸ Á¶È¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï±ï¿½
 		return "";
 	}
 
 	public String enquireInsuranceProductDevelopmentInformation(){
-		// º¸Çè »óÇ° °³¹ß Á¤º¸ Á¶È¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï±ï¿½
 		return "";
 	}
 
 	public String enquireNewContractInformation(){
-		// ½Å±Ô °è¾àÁ¤º¸¸¦ Ãâ·ÂÇÑ´Ù - º¸Çè °¡ÀÔÇÏ±â(°í°´ ¼¼ºÎÁ¤º¸ Á¶È¸°úÁ¤ Æ÷ÇÔ)
+		// ï¿½Å±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 		return "";
 	}
 
 	public String enquirePassedCustomerInUW(){
-		// ÀÎ¼ö½É»ç ÇÕ°İ °í°´À» Ãâ·ÂÇÑ´Ù - º¸Çè °¡ÀÔÇÏ±â
+		// ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		String temp = "";
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
 			if(m_ApplicationForMembershipListImpl.get(i).isUWResult())
@@ -306,55 +388,55 @@ public class Control {
 	}
 
 	public void enquireProductSalesSupportDetails(){
-		// Á¦Ç° ÆÇ¸Å Áö¿ø ¼¼ºÎÁ¤º¸ Áö¿øÇÏ±â..?
+		// ï¿½ï¿½Ç° ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½..?
 	}
 
 	/**
 	 * 
-	 * @param ÀÚµ¿½É»ç°á°ú
-	 * @param Áø´Ü½É»ç°á°ú
-	 * @param ÀÌ¹ÌÁö½É»ç°á°ú
-	 * @param Æ¯ÀÎ½É»ç°á°ú
-	 * @param ÀÏ¹İ½É»ç°á°ú
+	 * @param automaticExaminationResult
+	 * @param diagnosticExaminationResult
+	 * @param imageExaminationResult
+	 * @param specialExaminationResult
+	 * @param generalExaminationResult
 	 */
 	public String enquireUWResult(String id, boolean automaticExaminationResult, boolean diagnosticExaminationResult, 
 			boolean imageExaminationResult, boolean specialExaminationResult, boolean generalExaminationResult){
-		// ÀÎ¼ö½É»ç °á°ú¸¦ È®ÀÎÇÑ´Ù - ÀÎ¼ö½É»ç ÁøÇàÇÏ±â
-		// ÀÎ¼ö½É»ç ½ÇÇà ¿©ºÎ ¼öÁ¤, ½É»ç °á°ú ¼öÁ¤ Æ÷ÇÔ - ÀÌÈÄ ¹®±¸ Ãâ·Â
-		// ÆÄ¶ó¹ÌÅÍ Ãß°¡(String id)
-		String result = "ÀÎ¼ö½É»ç¿¡ ºÒÇÕ°İÇÏ¿´½À´Ï´Ù\n»çÀ¯ : ";
+		// ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½ - ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+		// ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½É»ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		// ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½(String id)
+		String result = "ï¿½Î¼ï¿½ï¿½É»ç¿¡ ï¿½ï¿½ï¿½Õ°ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½\nï¿½ï¿½ï¿½ï¿½ : ";
 		m_ApplicationForMembershipListImpl.get(id).setUWExecutionStatus(true);
-		if(!automaticExaminationResult) return result += "ÀÚµ¿½É»ç";
-		if(!diagnosticExaminationResult) return result += "Áø´Ü½É»ç";
-		if(!imageExaminationResult) return result += "ÀÌ¹ÌÁö½É»ç";
-		if(!specialExaminationResult) return result += "Æ¯ÀÎ½É»ç";
-		if(!generalExaminationResult) return result += "ÀÏ¹İ½É»ç";
+		if(!automaticExaminationResult) return result += "ï¿½Úµï¿½ï¿½É»ï¿½";
+		if(!diagnosticExaminationResult) return result += "ï¿½ï¿½ï¿½Ü½É»ï¿½";
+		if(!imageExaminationResult) return result += "ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½É»ï¿½";
+		if(!specialExaminationResult) return result += "Æ¯ï¿½Î½É»ï¿½";
+		if(!generalExaminationResult) return result += "ï¿½Ï¹İ½É»ï¿½";
 		m_ApplicationForMembershipListImpl.get(id).setUWResult(true);
-		result = "ÀÎ¼ö½É»ç¿¡ ÇÕ°İÇÏ¿´½À´Ï´Ù";
+		result = "ï¿½Î¼ï¿½ï¿½É»ç¿¡ ï¿½Õ°ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½";
 		return result;
-	}
+
 
 	public String euqireInsuranceProductDesignForm(){
-		// º¸Çè »óÇ° ¼³°è ¾ç½Ä Á¶È¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï±ï¿½
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param ¿¬ÀåµÈ¸¸·áÀÏ
+	 * @param extendedExpirationDate
 	 */
 	public String extendContract(String extendedExpirationDate){
-		// °è¾à ¿¬ÀåÇÏ±â
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	    return "";
-	 }
+	}
 
 	public String initializeInsuranceFeePaymentStatus(){
-		// º¸Çè·á ³³ÀÔ¿©ºÎ¸¦ ÃÊ±âÈ­ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½Î¸ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½
 		return "";
 	}
 
 	public void makeDecisionInsuranceProduct(){
-		// º¸Çè »óÇ° °áÁ¤...?
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½...?
 	}
 
 	/**
@@ -362,79 +444,72 @@ public class Control {
 	 * @param id
 	 */
 	public boolean makeInsuranceContract(String id){
-		// º¸Çè °è¾àÀ» ÇÑ´Ù
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 		return false;
 	}
 
-	public String modifyCustomerInformation(){
-		// °í°´ Á¤º¸ ¼öÁ¤ÇÏ±â
+	public String modifyCustomerInformation(String newInformation){
+		
 		return "";
 	}
 
 	public String payInsuranceMoney(){
-		// º¸Çè±İ Áö±ŞÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param »õ·Î¿î¸¸±âÀÏ
+	 * @param newExpirationDate
 	 * @param id
 	 */
-	
 	public String renewExpirationDate(String newExpirationDate, String id){
-		// ¸¸±âÀÏÀ» °»½ÅÇÑ´Ù
 		return "";
 	}
 
 	public void requestAuthorizationOfCompany(){
-		// È¸»ç ½ÂÀÎ ¿äÃ» ¹Ş±â
+		// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Ş±ï¿½
 
 	}
 
 	public void requestAuthorizationOfFSS(){
-		// FSS¿¡ °üÇÑ ºÎ¿©¸¦ ¿äÃ»ÇÏ±â...?
+		// FSSï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï±ï¿½...?
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @param ³³ÀÔ±İ¾×
+	 * @param amountOfInsuranceFee
 	 */
-	
 	public String saveAmountOfInsuranceFee(String id, int amountOfInsuranceFee){
-		// ÀÔ·Â º¸Çè±İ¾× ÀúÀåÇÏ±â
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param ´ë»ó°í°´
-	 * @param º¸»ó°³¹ß¾È
-	 * @param º¸Çè»óÇ°ÀÌ¸§
-	 * @param Æò°¡¾È
+	 * @param targetCustomer
+	 * @param compensationDevelopmentPlan
+	 * @param InsuranceProductName
+	 * @param evaluation
 	 */
-	
-	public void saveCompensationManagementInformation(String targetCustomer, String compensationDevelopmentPlan, 
-			String InsuranceProductName, String evaluation){
-		// º¸»ó¿î¿ëÁ¤º¸¸¦ ÀúÀåÇÑ´Ù
+	public void saveCompensationManagementInformation(String targetCustomer, String compensationDevelopmentPlan, String InsuranceProductName, String evaluation){
 	}
 
 	public void saveInsuranceDesignContent(){
-		// º¸Çè ¼³°è ³»¿ë ÀúÀåÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	}
 	/**
 	 * 
-	 * @param ±âÈ¹ÇÑ³»¿ë
+	 * @param plannedContents
 	 */
-	
 	public String savePlannedContents(String plannedContents){
-		// °èÈ¹ ³»¿ë ÀúÀåÇÏ±â
 		return "";
 	}
 
 	public void saveProductSalesSupportDetails(){
-		// Á¦Ç° ÆÇ¸Å Áö¿ø ¼¼ºÎ Á¤º¸ ÀúÀåÇÏ±â
+		// ï¿½ï¿½Ç° ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	}
+
+
 
 }

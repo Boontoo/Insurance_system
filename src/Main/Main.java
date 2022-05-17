@@ -1,112 +1,200 @@
 package Main;
 import java.util.InputMismatchException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import AccidentReception.AccidentReception;
 import Control.Control;
 
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 ¿ÀÈÄ 9:00:56
+ * @created 10-5-2022 ì˜¤í›„ 9:00:56
  */
 public class Main {
-
+	
 	private Control control = new Control();
+	
+	public static  ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
 
 	public Main(){
-
+		
 	}
 
 	public void finalize() throws Throwable {
-
+		
 	}
 
 	private void manageCustomerInformation(Scanner scanner) {
-		// ÀÎ¹è
-	// ex
-//		this.control.enquireCustomerInformation();
+		// ì¸ë°°
+		boolean bOnLoop = true;
+		while(bOnLoop) {
+			System.out.println("ê³ ê°ì •ë³´ê´€ë¦¬í•˜ê¸° ë©”ë‰´ì…ë‹ˆë‹¤.");
+			System.out.println("1.ê³ ê°ì •ë³´ì¡°íšŒ");
+			System.out.println("2.ë©”ì¸í˜ì´ì§€ë¡œ ëŒì•„ê°€ê¸°");
+			int choice = scanner.nextInt();
+	   
+			switch(choice) {
+		   		case 1:
+		   			System.out.println("ì¡°íšŒí•  ê³ ê° ì •ë³´ì˜ ê²€ìƒ‰ ì¡°ê±´ì„ ì„ íƒí•˜ì„¸ìš”.");
+		   			System.out.println("1.ì´ë¦„");
+		   			System.out.println("2.ë‚˜ì´");
+		   			System.out.println("3.ì„±ë³„");
+		   			System.out.println("4.ìƒë…„ì›”ì¼");
+		   			int type = scanner.nextInt();
+		   			System.out.println("ì¡°íšŒí•  ê³ ê° ì •ë³´ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
+		   			String key = scanner.next();
+		   			System.out.println(this.control.enquireCustomerInformation(type, key));
+		   			//if null í•„ìš”
+		   			System.out.println("ì„¸ë¶€ì •ë³´ë¥¼ í™•ì¸í•  ê³ ê°ì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
+		   			int index = scanner.nextInt();
+		   			System.out.println(this.control.enquireCustomerDetailInformation(index));
+		   			
+		   			this.modifyOrDeleteCustomerInformation(scanner, bOnLoop,index);
+		   			break;
+//		   			bOnLoop = false;
+		   		case 2:
+		   			bOnLoop = false;
+		   			break;
+		   		default:
+		   			System.out.println("ì˜ëª» ì„ íƒí•˜ì…¨ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì„ íƒí•´ì£¼ì„¸ìš”.");
+		   			break;
+   			}
+		}
 	}
 	
+	private void modifyOrDeleteCustomerInformation(Scanner scanner, boolean bOnLoop, int index) {
+//		boolean bOnLoop = true;
+		while(true) {
+			System.out.println("1.ê³ ê° ì •ë³´ë¥¼ ìˆ˜ì •í•œë‹¤.");
+			System.out.println("2.ê³ ê° ì •ë³´ë¥¼ ì‚­ì œí•œë‹¤.");
+			System.out.println("3.ê³ ê° ì •ë³´ ì¬ì¡°íšŒ");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 1:
+					System.out.println("ê³ ê° ì •ë³´ë¥¼ ìˆ˜ì •í•œë‹¤.");
+					while(true) {
+						System.out.println("ì–´ë–¤ ì •ë³´ë¥¼ ìˆ˜ì •í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+						System.out.println("1.ì´ë¦„");
+						System.out.println("2.ë‚˜ì´");
+						System.out.println("3.ì§ì—…");
+						System.out.println("4.ì „í™”ë²ˆí˜¸");
+						//	   				System.out.println();
+						choice = scanner.nextInt();
+						System.out.println("ìƒˆë¡œìš´ ì •ë³´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+						String newInformation = scanner.next();
+						if(newInformation != null) {
+							System.out.println(control.checkCustomerInformation(index, choice, newInformation));
+							System.out.println("1.ì €ì¥");
+							System.out.println("2.ì¬ì‘ì„±");
+							choice = scanner.nextInt();
+//							switch(choose)
+							if(choice == 1) {
+								control.modifyCustomerInformation(newInformation);
+								return;
+//								bOnLoop = false;
+							}
+							else if(choice == 2) {
+//								break;
+							}
+						} else {
+							System.out.println("ìˆ˜ì • ì •ë³´ë¥¼ ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+						}
+					}
+//					break;
+				case 2:
+					control.deleteCustomerInformation();
+					bOnLoop = false;
+					break;
+				case 3:
+					return;
+//					bOnLoop = false;
+//					break;
+			}
+		}
+	}
+   
 	private void startContractMaintenanceActivities(Scanner scanner) {
 
 	}
-	
+   
 	private void payInsuranceFee(Scanner scanner) {
 
 	}
 
 	private void applyForMembership(Scanner scanner) {
-		// ¹ÎÀç - °¡ÀÔ ½ÅÃ» ¹Ş±â
-		System.out.println("°¡ÀÔ½ÅÃ»À» ÁøÇàÇÏ½Ã°Ú½À´Ï±î? (1.ÁøÇà, ±× ÀÌ¿Ü.µÚ·Î°¡±â)");
+		// ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Ş±ï¿½
+		System.out.println("ï¿½ï¿½ï¿½Ô½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½ï¿½Ï±ï¿½? (1.ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½Ì¿ï¿½.ï¿½Ú·Î°ï¿½ï¿½ï¿½)");
 		if(scanner.nextInt() != 1) return; 
 		while(true) {
 			try {
-				System.out.print("°í°´ ÀÌ¸§ : ");
+				System.out.print("ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : ");
 				String name = scanner.next();
-				System.out.print("°¡ÀÔ Èñ¸Á º¸Çè : ");
+				System.out.print("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ");
 				String insurance = scanner.next();
-				System.out.print("ÀüÈ­¹øÈ£ : ");
+				System.out.print("ï¿½ï¿½È­ï¿½ï¿½È£ : ");
 				String phoneNum = scanner.next();
-				System.out.print("³ªÀÌ : ");
+				System.out.print("ï¿½ï¿½ï¿½ï¿½ : ");
 				int age = scanner.nextInt();
-				System.out.print("¼ºº°(1.³²ÀÚ, ±× ÀÌ¿Ü.¿©ÀÚ) : ");
+				System.out.print("ï¿½ï¿½ï¿½ï¿½(1.ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½Ì¿ï¿½.ï¿½ï¿½ï¿½ï¿½) : ");
 				boolean gender = (scanner.nextInt() == 1);
-				System.out.print("Á÷¾÷ : ");
+				System.out.print("ï¿½ï¿½ï¿½ï¿½ : ");
 				String jop = scanner.next();
-				System.out.print("ÁÖ¹Î¹øÈ£ : ");
+				System.out.print("ï¿½Ö¹Î¹ï¿½È£ : ");
 				String SSN = scanner.next();
 				boolean result = this.control.applyForMembership(insurance, phoneNum, age, gender, name, jop, SSN);
 				if(!result) {
-					System.out.println("¿Ã¹Ù¸¥ Çü½Ä¿¡ ¸Â°Ô ÀÔ·ÂÇÏ¼¼¿ä");
+					System.out.println("ï¿½Ã¹Ù¸ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½Â°ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½");
 					continue;
 				}else {
-					System.out.println("°¡ÀÔ ½ÅÃ»ÀÌ Á¤»óÀûÀ¸·Î ÁøÇàµË´Ï´Ù");
+					System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½");
 					break;
 				}
 			}catch(InputMismatchException e) {
-				System.out.println("¿Ã¹Ù¸¥ °ªÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
-				// À§ »óÈ² ¹ß»ı½Ã °í°´ÀÌ¸§ ÀÔ·ÂÀÌ ½ºÅµµÊ - ÀÌ°Å ÇØ°áÇØ¾ß ÇÔ
+				System.out.println("ï¿½Ã¹Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
+				// ï¿½ï¿½ ï¿½ï¿½È² ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½Åµï¿½ï¿½ - ï¿½Ì°ï¿½ ï¿½Ø°ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
 				continue;
 			}
 		}
 		System.out.println("==================================");
+		// ë¯¼ì¬
 	}
-	
+   
 	private void startUW(Scanner scanner) {
-		// ¹ÎÀç - ÀÎ¼ö½É»ç ÁøÇàÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ - ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		while(true) {
 			try {
 				System.out.println(control.enquireInformationAboutApplicationForMembership());
-				System.out.print("¼±ÅÃ¹øÈ£¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä(0 : µÚ·Î°¡±â) : ");
+				System.out.print("ï¿½ï¿½ï¿½Ã¹ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½(0 : ï¿½Ú·Î°ï¿½ï¿½ï¿½) : ");
 				int choice = scanner.nextInt();
 				if(choice == 0) return;
 				boolean checkInID = control.checkInID(choice + "");
 				if(!checkInID) {
-					System.out.println("¼±ÅÃ¹øÈ£ ³» ¹øÈ£¸¦ ´Ù½Ã ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
+					System.out.println("ï¿½ï¿½ï¿½Ã¹ï¿½È£ ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
 					continue;
 				}
-				System.out.println("ÀÔ·Â ¹øÈ£ : " + choice);
+				System.out.println("ï¿½Ô·ï¿½ ï¿½ï¿½È£ : " + choice);
 				if(control.checkAlreadyJudged(choice + "")) {
-					System.out.println("ÀÌ¹Ì ÀÎ¼ö½É»ç°¡ ¿Ï·áµÈ ½ÅÃ»Á¤º¸ÀÔ´Ï´Ù. ´Ù¸¥ ¹øÈ£¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
+					System.out.println("ï¿½Ì¹ï¿½ ï¿½Î¼ï¿½ï¿½É»ç°¡ ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
 					continue;
 				}
 				boolean automaticExaminationResult = startAutomaticJudge(scanner, choice + "");
-				System.out.print("Áø´Ü½É»ç °á°ú(1.ÇÕ°İ, ±×ÀÌ¿Ü.ºÒÇÕ°İ) : ");
+				System.out.print("ï¿½ï¿½ï¿½Ü½É»ï¿½ ï¿½ï¿½ï¿½(1.ï¿½Õ°ï¿½, ï¿½ï¿½ï¿½Ì¿ï¿½.ï¿½ï¿½ï¿½Õ°ï¿½) : ");
 				boolean diagnosticExaminationResult = (scanner.next().equals("1"));
-				System.out.print("ÀÌ¹ÌÁö½É»ç °á°ú(1.ÇÕ°İ, ±×ÀÌ¿Ü.ºÒÇÕ°İ) : ");
+				System.out.print("ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½(1.ï¿½Õ°ï¿½, ï¿½ï¿½ï¿½Ì¿ï¿½.ï¿½ï¿½ï¿½Õ°ï¿½) : ");
 				boolean imageExaminationResult = (scanner.next().equals("1"));
-				System.out.print("Æ¯ÀÎ½É»ç °á°ú(1.ÇÕ°İ, ±×ÀÌ¿Ü.ºÒÇÕ°İ) : ");
+				System.out.print("Æ¯ï¿½Î½É»ï¿½ ï¿½ï¿½ï¿½(1.ï¿½Õ°ï¿½, ï¿½ï¿½ï¿½Ì¿ï¿½.ï¿½ï¿½ï¿½Õ°ï¿½) : ");
 				boolean specialExaminationResult = (scanner.next().equals("1"));
-				System.out.print("ÀÏ¹İ½É»ç °á°ú(1.ÇÕ°İ, ±×ÀÌ¿Ü.ºÒÇÕ°İ) : ");
+				System.out.print("ï¿½Ï¹İ½É»ï¿½ ï¿½ï¿½ï¿½(1.ï¿½Õ°ï¿½, ï¿½ï¿½ï¿½Ì¿ï¿½.ï¿½ï¿½ï¿½Õ°ï¿½) : ");
 				boolean generalExaminationResult = (scanner.next().equals("1"));
 				String uwResult = control.enquireUWResult(choice + "", automaticExaminationResult, diagnosticExaminationResult, 
 						imageExaminationResult, specialExaminationResult, generalExaminationResult);
 				System.out.println(uwResult);
-				System.out.println("Å¸º¸Çè»ç¿¡ º¸³¾ °¡ÀÔ Èñ¸Á º¸Çè Á¤º¸\n" + control.enquireApplicationForMembership(choice + "")); // ÀÌ°Å ´Ù½Ã È®ÀÎ
+				System.out.println("Å¸ï¿½ï¿½ï¿½ï¿½ç¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½\n" + control.enquireApplicationForMembership(choice + "")); // ï¿½Ì°ï¿½ ï¿½Ù½ï¿½ È®ï¿½ï¿½
 				break;
 			}catch(InputMismatchException e) {
-				System.out.println("¿Ã¹Ù¸¥ °ªÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
-				// ¹«ÇÑ·çÇÁ ¹ß»ı - ÀÌ°Å ÇØ°áÇØ¾ß ÇÔ
+				System.out.println("ï¿½Ã¹Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
+				// ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ - ï¿½Ì°ï¿½ ï¿½Ø°ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
 				continue;
 			}
 		}
@@ -114,69 +202,73 @@ public class Main {
 	}
 
 	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException{
-		// »õ·Î ¸¸µç ÇÔ¼ö
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 		while(true) {
-			System.out.print("º»ÀÎ ¼ÒÀ¯ÀÇ °Ç¹°(1.¿¹, ±×ÀÌ¿Ü.¾Æ´Ï¿À) : ");
+			System.out.print("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½(1.ï¿½ï¿½, ï¿½ï¿½ï¿½Ì¿ï¿½.ï¿½Æ´Ï¿ï¿½) : ");
 			boolean isOwnedBuilding = (scanner.nextInt()==1);
-			System.out.print("¸®¸ğµ¨¸µ ¿©ºÎ(1.¿¹, ±×ÀÌ¿Ü.¾Æ´Ï¿À) : ");
+			System.out.print("ï¿½ï¿½ï¿½ğµ¨¸ï¿½ ï¿½ï¿½ï¿½ï¿½(1.ï¿½ï¿½, ï¿½ï¿½ï¿½Ì¿ï¿½.ï¿½Æ´Ï¿ï¿½) : ");
 			boolean isRemodeling = (scanner.nextInt()==1);
-			System.out.print("°Ç¹° ¿¬½Ä(Á¡¼ö ÀÔ·Â - 0Á¡~20Á¡) : ");
+			System.out.print("ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ - 0ï¿½ï¿½~20ï¿½ï¿½) : ");
 			int buildingAgeScore = scanner.nextInt();
-			System.out.print("È­Àç ¼³ºñ »óÅÂ(Á¡¼ö ÀÔ·Â - 0Á¡~20Á¡) : ");
+			System.out.print("È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ - 0ï¿½ï¿½~20ï¿½ï¿½) : ");
 			int fireEquipmentConditionScore = scanner.nextInt();
-			System.out.print("°Ç¹° À§Ä¡(Á¡¼ö ÀÔ·Â - 0Á¡~20Á¡) : ");
+			System.out.print("ï¿½Ç¹ï¿½ ï¿½ï¿½Ä¡(ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ - 0ï¿½ï¿½~20ï¿½ï¿½) : ");
 			int buildingLocationScore = scanner.nextInt();
-			System.out.print("°Ç¹° °¡°İ(Á¡¼ö ÀÔ·Â - 0Á¡~20Á¡) : ");
+			System.out.print("ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ - 0ï¿½ï¿½~20ï¿½ï¿½) : ");
 			int buildingConditionScore = scanner.nextInt();
-			//ÆÄ¶ó¹ÌÅÍ ±æÀÌ ÁÙÀÏ °Í
+			//ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			if(!control.checkPointInput(buildingAgeScore, fireEquipmentConditionScore, 
 					buildingLocationScore, buildingConditionScore)) {
-				System.out.println("¹üÀ§¿¡ ¸Â´Â Á¡¼ö¸¦ ´Ù½Ã Àû¾îÁÖ¼¼¿ä");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½");
 				continue;
 			}
 			return control.automaticJudge(id, isOwnedBuilding, isRemodeling, buildingAgeScore, 
 					fireEquipmentConditionScore, buildingLocationScore, buildingConditionScore);
 		}
 		
+		// ë¯¼ì¬
 	}
-	
+   
 	private void joinInsurance(Scanner scanner) {
-		// ¹ÎÀç - º¸Çè °¡ÀÔÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		System.out.println(control.enquirePassedCustomerInUW());
-		System.out.print("½ÅÃ»ÇÒ °í°´ Á¤º¸¸¦ ¼±ÅÃÇÏ¼¼¿ä(0 : µÚ·Î°¡±â) : ");
+		System.out.print("ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½(0 : ï¿½Ú·Î°ï¿½ï¿½ï¿½) : ");
 		int choice = scanner.nextInt();
 		if(choice == 0) return;
 		
+		// ë¯¼ì¬
 	}
-	
+   
 	private void reinsurance(Scanner scanner) {
-		// ¹ÎÀç - Àçº¸Çè Ã³¸®ÇÏ±â(ÇÒ ¼ö ÀÖÀ¸¸é)
+		// ï¿½ï¿½ï¿½ï¿½ - ï¿½çº¸ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï±ï¿½(ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		// ë¯¼ì¬
 	}
-	
+   
 	private void manageCompensationManagement(Scanner scanner) {
 
 	}
-	
+   
 	private void payInsuranceMoney(Scanner scanner) {
 
 	}
-	
+   
 	private void reportAccident(Scanner scanner) {
-		// ¹Î¿ì
+		// EA ì‹œë‚˜ë¦¬ì˜¤ ì‚¬ê³ ë¥¼ ì ‘ìˆ˜í•˜ë‹¤? -> ì‚¬ê³  ì²˜ë¦¬ í•˜ê¸° 
+		// ë¯¼ìš°
 	}
-	
+   
 	private void manageExpirationContract(Scanner scanner) {
 
 	}
-	
+   
 	private void managePaymentInformation(Scanner scanner) {
 
 	}
-	
+   
 	private void designInsuranceProduct(Scanner scanner) {
 		this.requestAuthorization(scanner);
 	}
-	
+   
 	private void requestAuthorization(Scanner scanner) {
 
 	}
@@ -184,88 +276,80 @@ public class Main {
 	public static void main(String[] args) {
 		Main main = new Main();
 		Scanner scanner = new Scanner(System.in);
-		while(true) {
-//			try { Á¤¼ö°¡ ¾Æ´Ï¶ó ´Ù¸¥ °ª ÀÔ·Â½Ã ¿¹¿Ü Ã³¸® ±¸Çö - ´Ùµé °°ÀÌ ÀÖÀ» ¶§ ³íÀÇÇØº¼ °Í
-//				
-//			}catch(InputMismatchException e) {
-//				System.out.println("Á¤¼ö¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
-//				continue;
-//			}
-			System.out.println("ºĞ»êÅõÀÚÈ­Àç º¸Çè ½Ã½ºÅÛÀÔ´Ï´Ù.");
-			System.out.println("0.½Ã½ºÅÛ Á¾·áÇÏ±â");
-			System.out.println("1.°í°´Á¤º¸ °ü¸®ÇÏ±â");
-			System.out.println("2.°è¾àÀ¯ÁöÈ°µ¿ ÁøÇàÇÏ±â");
-			System.out.println("3.¿ùº¸Çè·á ³³ÀÔÇÏ±â");
-			System.out.println("4.°¡ÀÔ½ÅÃ» ¹Ş±â");
-			System.out.println("5.ÀÎ¼ö½É»ç ÁøÇàÇÏ±â");
-			System.out.println("6.º¸Çè °¡ÀÔÇÏ±â");
-			System.out.println("7.Àçº¸Çè Ã³¸®ÇÏ±â");
-			System.out.println("8.º¸»ó¿î¿ë °ü¸®ÇÏ±â");
-			System.out.println("9.º¸Çè±İ Áö±ŞÇÏ±â");
-			System.out.println("10.»ç°í Á¢¼öÇÏ±â");
-			System.out.println("11.¸¸±â°è¾à °ü¸®ÇÏ±â");
-			System.out.println("12.³³ÀÔÁ¤º¸ °ü¸®ÇÏ±â");
-			System.out.println("13.º¸Çè »óÇ° ¼³°èÇÏ±â");
+		boolean bOnLoop = true;
+		while(bOnLoop) {
+			System.out.println("ë¶„ì‚°íˆ¬ìí™”ì¬ ë³´í—˜ ì‹œìŠ¤í…œì…ë‹ˆë‹¤.");
+			System.out.println("0.ì‹œìŠ¤í…œ ì¢…ë£Œí•˜ê¸°");
+			System.out.println("1.ê³ ê°ì •ë³´ ê´€ë¦¬í•˜ê¸°");
+			System.out.println("2.ê³„ì•½ìœ ì§€í™œë™ ì§„í–‰í•˜ê¸°");
+			System.out.println("3.ì›”ë³´í—˜ë£Œ ë‚©ì…í•˜ê¸°");
+			System.out.println("4.ê°€ì…ì‹ ì²­ ë°›ê¸°");
+			System.out.println("5.ì¸ìˆ˜ì‹¬ì‚¬ ì§„í–‰í•˜ê¸°");
+			System.out.println("6.ë³´í—˜ ê°€ì…í•˜ê¸°");
+			System.out.println("7.ì¬ë³´í—˜ ì²˜ë¦¬í•˜ê¸°");
+			System.out.println("8.ë³´ìƒìš´ìš© ê´€ë¦¬í•˜ê¸°");
+			System.out.println("9.ë³´í—˜ê¸ˆ ì§€ê¸‰í•˜ê¸°");
+			System.out.println("10.ì‚¬ê³  ì ‘ìˆ˜í•˜ê¸°");
+			System.out.println("11.ë§Œê¸°ê³„ì•½ ê´€ë¦¬í•˜ê¸°");
+			System.out.println("12.ë‚©ì…ì •ë³´ ê´€ë¦¬í•˜ê¸°");
+			System.out.println("13.ë³´í—˜ ìƒí’ˆ ì„¤ê³„í•˜ê¸°");
 
 			int choice = scanner.nextInt();
-			
-			if(choice == 0)
-				break;
-			
 			switch(choice) {
-				case 1:
-					// ÀÎ¹è
-					main.manageCustomerInformation(scanner);
+				case 0:
+					bOnLoop = false;
 					break;
-				case 2:
-					main.startContractMaintenanceActivities(scanner);
-					break;
-				case 3:
-					main.payInsuranceFee(scanner);
-					break;
-				case 4:
-					// ¹ÎÀç
-					main.applyForMembership(scanner);
-					break;
-				case 5:
-					// ¹ÎÀç
-					main.startUW(scanner);
-					break;
-				case 6:
-					// ¹ÎÀç
-					main.joinInsurance(scanner);
-					break;
-				case 7:
-					// ¹ÎÀç
-					main.reinsurance(scanner);
-					break;
-				case 8:
-					main.manageCompensationManagement(scanner);
-					break;
-				case 9:
-					main.payInsuranceMoney(scanner);
-					break;
-				case 10:
-					// ¹Î¿ì
-					main.reportAccident(scanner);
-					break;
-				case 11:
-					main.manageExpirationContract(scanner);
-					break;
-				case 12:
-					main.managePaymentInformation(scanner);
-					break;
-				case 13:
-					main.designInsuranceProduct(scanner);
-					break;
-				default :
-					System.out.println("ÀÔ·ÂÁ¤º¸°¡ Àß¸øµÇ¾ú½À´Ï´Ù. ´Ù½Ã ¸Ş´º¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
-					break;
+        		case 1:
+            		// ì¸ë°°
+            		main.manageCustomerInformation(scanner);
+            		break;
+            	case 2:
+            		main.startContractMaintenanceActivities(scanner);
+            		break;
+            	case 3:
+	               main.payInsuranceFee(scanner);
+	               break;
+	            case 4:
+	               // ë¯¼ì¬
+	               main.applyForMembership(scanner);
+	               break;
+	            case 5:
+	               // ë¯¼ì¬
+	               main.startUW(scanner);
+	               break;
+	            case 6:
+	               // ë¯¼ì¬
+	               main.joinInsurance(scanner);
+	               break;
+	            case 7:
+	               // ë¯¼ì¬
+	               main.reinsurance(scanner);
+	               break;
+	            case 8:
+	               main.manageCompensationManagement(scanner);
+	               break;
+	            case 9:
+	               main.payInsuranceMoney(scanner);
+	               break;
+	            case 10:
+	               // ë¯¼ìš° ì‚¬ê³  ì ‘ìˆ˜ë¥¼ í•˜ë‹¤
+	               // ì¼ë‹¨ ì´ ë‚´ìš©ì€ ì‚¬ê³ ì²˜ë¦¬ë¥¼ ì ì–´ ë†“ì€ ê²ƒ 
+	               main.reportAccident(scanner);
+	               break;
+	            case 11:
+	               main.manageExpirationContract(scanner);
+	               break;
+	            case 12:
+	               main.managePaymentInformation(scanner);
+	               break;
+	            case 13:
+	               main.designInsuranceProduct(scanner);
+	               break;
+	            default :
+	               System.out.println("ì…ë ¥ì •ë³´ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ë©”ë‰´ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
+	               break;
 			}
 		}
 		scanner.close();
 	}
-
-	
-
 }
