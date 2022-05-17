@@ -15,6 +15,7 @@ public class AccidentReception {
 	private boolean employeeCallStatus;
 	private int remainingNumberOfTowTruckCalls;
 	private boolean towTruckCallPresent;
+	private String contractID;
 	
 	Scanner scanner = new Scanner(System.in);
 
@@ -36,6 +37,8 @@ public class AccidentReception {
 	public boolean isEmployeeCallStatus() {return employeeCallStatus;}
 	public int getRemainingNumberOfTowTruckCalls() {return remainingNumberOfTowTruckCalls;}
 	public boolean isTowTruckCallPresent() {return towTruckCallPresent;}
+	public String getContractID() {return contractID;}
+	
 
 	public void setAccidentID(String accidentID) {this.accidentID = accidentID;}
 	public void setCustomerID(String customerID) {this.customerID = customerID;}
@@ -43,4 +46,5 @@ public class AccidentReception {
 	public void setEmployeeCallStatus(boolean employeeCallStatus) {this.employeeCallStatus = employeeCallStatus;}
 	public void setRemainingNumberOfTowTruckCalls(int remainingNumberOfTowTruckCalls) {this.remainingNumberOfTowTruckCalls = remainingNumberOfTowTruckCalls;}
 	public void setTowTruckCallPresent(boolean towTruckCallPresent) {this.towTruckCallPresent = towTruckCallPresent;}
+	public void setContractID(String contractID) {this.contractID = contractID;}
 }

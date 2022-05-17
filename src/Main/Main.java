@@ -259,13 +259,39 @@ public class Main {
 		System.out.println("----------------------------");
 		System.out.println("사고 처리를 시작합니다.");
 		while(true) {
-			String accidentID = null;
-			String customerID = null;
-			String customerName = null;
-			boolean employeeCallStatus = false;
+			System.out.println("보험 가입자 이름을 입력해주세요.");
+			String name = scanner.next();
+			System.out.println("전화번호를 입력해주세요.");
+			String phoneNum = scanner.next();
+			System.out.println("사고위치를 입력해주세요.");
+			String accidentLocation = scanner.next();
+			System.out.println("사고유형을 입력해주세요.");
+			String accidentType = scanner.next();
+			System.out.println(control.enquireAccidentInformation(name, phoneNum));
+			System.out.println("직원콜여부");
+			System.out.println("1.yes");
+			System.out.println("2.no");
+			int employeeCallStatus = scanner.nextInt();
+			System.out.println("렉카콜여부");
+			System.out.println("1.yes");
+			System.out.println("2.no");
+			int towTruckCallStatus = scanner.nextInt();
+			//확인메세지
+			System.out.println("직원콜을 호출하시겠습니까?");
+			System.out.println("1.yes");
+			System.out.println("2.no");
+			int choice = scanner.nextInt();
+			//관할 직원에 보험자 가입 이름, 전화번호, 사고위치, 사고유형을 자동 메시지로 보낸다.
+			//확인메세지
+			System.out.println("렉카콜을 호출하시겠습니까?");
+			System.out.println("1.yes");
+			System.out.println("2.no");
+			int choice = scanner.nextInt();
+			//관할 렉카 협력업체에 보험가입자 이름, 사고위치, 사고유형을 자동 메시지로 보낸다.
+			
 			int remainingNumberOfTowTruckCalls = 0;
 			boolean towTruckCallPresent = false;
-			control.saveAccident(new AccidentReception(accidentID, customerID, customerName, employeeCallStatus, remainingNumberOfTowTruckCalls, towTruckCallPresent));
+//			control.saveAccident(new AccidentReception(accidentID, customerID, customerName, employeeCallStatus, remainingNumberOfTowTruckCalls, towTruckCallPresent));
 			System.out.println();
 		}
 	}
