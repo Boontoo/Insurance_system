@@ -286,7 +286,7 @@ public class Main {
 			System.out.println("렉카콜을 호출하시겠습니까?");
 			System.out.println("1.yes");
 			System.out.println("2.no");
-			int choice = scanner.nextInt();
+//			int choice = scanner.nextInt(); 민우형이 처리하기로
 			//관할 렉카 협력업체에 보험가입자 이름, 사고위치, 사고유형을 자동 메시지로 보낸다.
 			
 			int remainingNumberOfTowTruckCalls = 0;
