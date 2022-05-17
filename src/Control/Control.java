@@ -31,15 +31,15 @@ public class Control {
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
 	private ArrayList<ApplicationForMembership> enquirePassedCustomerList;
-	// Impl�� ��� private���� �ٲ� ��
+	// Impl들 모두 private으로 바꿀 것
 
 	public Control(){
-		m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
-		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("�����", "010-3737-2855", 24, true, "������", "���л�", "990713-1058827"));
-		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("����", "010-3737-2855", 24, true, "Ȳ����", "���л�", "990713-1058827"));
-		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("������", "010-3737-2855", 24, true, "��ö��", "���л�", "990713-1058827"));
-		// �� ������ �ӽ���
 		this.m_CustomerListImpl = new CustomerListImpl();
+		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허엄", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보엉", "010-3737-2855", 24, true, "황혜경", "대학생", "990713-1058827"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허어어", "010-3737-2855", 24, true, "유철민", "대학생", "990713-1058827"));
+		// 위 세개는 임시임
 	}
 
    public void finalize() throws Throwable {
@@ -57,12 +57,13 @@ public class Control {
 	 * @param SSN
 	 */
 	public boolean applyForMembership(String insurance, String phoneNum, int age, boolean gender, String name, String jop, String SSN){
-		// ���� ��û�� �Ѵ� - ���� ��û�ϱ�
-		// ��ȯ�� ����(void -> boolean)
+		// 가입 신청을 한다 - 가입 신청하기
+		// 반환형 변경(void -> boolean)
 		if(!checkInputImformation(insurance, phoneNum, age, SSN, name, jop)) return false;
 		boolean result = m_ApplicationForMembershipListImpl.add(new ApplicationForMembership(insurance, phoneNum, age, gender, name, jop, SSN));
 		return result;
-		// �Է� ���� ���� ������� ����
+		// 입력 고객 정보 저장까지 포함
+	}
 
 	
 	
@@ -79,26 +80,27 @@ public class Control {
 	 */
 	public boolean automaticJudge(String id, boolean isOwnedBuilding, boolean isRemodeling, 
 			int buildingAgeScore, int fireEquipmentConditionScore, int buildingLocationScore, int buildingConditionScore){
-		// �ڵ� �ɻ縦 �����Ѵ� - �μ��ɻ� �����ϱ�
-		// id�� ������ �� ��?? ���� ��û�� ���迡 ���� �μ��ɻ� ������ �ٸ��� �η��� �ǵ� �켱 �μ��ɻ� ������ 70�� �̻� �ϳ��� ����� �ǹ� ����
-		// �μ��ɻ� ������ ������ ����� ���Խ�û ������ ��û ���� �̸��� ���� �μ��ɻ� ������ �ٸ��� �ξ�� ��
+		// 자동 심사를 진행한다 - 인수심사 진행하기
+		// id는 지워도 될 듯?? 가입 신청한 보험에 따라 인수심사 기준을 다르게 두려는 건데 우선 인수심사 기준이 70점 이상 하나라서 현재는 의미 없음
+		// 인수심사 기준이 여러개 생기면 가입신청 정보의 신청 보헝 이름에 따라 인수심사 기준을 다르게 두어야 함
 		if(!isOwnedBuilding) return false;
-		int remodelPoint = isOwnedBuilding? 0:20; // ���� ���� �ٽ� Ȯ���� �� ��
+		int remodelPoint = isOwnedBuilding? 0:20; // 리모델 점수 다시 확인해 볼 것
 		int totalPoint = remodelPoint + buildingAgeScore + fireEquipmentConditionScore + buildingLocationScore + buildingConditionScore;
 		if(totalPoint < 70) return false;
 		return true;
+	}
 	
 	public boolean checkAlreadyJudged(String id) {
 		return m_ApplicationForMembershipListImpl.get(id).isUWExecutionStatus();
 	}
 	
 	public boolean checkInID(String id) {
-		// ���� ���� �Լ�
+		// 새로 만든 함수
 		return m_ApplicationForMembershipListImpl.checkInID(id);
 	}
 	public boolean checkPointInput(int buildingAgeScore, int fireEquipmentConditionScore, 
 			int buildingLocationScore, int buildingConditionScore) {
-		// ���� ���� �Լ�
+		// 새로 만든 함수
 		if(!(buildingAgeScore >= 0 && buildingAgeScore <= 20)) return false;
 		if(!(fireEquipmentConditionScore >= 0 && fireEquipmentConditionScore <= 20)) return false;
 		if(!(buildingLocationScore >= 0 && buildingLocationScore <= 20)) return false;
@@ -119,7 +121,7 @@ public class Control {
 	 * @param date
 	 */
 	private String checkInputDateFormat(String date){
-		// �Է� ��¥������ Ȯ���ϱ�
+		// 입력 날짜형식을 확인하기
 		return "";
 	}
 
@@ -133,8 +135,8 @@ public class Control {
 	 * @param job
 	 */
 	private boolean checkInputImformation(String insurance, String phoneNum, int age, String citizenNum, String name, String jop){
-		// �Է� ������ Ȯ���Ѵ� - ���� ��û�ϱ�
-		// �Ķ����(���� -> �ֹι�ȣ)
+		// 입력 정보를 확인한다 - 가입 신청하기
+		// 파라미터(성별 -> 주민번호)
 		if(!checkKoreanFormat(name)) return false;
 		if(!checkKoreanFormat(insurance)) return false;
 		if(!checkPhoneNumFormat(phoneNum)) return false;
@@ -144,65 +146,67 @@ public class Control {
 		return true;
 	}
 	private boolean checkKoreanFormat(String input) {
-		// ���� ���� �Լ�(�ѱ۸� �����ϴ��� Ȯ��)
-		if(input.matches(".*[��-�R]+.*")
-				  && !input.matches(".*[��-����-��]+.*")
-				  && !input.matches(".*[a-zA-Z]+.*")
-	              && !input.matches(".*[0-9]+.*")
-	              && !input.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
+		// 새로 만든 함수(한글만 존재하는지 확인)
+		if(input.matches(".*[가-힣]+.*")
+				&& !input.matches(".*[ㄱ-ㅎㅏ-ㅣ]+.*")
+				&& !input.matches(".*[a-zA-Z]+.*")
+				&& !input.matches(".*[0-9]+.*")
+				&& !input.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return true;
+		return false;
 	}
 
 	private boolean checkPhoneNumFormat(String input) {
-		// ���� ���� �Լ�(�޴��� ��ȣ�� ��ȿ ex010-3737-2855)
+		// 새로 만든 함수(휴대폰 번호만 유효 ex010-3737-2855)
 		if(input.length() != 13) return false;
 		if(input.charAt(3) != '-' || input.charAt(8) != '-') return false;
 		if(!input.substring(0, 3).equals("010")) return false;
-		if(input.substring(4, 8).matches(".*[��-�R]+.*")
-				|| input.substring(4, 8).matches(".*[��-����-��]+.*")
+		if(input.substring(4, 8).matches(".*[가-힣]+.*")
+				|| input.substring(4, 8).matches(".*[ㄱ-ㅎㅏ-ㅣ]+.*")
 				|| input.substring(4, 8).matches(".*[a-zA-Z]+.*")
 				|| input.substring(4, 8).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return false;
-		if(input.substring(9, 13).matches(".*[��-�R]+.*")
-				|| input.substring(9, 13).matches(".*[��-����-��]+.*")
+		if(input.substring(9, 13).matches(".*[가-힣]+.*")
+				|| input.substring(9, 13).matches(".*[ㄱ-ㅎㅏ-ㅣ]+.*")
 				|| input.substring(9, 13).matches(".*[a-zA-Z]+.*")
 				|| input.substring(9, 13).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return false;
 		return true;
 	}
 	private boolean checkCitizenNumFormat(String input) {
-		// ���� ���� �Լ�
+		// 새로 만든 함수
 		if(input.length() != 14) return false;
 		if(input.charAt(6) != '-') return false;
 		if(!(input.charAt(7) == '1'
 				|| input.charAt(7) == '2'
 				|| input.charAt(7) == '3'
 				|| input.charAt(7) == '4')) return false;
-		if(input.substring(0, 6).matches(".*[��-�R]+.*")
-				|| input.substring(0, 6).matches(".*[��-����-��]+.*")
+		if(input.substring(0, 6).matches(".*[가-힣]+.*")
+				|| input.substring(0, 6).matches(".*[ㄱ-ㅎㅏ-ㅣ]+.*")
 				|| input.substring(0, 6).matches(".*[a-zA-Z]+.*")
 				|| input.substring(0, 6).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*"))
 			return false;
-		if(input.substring(7, 14).matches(".*[��-�R]+.*")
-				|| input.substring(7, 14).matches(".*[��-����-��]+.*")
+		if(input.substring(7, 14).matches(".*[가-힣]+.*")
+				|| input.substring(7, 14).matches(".*[ㄱ-ㅎㅏ-ㅣ]+.*")
 				|| input.substring(7, 14).matches(".*[a-zA-Z]+.*")
 				|| input.substring(7, 14).matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*"))
 			return false;
 		return true;
 	}
 
+
 	public int countInsuranceFeeNotPaid(){
-		// ����� �̳��� ������ ����
+		// 보험료 미납입 고객을 센다
 		return 0;
 	}
 
 	public String deleteCustomerInformation(){
-		// ���� ������ �����Ѵ�
+		// 고객 정보를 삭제한다
 		return "";
 	}
-	
+
 	public String enquireApplicationForMembership(String id) {
-		// ���� ���� �Լ�
+		// 새로 만든 함수
 		return m_ApplicationForMembershipListImpl.get(id).toString();
 	}
 
@@ -211,12 +215,12 @@ public class Control {
 	 * @param customerName
 	 */
 	public String enquireAccidentInformation(String customerName){
-		// ������� ������ ��ȸ�Ѵ�
+		// 사고접수 정보를 조회한다
 		return "";
 	}
 
 	public String enquireAccidentList(){
-		// ��� ��� ��ȸ�ϱ�
+		// 사고 목록 조회하기
 		return "";
 	}
 
@@ -226,6 +230,7 @@ public class Control {
 	 * @param key
 	 */
 	public String enquireCustomerInformation(int type, String key){
+		// 고객 정보를 조회한다
 		switch(type) {
 			case 1: 
 				this.customerList = this.m_CustomerListImpl.get(type, key);
@@ -256,6 +261,7 @@ public class Control {
 	 * @param choice
 	 */
 	public String enquireCustomerDetailInformation(int choice) {
+		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)
 		Customer customer = this.customerList.get(choice-1);
 		String result = "";
 		result = result + "이름: " + customer.getName() + ", ";
@@ -320,7 +326,7 @@ public class Control {
 	 * @param choice
 	 */
 	public String enquireEmergencyCustomerList(int choice){
-		// ��� ���� ��� ��ȸ�ϱ�
+		// 긴급 고객 목록 조회하기
 		return "";
 	}
 
@@ -331,31 +337,36 @@ public class Control {
 	 * @param accidentType
 	 */
 	
-	   public String enquireEmployeeCallStatusImformation(String id, String accidentLocation, String accidentType){
-	  AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
-	  String temp =  accidentReception.getAccidentID()+" "+accidentReception.getCustomerID()
-	  +" "+accidentReception.getCustomerName()+" "+accidentReception.isEmployeeCallStatus()
-	  +" "+accidentReception.getRemainingNumberOfTowTruckCalls()+" "+accidentReception.isTowTruckCallPresent();
-      return temp;
-   }
+	public String enquireEmployeeCallStatusInformation(String id, String accidentLocation, String accidentType){
+		// 직원콜 정보를 출력한다
+		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
+		String temp =  accidentReception.getAccidentID()+" "+accidentReception.getCustomerID()
+		+" "+accidentReception.getCustomerName()+" "+accidentReception.isEmployeeCallStatus()
+		+" "+accidentReception.getRemainingNumberOfTowTruckCalls()+" "+accidentReception.isTowTruckCallPresent();
+		return temp;
+	}
+	
+	public void saveAccident(AccidentReception AccidentReception) {
+
+	}
 
 	public String enquireExpirationContractInformation(){
-		// ���� ��������� ��ȸ�Ѵ�
+		// 만기 계약정보를 조회한다
 		return "";
 	}
 
 	public String enquireInformationAboutApplicationForMembership(){
-		// ���� ��û ������ ��ȸ�Ѵ� - �μ��ɻ� �����ϱ�
+		 // 가입 신청 정보를 조회한다 - 인수심사 진행하기
 		return m_ApplicationForMembershipListImpl.toString();
 	}
 
 	public String enquireInsuranceFeePaymentStatus(){
-		// ����� ���� ������ ��ȸ�Ѵ�
+		// 보험료 납입 정보를 조회한다
 		return "";
 	}
 
 	public String enquireInsuranceList(){
-		// ���� ����Ʈ ��ȸ�ϱ�
+		// 보험 리스트 조회하기
 		return "";
 	}
 
@@ -364,22 +375,23 @@ public class Control {
 	 * @param choice
 	 */
 	public String enquireInsuranceProductDetails(int choice){
-		// ���� ��ǰ ���� ���� ��ȸ�ϱ�
+		// 보험 상품 세부 정보 조회하기
 		return "";
 	}
 
 	public String enquireInsuranceProductDevelopmentInformation(){
-		// ���� ��ǰ ���� ���� ��ȸ�ϱ�
+		// 보험 상품 개발 정보 조회하기
 		return "";
 	}
 
 	public String enquireNewContractInformation(){
-		// �ű� ��������� ����Ѵ� - ���� �����ϱ�(���� �������� ��ȸ���� ����)
+		// 신규 계약정보를 출력한다 - 보험 가입하기(고객 세부정보 조회과정 포함)
 		return "";
 	}
 
+
 	public String enquirePassedCustomerInUW(){
-		// �μ��ɻ� �հ� ������ ����Ѵ� - ���� �����ϱ�
+		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
 		String temp = "";
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
 			if(m_ApplicationForMembershipListImpl.get(i).isUWResult())
@@ -392,7 +404,7 @@ public class Control {
 	}
 
 	public void enquireProductSalesSupportDetails(){
-		// ��ǰ �Ǹ� ���� �������� �����ϱ�..?
+		// 제품 판매 지원 세부정보 지원하기..?
 	}
 
 	/**
@@ -405,23 +417,24 @@ public class Control {
 	 */
 	public String enquireUWResult(String id, boolean automaticExaminationResult, boolean diagnosticExaminationResult, 
 			boolean imageExaminationResult, boolean specialExaminationResult, boolean generalExaminationResult){
-		// �μ��ɻ� ����� Ȯ���Ѵ� - �μ��ɻ� �����ϱ�
-		// �μ��ɻ� ���� ���� ����, �ɻ� ��� ���� ���� - ���� ���� ���
-		// �Ķ���� �߰�(String id)
-		String result = "�μ��ɻ翡 ���հ��Ͽ����ϴ�\n���� : ";
+		// 인수심사 결과를 확인한다 - 인수심사 진행하기
+		// 인수심사 실행 여부 수정, 심사 결과 수정 포함 - 이후 문구 출력
+		// 파라미터 추가(String id)
+		String result = "인수심사에 불합격하였습니다\n사유 : ";
 		m_ApplicationForMembershipListImpl.get(id).setUWExecutionStatus(true);
-		if(!automaticExaminationResult) return result += "�ڵ��ɻ�";
-		if(!diagnosticExaminationResult) return result += "���ܽɻ�";
-		if(!imageExaminationResult) return result += "�̹����ɻ�";
-		if(!specialExaminationResult) return result += "Ư�νɻ�";
-		if(!generalExaminationResult) return result += "�Ϲݽɻ�";
+		if(!automaticExaminationResult) return result += "자동심사";
+		if(!diagnosticExaminationResult) return result += "진단심사";
+		if(!imageExaminationResult) return result += "이미지심사";
+		if(!specialExaminationResult) return result += "특인심사";
+		if(!generalExaminationResult) return result += "일반심사";
 		m_ApplicationForMembershipListImpl.get(id).setUWResult(true);
-		result = "�μ��ɻ翡 �հ��Ͽ����ϴ�";
+		result = "인수심사에 합격하였습니다";
 		return result;
+	}
 
 
 	public String euqireInsuranceProductDesignForm(){
-		// ���� ��ǰ ���� ��� ��ȸ�ϱ�
+		// 보험 상품 설계 양식 조회하기
 		return "";
 	}
 
@@ -430,37 +443,39 @@ public class Control {
 	 * @param extendedExpirationDate
 	 */
 	public String extendContract(String extendedExpirationDate){
-		// ��� �����ϱ�
-	    return "";
+		// 계약 연장하기
+		return "";
 	}
 
 	public String initializeInsuranceFeePaymentStatus(){
-		// ����� ���Կ��θ� �ʱ�ȭ�Ѵ�
+		// 보험료 납입여부를 초기화한다
 		return "";
 	}
 
 	public void makeDecisionInsuranceProduct(){
-		// ���� ��ǰ ����...?
+		// 보험 상품 결정...?
 	}
+
 
 	/**
 	 * 
 	 * @param id
 	 */
 	public boolean makeInsuranceContract(String id){
-		// ���� ����� �Ѵ�
+		// 보험 계약을 한다
 		return false;
 	}
 
-	public String modifyCustomerInformation(String newInformation){
-		
+	public String modifyCustomerInformation(){
+		// 고객 정보 수정하기
 		return "";
 	}
 
 	public String payInsuranceMoney(){
-		// ����� �����ϱ�
+		// 보험금 지급하기
 		return "";
 	}
+
 
 	/**
 	 * 
@@ -468,17 +483,19 @@ public class Control {
 	 * @param id
 	 */
 	public String renewExpirationDate(String newExpirationDate, String id){
+		// 만기일을 갱신한다
 		return "";
 	}
 
 	public void requestAuthorizationOfCompany(){
-		// ȸ�� ���� ��û �ޱ�
+		// 회사 승인 요청 받기
 
-   }
+	}
 
 	public void requestAuthorizationOfFSS(){
-		// FSS�� ���� �ο��� ��û�ϱ�...?
+		// FSS(금융감독원)에 관한 부여를 요청하기...?
 	}
+
 
 	/**
 	 * 
@@ -486,6 +503,7 @@ public class Control {
 	 * @param amountOfInsuranceFee
 	 */
 	public String saveAmountOfInsuranceFee(String id, int amountOfInsuranceFee){
+		// 입력 보험금액 저장하기
 		return "";
 	}
 
@@ -497,21 +515,23 @@ public class Control {
 	 * @param evaluation
 	 */
 	public void saveCompensationManagementInformation(String targetCustomer, String compensationDevelopmentPlan, String InsuranceProductName, String evaluation){
+		// 보상운용정보를 저장한다
 	}
 
 	public void saveInsuranceDesignContent(){
-		// ���� ���� ���� �����ϱ�
+		// 보험 설계 내용 저장하기
 	}
 	/**
 	 * 
 	 * @param plannedContents
 	 */
 	public String savePlannedContents(String plannedContents){
+		// 계획 내용 저장하기
 		return "";
 	}
 
 	public void saveProductSalesSupportDetails(){
-		// ��ǰ �Ǹ� ���� ���� ���� �����ϱ�
+		// 제품 판매 지원 세부 정보 저장하기
 	}
 
 
