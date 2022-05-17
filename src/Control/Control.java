@@ -144,8 +144,7 @@ public class Control {
    public String enquireEmployeeCallStatusImformation(String id, String accidentLocation, String accidentType){
 	  AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
 	  String temp =  accidentReception.getAccidentID()+" "+accidentReception.getCustomerID()
-	  +" "+accidentReception.getCustomerName()+" "+accidentReception.isEmployeeCallStatus()
-	  +" "+accidentReception.getRemainingNumberOfTowTruckCalls()+" "+accidentReception.isTowTruckCallPresent();
+	  +" "+accidentReception.getCustomerName()+" "+accidentReception.isEmployeeCallStatus();
       return temp;
    }
    
