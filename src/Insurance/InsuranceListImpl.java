@@ -4,14 +4,14 @@ import java.util.ArrayList;
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 ¿ÀÈÄ 9:00:56
+ * @created 10-5-2022 ï¿½ï¿½ï¿½ï¿½ 9:00:56
  */
-public class InsuranceImpl implements InsuranceList {
+public class InsuranceListImpl implements InsuranceList {
 
 	private ArrayList<Insurance> insuranceList;
 	public Insurance m_Insurance;
 
-	public InsuranceImpl(){
+	public InsuranceListImpl(){
 
 	}
 

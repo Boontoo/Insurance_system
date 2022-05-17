@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 ¿ÀÈÄ 9:00:56
+ * @created 10-5-2022 ï¿½ï¿½ï¿½ï¿½ 9:00:56
  */
 public interface CustomerList {
 
@@ -38,7 +38,7 @@ public interface CustomerList {
 	 * 
 	 * @param name
 	 */
-	public ArrayList<Customer> get(String key, String type);
+	public ArrayList<Customer> get(int type, int key);
 
 	/**
 	 * 
@@ -49,7 +49,7 @@ public interface CustomerList {
 	 * 
 	 * @param birthDate
 	 */
-	public ArrayList<Customer> get(int key, String type);
+	public ArrayList<Customer> get(int type, String key);
 //	public ArrayList<Customer> get(int age);
 	/**
 	 * 
