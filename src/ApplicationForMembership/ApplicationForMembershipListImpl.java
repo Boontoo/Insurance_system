@@ -10,7 +10,7 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 
 	private ArrayList<ApplicationForMembership> applicationForMembershipList;
 	public ApplicationForMembership m_ApplicationForMembership;
-	private int size = 0;
+	private int size = 0; // 새로 만든 속성
 
 	public ApplicationForMembershipListImpl(){
 		applicationForMembershipList = new ArrayList<ApplicationForMembership>();
@@ -58,11 +58,20 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 	 */
 	public ApplicationForMembership get(String id){
 		for(int i = 0; i < size; i++) {
-			if(applicationForMembershipList.get(i).getId() == id) return applicationForMembershipList.get(i);
+			if(applicationForMembershipList.get(i).getId().equals(id)) return applicationForMembershipList.get(i);
 		}
 		return null;
 	}
-	
+	public int getSize() {
+		// 새로 만든 함수
+		return size;
+	}
+	@Override
+	public ApplicationForMembership get(int index) {
+		// 새로 만든 함수
+		if(index >= 0 && index < size) return applicationForMembershipList.get(index);
+		return null;
+	}
 	@Override
 	public String toString() {
 		// 새로 만듬

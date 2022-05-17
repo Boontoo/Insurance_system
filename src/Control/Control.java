@@ -28,9 +28,15 @@ public class Control {
 	public CompensationManagementListImpl m_CompensationManagementListImpl;
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
+	private ArrayList<ApplicationForMembership> enquirePassedCustomerList;
+	// Impl들 모두 private으로 바꿀 것
 
 	public Control(){
 		m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
+		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허엄", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
+		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보엉", "010-3737-2855", 24, true, "황혜경", "대학생", "990713-1058827"));
+		m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허어어", "010-3737-2855", 24, true, "유철민", "대학생", "990713-1058827"));
+		// 위 세개는 임시임
 	}
 
 	public void finalize() throws Throwable {
@@ -80,6 +86,10 @@ public class Control {
 		return true;
 	}
 	
+	public boolean checkAlreadyJudged(String id) {
+		return m_ApplicationForMembershipListImpl.get(id).isUWExecutionStatus();
+	}
+	
 	public boolean checkInID(String id) {
 		// 새로 만든 함수
 		return m_ApplicationForMembershipListImpl.checkInID(id);
@@ -87,10 +97,10 @@ public class Control {
 	public boolean checkPointInput(int buildingAgeScore, int fireEquipmentConditionScore, 
 			int buildingLocationScore, int buildingConditionScore) {
 		// 새로 만든 함수
-		if(!(buildingAgeScore > 0 && buildingAgeScore <= 20)) return false;
-		if(!(fireEquipmentConditionScore > 0 && fireEquipmentConditionScore <= 20)) return false;
-		if(!(buildingLocationScore > 0 && buildingLocationScore <= 20)) return false;
-		if(!(buildingConditionScore > 0 && buildingConditionScore <= 20)) return false;
+		if(!(buildingAgeScore >= 0 && buildingAgeScore <= 20)) return false;
+		if(!(fireEquipmentConditionScore >= 0 && fireEquipmentConditionScore <= 20)) return false;
+		if(!(buildingLocationScore >= 0 && buildingLocationScore <= 20)) return false;
+		if(!(buildingConditionScore >= 0 && buildingConditionScore <= 20)) return false;
 		return true;
 	}
 	
@@ -188,6 +198,11 @@ public class Control {
 		// 고객 정보를 삭제한다
 		return "";
 	}
+	
+	public String enquireApplicationForMembership(String id) {
+		// 새로 만든 함수
+		return m_ApplicationForMembershipListImpl.get(id).toString();
+	}
 
 	/**
 	 * 
@@ -279,7 +294,15 @@ public class Control {
 
 	public String enquirePassedCustomerInUW(){
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
-		return "";
+		String temp = "";
+		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
+			if(m_ApplicationForMembershipListImpl.get(i).isUWResult())
+				temp += m_ApplicationForMembershipListImpl.get(i).getId() + " " + 
+						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
+						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " +  
+						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
+		}
+		return temp;
 	}
 
 	public void enquireProductSalesSupportDetails(){

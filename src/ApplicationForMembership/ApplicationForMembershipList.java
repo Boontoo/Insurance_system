@@ -24,5 +24,7 @@ public interface ApplicationForMembershipList {
 	 * @param id
 	 */
 	public ApplicationForMembership get(String id);
+	public ApplicationForMembership get(int index);
+	// 새로 만든 함수
 
 }

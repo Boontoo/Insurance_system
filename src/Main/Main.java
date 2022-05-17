@@ -72,8 +72,6 @@ public class Main {
 		System.out.println("==================================");
 	}
 	
-	
-	
 	private void startUW(Scanner scanner) {
 		// 민재 - 인수심사 진행하기
 		while(true) {
@@ -88,18 +86,23 @@ public class Main {
 					continue;
 				}
 				System.out.println("입력 번호 : " + choice);
+				if(control.checkAlreadyJudged(choice + "")) {
+					System.out.println("이미 인수심사가 완료된 신청정보입니다. 다른 번호를 입력해 주세요");
+					continue;
+				}
 				boolean automaticExaminationResult = startAutomaticJudge(scanner, choice + "");
 				System.out.print("진단심사 결과(1.합격, 그이외.불합격) : ");
-				boolean diagnosticExaminationResult = (scanner.nextInt()==1);
+				boolean diagnosticExaminationResult = (scanner.next().equals("1"));
 				System.out.print("이미지심사 결과(1.합격, 그이외.불합격) : ");
-				boolean imageExaminationResult = (scanner.nextInt()==1);
+				boolean imageExaminationResult = (scanner.next().equals("1"));
 				System.out.print("특인심사 결과(1.합격, 그이외.불합격) : ");
-				boolean specialExaminationResult = (scanner.nextInt()==1);
+				boolean specialExaminationResult = (scanner.next().equals("1"));
 				System.out.print("일반심사 결과(1.합격, 그이외.불합격) : ");
-				boolean generalExaminationResult = (scanner.nextInt()==1);
+				boolean generalExaminationResult = (scanner.next().equals("1"));
 				String uwResult = control.enquireUWResult(choice + "", automaticExaminationResult, diagnosticExaminationResult, 
 						imageExaminationResult, specialExaminationResult, generalExaminationResult);
 				System.out.println(uwResult);
+				System.out.println("타보험사에 보낼 가입 희망 보험 정보\n" + control.enquireApplicationForMembership(choice + "")); // 이거 다시 확인
 				break;
 			}catch(InputMismatchException e) {
 				System.out.println("올바른 값을 입력해 주세요");
@@ -107,6 +110,7 @@ public class Main {
 				continue;
 			}
 		}
+		System.out.println("==================================");
 	}
 
 	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException{
@@ -116,18 +120,18 @@ public class Main {
 			boolean isOwnedBuilding = (scanner.nextInt()==1);
 			System.out.print("리모델링 여부(1.예, 그이외.아니오) : ");
 			boolean isRemodeling = (scanner.nextInt()==1);
-			System.out.print("건물 연식(점수 입력) : ");
+			System.out.print("건물 연식(점수 입력 - 0점~20점) : ");
 			int buildingAgeScore = scanner.nextInt();
-			System.out.print("화재 설비 상태(점수 입력) : ");
+			System.out.print("화재 설비 상태(점수 입력 - 0점~20점) : ");
 			int fireEquipmentConditionScore = scanner.nextInt();
-			System.out.print("건물 위치(점수 입력) : ");
+			System.out.print("건물 위치(점수 입력 - 0점~20점) : ");
 			int buildingLocationScore = scanner.nextInt();
-			System.out.print("건물 가격(점수 입력) : ");
+			System.out.print("건물 가격(점수 입력 - 0점~20점) : ");
 			int buildingConditionScore = scanner.nextInt();
 			//파라미터 길이 줄일 것
 			if(!control.checkPointInput(buildingAgeScore, fireEquipmentConditionScore, 
 					buildingLocationScore, buildingConditionScore)) {
-				System.out.println("범위에 맞는 가격을 다시 적어주세요");
+				System.out.println("범위에 맞는 점수를 다시 적어주세요");
 				continue;
 			}
 			return control.automaticJudge(id, isOwnedBuilding, isRemodeling, buildingAgeScore, 
@@ -138,6 +142,11 @@ public class Main {
 	
 	private void joinInsurance(Scanner scanner) {
 		// 민재 - 보험 가입하기
+		System.out.println(control.enquirePassedCustomerInUW());
+		System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
+		int choice = scanner.nextInt();
+		if(choice == 0) return;
+		
 	}
 	
 	private void reinsurance(Scanner scanner) {
@@ -202,6 +211,7 @@ public class Main {
 			
 			if(choice == 0)
 				break;
+			
 			switch(choice) {
 				case 1:
 					// 인배
