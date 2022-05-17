@@ -466,7 +466,7 @@ public class Control {
 		return false;
 	}
 
-	public String modifyCustomerInformation(){
+	public String modifyCustomerInformation(String newInformation){
 		// 고객 정보 수정하기
 		return "";
 	}
