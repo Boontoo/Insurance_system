@@ -16,19 +16,20 @@ public class ApplicationForMembership {
 	private String phoneNum;
 	private String SSN; // 주민 번호
 	private boolean UWExecutionStatus; // 인수심사 실행 여부
-	public boolean UWResult; // 인수심사 결과
+	private boolean UWResult; // 인수심사 결과
 
 	public ApplicationForMembership(){
 
 	}
 
-	public ApplicationForMembership(String wishInsurance, String phoneNum, int age, boolean gender, String name, String jop) {
+	public ApplicationForMembership(String wishInsurance, String phoneNum, int age, boolean gender, String name, String jop, String SSN) {
 		this.insuranceName = wishInsurance;
 		this.phoneNum = phoneNum;
 		this.age = age;
 		this.gender = gender;
 		this.name = name;
 		this.job = jop;
+		this.SSN = SSN;
 		this.UWExecutionStatus = false;
 		this.UWResult = false;
 	}
@@ -118,7 +119,8 @@ public class ApplicationForMembership {
 	}
 
 	public String toString(){
-		return "";
+		String genderStr = gender? "남자":"여자";
+		return id + " " + name + " " + insuranceName + " " + phoneNum + " " + age + " " + genderStr + " " + job + " " + UWExecutionStatus + " " + UWResult;
 	}
 
 }
