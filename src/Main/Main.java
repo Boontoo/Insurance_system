@@ -25,8 +25,8 @@ public class Main {
 
 	private void manageCustomerInformation(Scanner scanner) {
 		// 인배
-	// ex
-//		this.control.enquireCustomerInformation();
+		// ex
+		//this.control.enquireCustomerInformation();
 	}
 	
 	private void startContractMaintenanceActivities(Scanner scanner) {
@@ -62,8 +62,13 @@ public class Main {
 	}
 	
 	private void reportAccident(Scanner scanner) {
-		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기 
-		// 민우
+		System.out.println("----------------------------");
+		System.out.println("사고 처리를 시작합니다.");
+		while(true) {
+			String accidentID = null; String customerID = null; String customerName = null; boolean employeeCallStatus = false; int remainingNumberOfTowTruckCalls = 0; boolean towTruckCallPresent = false;
+			control.saveAccident(new AccidentReception(accidentID, customerID, customerName, employeeCallStatus, remainingNumberOfTowTruckCalls, towTruckCallPresent));
+			System.out.println();
+		}
 	}
 	
 	private void manageExpirationContract(Scanner scanner) {
@@ -140,8 +145,6 @@ public class Main {
 					main.payInsuranceMoney(scanner);
 					break;
 				case 10:
-					// 민우 사고 접수를 하다
-					// 일단 이 내용은 사고처리
 					main.reportAccident(scanner);
 					break;
 				case 11:
