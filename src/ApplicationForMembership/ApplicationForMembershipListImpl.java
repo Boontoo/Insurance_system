@@ -4,14 +4,13 @@ import java.util.ArrayList;
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 오후 9:00:55
+ * @created 10-5-2022 占쏙옙占쏙옙 9:00:55
  */
 public class ApplicationForMembershipListImpl implements ApplicationForMembershipList {
 
 	private ArrayList<ApplicationForMembership> applicationForMembershipList;
 	public ApplicationForMembership m_ApplicationForMembership;
-	private int size = 0; // 새로 만든 속성
-
+	private int size = 0; 
 	public ApplicationForMembershipListImpl(){
 		applicationForMembershipList = new ArrayList<ApplicationForMembership>();
 	}
@@ -25,7 +24,6 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 	 * @param applicationForMembership
 	 */
 	public boolean add(ApplicationForMembership applicationForMembership){
-		// 파라미터 길이 짧게 바꾸기
 		boolean result = applicationForMembershipList.add(applicationForMembership);
 		applicationForMembershipList.get(applicationForMembershipList.size()-1).setId(++size + "");
 		return result;
@@ -63,18 +61,15 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 		return null;
 	}
 	public int getSize() {
-		// 새로 만든 함수
 		return size;
 	}
 	@Override
 	public ApplicationForMembership get(int index) {
-		// 새로 만든 함수
 		if(index >= 0 && index < size) return applicationForMembershipList.get(index);
 		return null;
 	}
 	@Override
 	public String toString() {
-		// 새로 만듬
 		String tmp = "";
 		for(ApplicationForMembership applicationForMembership : applicationForMembershipList)
 			tmp += applicationForMembership + "\n";

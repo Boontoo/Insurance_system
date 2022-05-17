@@ -3,10 +3,10 @@ package ApplicationForMembership;
 /**
  * @author dlsqo
  * @version 1.0
- * @created 10-5-2022 ¿ÀÈÄ 9:00:55
+ * @created 10-5-2022 ï¿½ï¿½ï¿½ï¿½ 9:00:55
  */
 public class ApplicationForMembership {
-	// °¡ÀÔ ½ÅÃ» °í°´ Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private int age;
 	private boolean gender;
 	private String id;
@@ -14,9 +14,9 @@ public class ApplicationForMembership {
 	private String job;
 	private String name;
 	private String phoneNum;
-	private String SSN; // ÁÖ¹Î ¹øÈ£
-	private boolean UWExecutionStatus; // ÀÎ¼ö½É»ç ½ÇÇà ¿©ºÎ
-	private boolean UWResult; // ÀÎ¼ö½É»ç °á°ú
+	private String SSN; // ï¿½Ö¹ï¿½ ï¿½ï¿½È£
+	private boolean UWExecutionStatus; // ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private boolean UWResult; // ï¿½Î¼ï¿½ï¿½É»ï¿½ ï¿½ï¿½ï¿½
 
 	public ApplicationForMembership(){
 
@@ -119,7 +119,7 @@ public class ApplicationForMembership {
 	}
 
 	public String toString(){
-		String genderStr = gender? "³²ÀÚ":"¿©ÀÚ";
+		String genderStr = gender? "ë‚¨ì":"ì—¬ì";
 		return id + " " + name + " " + insuranceName + " " + phoneNum + " " + age + " " + genderStr + " " + job + " " + UWExecutionStatus + " " + UWResult;
 	}
 
