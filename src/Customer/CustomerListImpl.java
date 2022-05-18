@@ -10,10 +10,12 @@ import java.util.Date;
 public class CustomerListImpl implements CustomerList {
 
 	private ArrayList<Customer> customerList = new ArrayList<Customer>();
+	private ArrayList<Customer> deletedCustomerList = new ArrayList<Customer>();
 	public Customer m_Customer;
 
 	public CustomerListImpl(){
 		Customer customer = new Customer();
+		customer.setId("0");
 		customer.setAge(22);
 		customer.setBirthDate(20010213);
 		customer.setGender(true);
@@ -38,6 +40,13 @@ public class CustomerListImpl implements CustomerList {
 	}
 
 	public boolean delete(String customerID){
+		for(Customer customer : this.customerList) {
+			if(customer.getId().equals(customerID)) {
+				this.deletedCustomerList.add(customer);
+				this.customerList.remove(customer);
+				return true;
+			}
+		}
 		return false;
 	}
 

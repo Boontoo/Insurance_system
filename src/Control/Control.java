@@ -203,9 +203,21 @@ public class Control {
 		return 0;
 	}
 
-	public String deleteCustomerInformation(){
+	public String deleteCustomerInformation(int index, String id){
 		// 고객 정보를 삭제한다
-		return "";
+		boolean bDelete = false;
+		if(this.customerList.get(index-1).getId().equals(id)) {
+			// 고객ID가 확인되었습니다. 메시지 출력 필요
+			String result = "고객ID가 확인되었습니다.";
+			bDelete = this.m_CustomerListImpl.delete(id);
+			if(bDelete) {
+				// 삭제완료
+				result = result + "\n" + "삭제완료되었습니다.";
+				return result;
+			}
+		}
+		
+		return "고객ID와 일치하지 않습니다. 다시 입력해주세요.";
 	}
 
 	public String enquireApplicationForMembership(String id) {
@@ -493,9 +505,24 @@ public class Control {
 		return false;
 	}
 
-	public String modifyCustomerInformation(String newInformation){
+	public String modifyCustomerInformation(int index, int type, String newInformation){
 		// 고객 정보 수정하기
-		return "";
+		switch(type) {
+		case 1:
+			this.customerList.get(index-1).setName(newInformation);
+			break;
+		case 2:
+			this.customerList.get(index-1).setAge(Integer.parseInt(newInformation));
+			break;
+		case 3:
+//			this.customerList.get(index).setJob
+			break;
+		case 4:
+			this.customerList.get(index-1).setPhoneNum(newInformation);
+			break;
+		}
+//		this.customerList.get(index).set
+		return "저장되었습니다!";
 	}
 
 	public String payInsuranceMoney(){

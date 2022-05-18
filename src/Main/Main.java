@@ -35,30 +35,30 @@ public class Main {
 			int choice = scanner.nextInt();
 
 			switch(choice) {
-			case 1:
-				System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
-				System.out.println("1.이름");
-				System.out.println("2.나이");
-				System.out.println("3.성별");
-				System.out.println("4.생년월일");
-				int type = scanner.nextInt();
-				System.out.println("조회할 고객 정보를 입력하세요.");
-				String key = scanner.next();
-				System.out.println(this.control.enquireCustomerInformation(type, key));
-				//if null 필요
-				System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
-				int index = scanner.nextInt();
-				System.out.println(this.control.enquireCustomerDetailInformation(index));
-
-				this.modifyOrDeleteCustomerInformation(scanner, bOnLoop,index);
-				break;
-				//		   			bOnLoop = false;
-			case 2:
-				bOnLoop = false;
-				break;
-			default:
-				System.out.println("잘못 선택하셨습니다. 다시 선택해주세요.");
-				break;
+				case 1:
+					System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
+					System.out.println("1.이름");
+					System.out.println("2.나이");
+					System.out.println("3.성별");
+					System.out.println("4.생년월일");
+					int type = scanner.nextInt();
+					System.out.println("조회할 고객 정보를 입력하세요.");
+					String key = scanner.next();
+					System.out.println(this.control.enquireCustomerInformation(type, key));
+					//if null 필요
+					System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
+					int index = scanner.nextInt();
+					System.out.println(this.control.enquireCustomerDetailInformation(index));
+	
+					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
+					break;
+					//		   			bOnLoop = false;
+				case 2:
+					bOnLoop = false;
+					break;
+				default:
+					System.out.println("잘못 선택하셨습니다. 다시 선택해주세요.");
+					break;
 			}
 		}
 	}
@@ -71,45 +71,60 @@ public class Main {
 			System.out.println("3.고객 정보 재조회");
 			int choice = scanner.nextInt();
 			switch(choice) {
-			case 1:
-				System.out.println("고객 정보를 수정한다.");
-				while(true) {
-					System.out.println("어떤 정보를 수정하시겠습니까?");
-					System.out.println("1.이름");
-					System.out.println("2.나이");
-					System.out.println("3.직업");
-					System.out.println("4.전화번호");
-					//	   				System.out.println();
-					choice = scanner.nextInt();
-					System.out.println("새로운 정보를 입력해주세요.");
-					String newInformation = scanner.next();
-					if(newInformation != null) {
-						System.out.println(control.checkCustomerInformation(index, choice, newInformation));
-						System.out.println("1.저장");
-						System.out.println("2.재작성");
-						choice = scanner.nextInt();
-						//							switch(choose)
-						if(choice == 1) {
-							control.modifyCustomerInformation(newInformation);
-							return;
-							//								bOnLoop = false;
+				case 1:
+					System.out.println("고객 정보를 수정한다.");
+					while(true) {
+						System.out.println("어떤 정보를 수정하시겠습니까?");
+						System.out.println("1.이름");
+						System.out.println("2.나이");
+						System.out.println("3.직업");
+						System.out.println("4.전화번호");
+						//	   				System.out.println();
+						int type = scanner.nextInt();
+						System.out.println("새로운 정보를 입력해주세요.");
+						String newInformation = scanner.next();
+						if(newInformation != null) {
+							//////////////////////////
+							System.out.println(control.checkCustomerInformation(index, choice, newInformation));
+							System.out.println("1.저장");
+							System.out.println("2.재작성");
+							choice = scanner.nextInt();
+							//							switch(choose)
+							if(choice == 1) {
+								System.out.println(control.modifyCustomerInformation(index, type, newInformation));
+								System.out.println(this.control.enquireCustomerDetailInformation(index));
+								return;
+								//								bOnLoop = false;
+							}
+							else if(choice == 2) {
+								break;
+							}
+						} else {
+							System.out.println("수정 정보를 다시 입력해주세요.");
 						}
-						else if(choice == 2) {
-							//								break;
-						}
-					} else {
-						System.out.println("수정 정보를 다시 입력해주세요.");
 					}
-				}
-				//					break;
-			case 2:
-				control.deleteCustomerInformation();
-				bOnLoop = false;
-				break;
-			case 3:
-				return;
-				//					bOnLoop = false;
-				//					break;
+					break;
+				case 2:
+					System.out.println(this.control.enquireCustomerDetailInformation(index));
+					System.out.println("해당 고객을 삭제하겠습니까?");
+					System.out.println("1.삭제");
+					System.out.println("2.뒤로가기");
+					choice = scanner.nextInt();
+					if(choice == 1) {
+						System.out.println("삭제 고객ID를 입력하세요.");
+						String id = scanner.next();
+						System.out.println(control.deleteCustomerInformation(index, id));
+					}
+					else if(choice == 2) {
+						break;
+					}
+					//수정필요
+					bOnLoop = false;
+					break;
+				case 3:
+					return;
+					//					bOnLoop = false;
+					//					break;
 			}
 		}
 	}
