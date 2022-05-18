@@ -238,6 +238,29 @@ public class Main {
 				System.out.println("번호에 해당하는 고객이 없습니다");
 				continue;
 			}
+			System.out.println("[선택 고객 세부 정보]");
+			System.out.println(control.enquireCustDetailInfoFromEnquirePassedList(choice));
+			System.out.print("가입 신청 하시겠습니까?(1. 예, 그이외. 뒤로가기) : ");
+			String checkInput = scanner.next();
+			if(!checkInput.equals("1")) continue;
+			if(control.makeInsuranceContract(choice, checkDate(scanner)))
+				System.out.println("가입 신청이 완료되었습니다(신규 가입 정보)");
+			System.out.println(control.enquireNewContractInformation());
+			System.out.println("============================");
+			break;
+		}
+	}
+
+	private String checkDate(Scanner scanner) {
+		// 새로 만든 함수
+		while(true) {
+			System.out.print("지정할 만기일(YYYY-MM-DD) : ");
+			String date = scanner.next();
+			if(!control.checkInputDateFormat(date)) {
+				System.out.println("날짜 입력 형식이 올바르지 않습니다.");
+				continue;
+			}
+			return date;
 		}
 	}
 

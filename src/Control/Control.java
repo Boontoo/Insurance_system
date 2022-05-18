@@ -1,5 +1,6 @@
 package Control;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,10 @@ public class Control {
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허엄", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보엉", "010-3737-2855", 24, true, "황혜경", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허어어", "010-3737-2855", 24, true, "유철민", "대학생", "990713-1058827"));
+		this.m_ApplicationForMembershipListImpl.get(0).setUWExecutionStatus(true);
+		this.m_ApplicationForMembershipListImpl.get(2).setUWExecutionStatus(true);
+		this.m_ApplicationForMembershipListImpl.get(0).setUWResult(true);
+		this.m_ApplicationForMembershipListImpl.get(2).setUWResult(true);
 		// 위 세개는 임시임
 	}
 
@@ -119,9 +124,17 @@ public class Control {
 	 * 
 	 * @param date
 	 */
-	private String checkInputDateFormat(String date){
-		// 입력 날짜형식을 확인하기
-		return "";
+	public boolean checkInputDateFormat(String date){
+		// 입력 날짜형식을 확인하기(반환형 변경 String -> boolean)
+		// private -> public
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			format.setLenient(false);
+			format.parse(date);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -307,10 +320,14 @@ public class Control {
 	}
 	
 	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
-		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)
+		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
+		String genderStr = (enquirePassedCustomerList.get(choice-1).isGender())? "남자":"여자";
 		String result = "이름 : " + enquirePassedCustomerList.get(choice-1).getName() + 
-						"주민번호 : " + enquirePassedCustomerList.get(choice-1);
-		return null;
+						"\n주민번호 : " + enquirePassedCustomerList.get(choice-1).getSSN() + 
+						"\n전화번호 : " + enquirePassedCustomerList.get(choice-1).getPhoneNum() + 
+						"\n성별 : " + genderStr + 
+						"\n가입 요청 보험명 : " + enquirePassedCustomerList.get(choice-1).getInsuranceName();
+		return result;
 	}
 
 	public String checkCustomerInformation(int index, int choice, String newInformation) {
@@ -415,7 +432,7 @@ public class Control {
 
 	public String enquireNewContractInformation(){
 		// 신규 계약정보를 출력한다 - 보험 가입하기(고객 세부정보 조회과정 포함)
-		return "";
+		return m_ContractListImpl.get(m_ContractListImpl.getSize()-1).toString();
 	}
 
 
@@ -423,11 +440,11 @@ public class Control {
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
 		String temp = "";
 		enquirePassedCustomerList = new ArrayList<ApplicationForMembership>();
-		
+		int choice = 0;
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
 			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
 				enquirePassedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
-				temp += m_ApplicationForMembershipListImpl.get(i).getId() + " " + 
+				temp += ++choice + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " +  
 						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
@@ -436,10 +453,7 @@ public class Control {
 		return temp;
 	}
 	public boolean checkInIDUW(int choice) {
-		for(ApplicationForMembership applicationForMembership : enquirePassedCustomerList) {
-			if(applicationForMembership.getId().equals(choice+"")) return true;
-		}
-		return false;
+		return (choice > 0 && choice <= enquirePassedCustomerList.size());
 	}
 	
 	public void enquireProductSalesSupportDetails(){
@@ -500,9 +514,15 @@ public class Control {
 	 * 
 	 * @param id
 	 */
-	public boolean makeInsuranceContract(String id){
-		// 보험 계약을 한다
-		return false;
+	public boolean makeInsuranceContract(int choice, String expirationDate){
+		// 보험 계약을 한다(파라미터 변경 id->choice)
+		boolean result = m_ContractListImpl.add(new Contract(enquirePassedCustomerList.get(choice-1).getName(), 
+				expirationDate, enquirePassedCustomerList.get(choice-1).isGender(), 
+				enquirePassedCustomerList.get(choice-1).getInsuranceName(), 
+				enquirePassedCustomerList.get(choice-1).getPhoneNum(), 
+				enquirePassedCustomerList.get(choice-1).getSSN()));
+		enquirePassedCustomerList.remove(choice-1);
+		return result;
 	}
 
 	public String modifyCustomerInformation(String newInformation){

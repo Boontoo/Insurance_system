@@ -8,7 +8,7 @@ package Contract;
 public class Contract {
 
 	private String customerName;
-	private String expirationDate;
+	private String expirationDate; // 만기일
 	private boolean gender;
 	private String id;
 	private String insuranceName;
@@ -19,6 +19,21 @@ public class Contract {
 
 	public Contract(){
 		
+	}
+	public Contract(String customerName, 
+					String expirationDate, 
+					boolean gender, 
+					String insuranceName, 
+					String phoneNum, 
+					String SSN) {
+		this.customerName = customerName;
+		this.expirationDate = expirationDate;
+		this.gender = gender;
+		this.insuranceName = insuranceName;
+		this.paymentAmount = 10000; // 임시 지정
+		this.phoneNum = phoneNum;
+		this.SSN = SSN;
+		this.PaymentStatus = false;
 	}
 
 	public void finalize() throws Throwable {
@@ -100,7 +115,15 @@ public class Contract {
 	}
 
 	public String toString(){
-		return "";
+		return id + " " + 
+				customerName + " " + 
+				expirationDate + " " + 
+				insuranceName + " " + 
+				paymentAmount + " " + 
+				phoneNum + " " + 
+				SSN + " " + 
+				gender + " " + 
+				PaymentStatus;
 	}
 
 }
