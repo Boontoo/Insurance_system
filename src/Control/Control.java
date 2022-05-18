@@ -1,5 +1,6 @@
 package Control;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,10 @@ public class Control {
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허엄", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보엉", "010-3737-2855", 24, true, "황혜경", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("보허어어", "010-3737-2855", 24, true, "유철민", "대학생", "990713-1058827"));
+		this.m_ApplicationForMembershipListImpl.get(0).setUWExecutionStatus(true);
+		this.m_ApplicationForMembershipListImpl.get(2).setUWExecutionStatus(true);
+		this.m_ApplicationForMembershipListImpl.get(0).setUWResult(true);
+		this.m_ApplicationForMembershipListImpl.get(2).setUWResult(true);
 		// 위 세개는 임시임
 	}
 
@@ -67,10 +72,6 @@ public class Control {
 		return result;
 		// 입력 고객 정보 저장까지 포함
 	}
-
-	
-	
-
 	/**
 	 * 
 	 * @param id
@@ -123,9 +124,17 @@ public class Control {
 	 * 
 	 * @param date
 	 */
-	private String checkInputDateFormat(String date){
-		// 입력 날짜형식을 확인하기
-		return "";
+	public boolean checkInputDateFormat(String date){
+		// 입력 날짜형식을 확인하기(반환형 변경 String -> boolean)
+		// private -> public
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			format.setLenient(false);
+			format.parse(date);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -300,7 +309,6 @@ public class Control {
 	 * @param choice
 	 */
 	public String enquireCustomerDetailInformation(int choice) {
-		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)
 		Customer customer = this.customerList.get(choice-1);
 		String result = "";
 		result = result + "이름: " + customer.getName() + ", ";
@@ -320,6 +328,17 @@ public class Control {
 		}
 		result = result + "), ";
 		result = result + "특이사항: " + customer.getUniqueness();
+		return result;
+	}
+	
+	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
+		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
+		String genderStr = (enquirePassedCustomerList.get(choice-1).isGender())? "남자":"여자";
+		String result = "이름 : " + enquirePassedCustomerList.get(choice-1).getName() + 
+						"\n주민번호 : " + enquirePassedCustomerList.get(choice-1).getSSN() + 
+						"\n전화번호 : " + enquirePassedCustomerList.get(choice-1).getPhoneNum() + 
+						"\n성별 : " + genderStr + 
+						"\n가입 요청 보험명 : " + enquirePassedCustomerList.get(choice-1).getInsuranceName();
 		return result;
 	}
 
@@ -425,23 +444,30 @@ public class Control {
 
 	public String enquireNewContractInformation(){
 		// 신규 계약정보를 출력한다 - 보험 가입하기(고객 세부정보 조회과정 포함)
-		return "";
+		return m_ContractListImpl.get(m_ContractListImpl.getSize()-1).toString();
 	}
 
 
 	public String enquirePassedCustomerInUW(){
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
 		String temp = "";
+		enquirePassedCustomerList = new ArrayList<ApplicationForMembership>();
+		int choice = 0;
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
-			if(m_ApplicationForMembershipListImpl.get(i).isUWResult())
-				temp += m_ApplicationForMembershipListImpl.get(i).getId() + " " + 
+			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
+				enquirePassedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
+				temp += ++choice + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " +  
 						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
+			}
 		}
 		return temp;
 	}
-
+	public boolean checkInIDUW(int choice) {
+		return (choice > 0 && choice <= enquirePassedCustomerList.size());
+	}
+	
 	public void enquireProductSalesSupportDetails(){
 		// 제품 판매 지원 세부정보 지원하기..?
 	}
@@ -500,9 +526,15 @@ public class Control {
 	 * 
 	 * @param id
 	 */
-	public boolean makeInsuranceContract(String id){
-		// 보험 계약을 한다
-		return false;
+	public boolean makeInsuranceContract(int choice, String expirationDate){
+		// 보험 계약을 한다(파라미터 변경 id->choice)
+		boolean result = m_ContractListImpl.add(new Contract(enquirePassedCustomerList.get(choice-1).getName(), 
+				expirationDate, enquirePassedCustomerList.get(choice-1).isGender(), 
+				enquirePassedCustomerList.get(choice-1).getInsuranceName(), 
+				enquirePassedCustomerList.get(choice-1).getPhoneNum(), 
+				enquirePassedCustomerList.get(choice-1).getSSN()));
+		enquirePassedCustomerList.remove(choice-1);
+		return result;
 	}
 
 	public String modifyCustomerInformation(int index, int type, String newInformation){

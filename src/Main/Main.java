@@ -216,7 +216,7 @@ public class Main {
 	}
 
 	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException{
-		// 새로 만든 함수
+		// 새로 만든 함수(자동심사)
 		while(true) {
 			System.out.print("본인 소유의 건물(1.예, 그이외.아니오) : ");
 			boolean isOwnedBuilding = (scanner.nextInt()==1);
@@ -244,11 +244,39 @@ public class Main {
 
 	private void joinInsurance(Scanner scanner) {
 		// 민재 - 보험 가입하기
-		System.out.println(control.enquirePassedCustomerInUW());
-		System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
-		int choice = scanner.nextInt();
-		if(choice == 0) return;
+		while(true) {
+			System.out.println(control.enquirePassedCustomerInUW());
+			System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
+			int choice = scanner.nextInt();
+			if(choice == 0) return;
+			if(!control.checkInIDUW(choice)) {
+				System.out.println("번호에 해당하는 고객이 없습니다");
+				continue;
+			}
+			System.out.println("[선택 고객 세부 정보]");
+			System.out.println(control.enquireCustDetailInfoFromEnquirePassedList(choice));
+			System.out.print("가입 신청 하시겠습니까?(1. 예, 그이외. 뒤로가기) : ");
+			String checkInput = scanner.next();
+			if(!checkInput.equals("1")) continue;
+			if(control.makeInsuranceContract(choice, checkDate(scanner)))
+				System.out.println("가입 신청이 완료되었습니다(신규 가입 정보)");
+			System.out.println(control.enquireNewContractInformation());
+			System.out.println("============================");
+			break;
+		}
+	}
 
+	private String checkDate(Scanner scanner) {
+		// 새로 만든 함수
+		while(true) {
+			System.out.print("지정할 만기일(YYYY-MM-DD) : ");
+			String date = scanner.next();
+			if(!control.checkInputDateFormat(date)) {
+				System.out.println("날짜 입력 형식이 올바르지 않습니다.");
+				continue;
+			}
+			return date;
+		}
 	}
 
 	private void reinsurance(Scanner scanner) {
@@ -296,7 +324,7 @@ public class Main {
 			System.out.println("렉카콜을 호출하시겠습니까?");
 			System.out.println("1.yes");
 			System.out.println("2.no");
-			int choice = scanner.nextInt();
+//			int choice = scanner.nextInt(); 민우형이 처리하기로
 			//관할 렉카 협력업체에 보험가입자 이름, 사고위치, 사고유형을 자동 메시지로 보낸다.
 			
 			int remainingNumberOfTowTruckCalls = 0;
