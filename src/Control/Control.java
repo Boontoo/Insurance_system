@@ -32,7 +32,6 @@ public class Control {
 	public CompensationManagementListImpl m_CompensationManagementListImpl;
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
-	private ArrayList<ApplicationForMembership> enquirePassedCustomerList;
 	// Impl들 모두 private으로 바꿀 것
 
 	public Control(){
@@ -68,8 +67,7 @@ public class Control {
 		// 가입 신청을 한다 - 가입 신청하기
 		// 반환형 변경(void -> boolean)
 		if(!checkInputImformation(insurance, phoneNum, age, SSN, name, jop)) return false;
-		boolean result = m_ApplicationForMembershipListImpl.add(new ApplicationForMembership(insurance, phoneNum, age, gender, name, jop, SSN));
-		return result;
+		return m_ApplicationForMembershipListImpl.add(new ApplicationForMembership(insurance, phoneNum, age, gender, name, jop, SSN));
 		// 입력 고객 정보 저장까지 포함
 	}
 	/**
@@ -229,9 +227,11 @@ public class Control {
 		return "고객ID와 일치하지 않습니다. 다시 입력해주세요.";
 	}
 
-	public String enquireApplicationForMembership(String id) {
+	public ApplicationForMembership getApplicationForMembership(String id) {
 		// 새로 만든 함수
-		return m_ApplicationForMembershipListImpl.get(id).toString();
+		// 생성자 변경 (String -> ApplicationForMembership)
+		// 이름 변경 (enquireApplicationForMembership -> getApplicationForMembership)
+		return m_ApplicationForMembershipListImpl.get(id);
 	}
 
 	/**
@@ -333,13 +333,8 @@ public class Control {
 	
 	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
 		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
-		String genderStr = (enquirePassedCustomerList.get(choice-1).isGender())? "남자":"여자";
-		String result = "이름 : " + enquirePassedCustomerList.get(choice-1).getName() + 
-						"\n주민번호 : " + enquirePassedCustomerList.get(choice-1).getSSN() + 
-						"\n전화번호 : " + enquirePassedCustomerList.get(choice-1).getPhoneNum() + 
-						"\n성별 : " + genderStr + 
-						"\n가입 요청 보험명 : " + enquirePassedCustomerList.get(choice-1).getInsuranceName();
-		return result;
+		// 변경 사항 -> 삭제
+		return null;
 	}
 
 	public String checkCustomerInformation(int index, int choice, String newInformation) {
@@ -413,9 +408,10 @@ public class Control {
 		return "";
 	}
 
-	public String enquireInformationAboutApplicationForMembership(){
-		 // 가입 신청 정보를 조회한다 - 인수심사 진행하기
-		return m_ApplicationForMembershipListImpl.toString();
+	public ArrayList<ApplicationForMembership> enquireInformationAboutApplicationForMembership(){
+		// 가입 신청 정보를 조회한다 - 인수심사 진행하기
+		// 반환형 변경(String -> ArrayList)
+		return m_ApplicationForMembershipListImpl.getApplicationForMembershipList();
 	}
 
 	public String enquireInsuranceFeePaymentStatus(){
@@ -442,30 +438,22 @@ public class Control {
 		return "";
 	}
 
-	public String enquireNewContractInformation(){
+	public Contract enquireNewContractInformation(){
 		// 신규 계약정보를 출력한다 - 보험 가입하기(고객 세부정보 조회과정 포함)
-		return m_ContractListImpl.get(m_ContractListImpl.getSize()-1).toString();
+		return m_ContractListImpl.get(m_ContractListImpl.getSize()-1);
 	}
 
 
-	public String enquirePassedCustomerInUW(){
+	public ArrayList<ApplicationForMembership> getPassedCustomerInUW(){
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
-		String temp = "";
-		enquirePassedCustomerList = new ArrayList<ApplicationForMembership>();
-		int choice = 0;
-		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
-			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
-				enquirePassedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
-				temp += ++choice + " " + 
-						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
-						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " +  
-						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
-			}
-		}
-		return temp;
+		// 반환형 변경(String -> ArrayList)
+		// 이름 변경(enquire -> get)
+		return m_ApplicationForMembershipListImpl.getPassedCustomerInUW();
 	}
 	public boolean checkInIDUW(int choice) {
-		return (choice > 0 && choice <= enquirePassedCustomerList.size());
+		// 변경 사항 - 삭제
+//		return (choice > 0 && choice <= enquirePassedCustomerList.size());
+		return false;
 	}
 	
 	public void enquireProductSalesSupportDetails(){
@@ -474,24 +462,24 @@ public class Control {
 
 	/**
 	 * 
-	 * @param automaticExaminationResult
-	 * @param diagnosticExaminationResult
-	 * @param imageExaminationResult
-	 * @param specialExaminationResult
-	 * @param generalExaminationResult
+	 * @param automaticER
+	 * @param diagnosticER
+	 * @param imageER
+	 * @param specialER
+	 * @param generalER
 	 */
-	public String enquireUWResult(String id, boolean automaticExaminationResult, boolean diagnosticExaminationResult, 
-			boolean imageExaminationResult, boolean specialExaminationResult, boolean generalExaminationResult){
+	public String enquireUWResult(String id, boolean automaticER, boolean diagnosticER, 
+			boolean imageER, boolean specialER, boolean generalER){
 		// 인수심사 결과를 확인한다 - 인수심사 진행하기
 		// 인수심사 실행 여부 수정, 심사 결과 수정 포함 - 이후 문구 출력
 		// 파라미터 추가(String id)
 		String result = "인수심사에 불합격하였습니다\n사유 : ";
 		m_ApplicationForMembershipListImpl.get(id).setUWExecutionStatus(true);
-		if(!automaticExaminationResult) return result += "자동심사";
-		if(!diagnosticExaminationResult) return result += "진단심사";
-		if(!imageExaminationResult) return result += "이미지심사";
-		if(!specialExaminationResult) return result += "특인심사";
-		if(!generalExaminationResult) return result += "일반심사";
+		if(!automaticER) return result += "자동심사";
+		if(!diagnosticER) return result += "진단심사";
+		if(!imageER) return result += "이미지심사";
+		if(!specialER) return result += "특인심사";
+		if(!generalER) return result += "일반심사";
 		m_ApplicationForMembershipListImpl.get(id).setUWResult(true);
 		result = "인수심사에 합격하였습니다";
 		return result;
@@ -526,14 +514,13 @@ public class Control {
 	 * 
 	 * @param id
 	 */
-	public boolean makeInsuranceContract(int choice, String expirationDate){
+	public boolean makeInsuranceContract(ApplicationForMembership passedCustomer, String expirationDate){
 		// 보험 계약을 한다(파라미터 변경 id->choice)
-		boolean result = m_ContractListImpl.add(new Contract(enquirePassedCustomerList.get(choice-1).getName(), 
-				expirationDate, enquirePassedCustomerList.get(choice-1).isGender(), 
-				enquirePassedCustomerList.get(choice-1).getInsuranceName(), 
-				enquirePassedCustomerList.get(choice-1).getPhoneNum(), 
-				enquirePassedCustomerList.get(choice-1).getSSN()));
-		enquirePassedCustomerList.remove(choice-1);
+		boolean result = m_ContractListImpl.add(new Contract(passedCustomer.getName(), 
+				expirationDate, passedCustomer.isGender(), 
+				passedCustomer.getInsuranceName(), 
+				passedCustomer.getPhoneNum(), 
+				passedCustomer.getSSN()));
 		return result;
 	}
 
