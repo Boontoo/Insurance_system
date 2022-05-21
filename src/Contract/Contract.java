@@ -7,32 +7,23 @@ package Contract;
  */
 public class Contract {
 
-	private String customerName;
+	private String customerID;
 	private String expirationDate; // 만기일
-	private boolean gender;
 	private String id;
-	private String insuranceName;
+	private String insuranceID;
 	private int paymentAmount;
 	private boolean PaymentStatus;
-	private String phoneNum;
-	private String SSN;
-
+	
 	public Contract(){
 		
 	}
-	public Contract(String customerName, 
+	public Contract(String customerID, 
 					String expirationDate, 
-					boolean gender, 
-					String insuranceName, 
-					String phoneNum, 
-					String SSN) {
-		this.customerName = customerName;
+					String insuranceID) {
+		this.customerID = customerID;
 		this.expirationDate = expirationDate;
-		this.gender = gender;
-		this.insuranceName = insuranceName;
+		this.insuranceID = insuranceID;
 		this.paymentAmount = 10000; // 임시 지정
-		this.phoneNum = phoneNum;
-		this.SSN = SSN;
 		this.PaymentStatus = false;
 	}
 
@@ -42,12 +33,12 @@ public class Contract {
 
 	
 	
-	public String getCustomerName() {
-		return customerName;
+	public String getCustomerID() {
+		return customerID;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
 	}
 
 	public String getExpirationDate() {
@@ -57,15 +48,7 @@ public class Contract {
 	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-
-	public boolean isGender() {
-		return gender;
-	}
-
-	public void setGender(boolean gender) {
-		this.gender = gender;
-	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -74,12 +57,12 @@ public class Contract {
 		this.id = id;
 	}
 
-	public String getInsuranceName() {
-		return insuranceName;
+	public String getinsuranceID() {
+		return insuranceID;
 	}
 
-	public void setInsuranceName(String insuranceName) {
-		this.insuranceName = insuranceName;
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
 	}
 
 	public int getPaymentAmount() {
@@ -98,31 +81,16 @@ public class Contract {
 		PaymentStatus = paymentStatus;
 	}
 
-	public String getPhoneNum() {
-		return phoneNum;
-	}
-
-	public void setPhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
-	}
-
-	public String getSSN() {
-		return SSN;
-	}
-
-	public void setSSN(String sSN) {
-		SSN = sSN;
-	}
 
 	public String toString(){
 		return id + " " + 
-				customerName + " " + 
+//				customerName + " " + 
 				expirationDate + " " + 
-				insuranceName + " " + 
+//				insuranceName + " " + 
 				paymentAmount + " " + 
-				phoneNum + " " + 
-				SSN + " " + 
-				gender + " " + 
+//				phoneNum + " " + 
+//				SSN + " " + 
+//				gender + " " + 
 				PaymentStatus;
 	}
 

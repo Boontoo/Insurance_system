@@ -14,16 +14,12 @@ public class ContractListImpl implements ContractList {
 
 	public ContractListImpl(){
 		Contract contract = new Contract();
-		contract.setCustomerName("문인배");
-		contract.setGender(true);
+		contract.setCustomerID("문인배");
 		contract.setId(++size + "");
 		// 인배야 이거도 바꿨다잉
-		contract.setInsuranceName("일반화재보험");
+		contract.setInsuranceID("일반화재보험");
 		contract.setPaymentAmount(10000);
 		contract.setPaymentStatus(true);
-		contract.setPhoneNum("010-6800-4320");
-		// 인배야 이거로 통일하자
-		contract.setSSN("60201672");
 		this.contractList.add(contract);
 	}
 
