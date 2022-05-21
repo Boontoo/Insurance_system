@@ -206,7 +206,7 @@ public class Main {
 				System.out.println(uwResult);
 				System.out.println("타보험사에 보낼 가입 희망 보험 정보\n" + control.enquireApplicationForMembership(choice + "")); // 이거 다시 확인
 				break;
-			}catch(InputMismatchException e) {
+			} catch(InputMismatchException e) {
 				System.out.println("올바른 값을 입력해 주세요");
 				// 무한루프 발생 - 이거 해결해야 함
 				continue;
@@ -215,7 +215,7 @@ public class Main {
 		System.out.println("==================================");
 	}
 
-	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException{
+	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException {
 		// 새로 만든 함수(자동심사)
 		while(true) {
 			System.out.print("본인 소유의 건물(1.예, 그이외.아니오) : ");
@@ -294,6 +294,9 @@ public class Main {
 	private void reportAccident(Scanner scanner) {
 		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기 
 		// 민우
+		
+		MainFrame frame = new MainFrame();
+		
 		System.out.println("----------------------------");
 		System.out.println("사고 처리를 시작합니다.");
 		while(true) {
@@ -352,6 +355,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		Main main = new Main();
+		
+		MainFrame mainFrame = new MainFrame();
+		mainFrame.initialize();
+		
 		Scanner scanner = new Scanner(System.in);
 		boolean bOnLoop = true;
 		while(bOnLoop) {
