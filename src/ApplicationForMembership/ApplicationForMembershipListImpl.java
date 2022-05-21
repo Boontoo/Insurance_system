@@ -56,24 +56,12 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 	 */
 	public ApplicationForMembership get(String id){
 		for(int i = 0; i < size; i++) {
-			if(applicationForMembershipList.get(i).getId().equals(id)) 
-				return applicationForMembershipList.get(i);
+			if(applicationForMembershipList.get(i).getId().equals(id)) return applicationForMembershipList.get(i);
 		}
 		return null;
 	}
 	public int getSize() {
 		return size;
-	}
-	public ArrayList<ApplicationForMembership> getApplicationForMembershipList() {
-		// 새로 만든 함수
-		return applicationForMembershipList;
-	}
-	public ArrayList<ApplicationForMembership> getPassedCustomerInUW() {
-		ArrayList<ApplicationForMembership> passedCustomerList = new ArrayList<ApplicationForMembership>();
-		for(ApplicationForMembership applicationForMembership : applicationForMembershipList) {
-			if(applicationForMembership.isUWResult()) passedCustomerList.add(applicationForMembership);
-		}
-		return passedCustomerList;
 	}
 	@Override
 	public ApplicationForMembership get(int index) {
