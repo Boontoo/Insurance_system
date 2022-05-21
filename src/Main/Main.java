@@ -168,7 +168,7 @@ public class Main {
 			}catch(InputMismatchException e) {
 				System.out.println("올바른 값을 입력해 주세요");
 				// 위 상황 발생시 고객이름 입력이 스킵됨 - 이거 해결해야 함
-				continue;
+//				continue;
 			}
 		}
 		System.out.println("==================================");
@@ -392,6 +392,7 @@ public class Main {
 					break;
 				case 1:
 					// 인배
+					// 20220521 수정필요
 					main.manageCustomerInformation(scanner);
 					break;
 				case 2:
@@ -410,10 +411,11 @@ public class Main {
 					break;
 				case 6:
 					// 민재
+					// 20220521 수정필요
 					main.joinInsurance(scanner);
 					break;
 				case 7:
-					// 민재
+					// 민재 20220521
 					main.reinsurance(scanner);
 					break;
 				case 8:
@@ -425,6 +427,7 @@ public class Main {
 				case 10:
 					// 민우 사고 접수를 하다
 					// 일단 이 내용은 사고처리를 적어 놓은 것 
+					// 20220521 수정필요
 					main.reportAccident(scanner);
 					break;
 				case 11:
@@ -434,6 +437,7 @@ public class Main {
 					main.managePaymentInformation(scanner);
 					break;
 				case 13:
+					// 인배 20220521
 					main.designInsuranceProduct(scanner);
 					break;
 				default :

@@ -254,12 +254,14 @@ public class Control {
 		
 		String contractID = accidentReception.getContractID();
 		Contract contract = m_ContractListImpl.get(contractID);
-		String insuranceName = contract.getInsuranceName();
+		// 일단 막아놓음
+//		String insuranceName = contract.getInsuranceName();
 		
 		int remainingNumberOfTowTruckCalls = accidentReception.getRemainingNumberOfTowTruckCalls();
 		
 		String result = "";
-		result = result + "보험이름: " + insuranceName + ", ";
+		// 일단 막아놓음
+//		result = result + "보험이름: " + insuranceName + ", ";
 		result = result + "잔여 무료 렉카 서비스 횟수: " + remainingNumberOfTowTruckCalls;
 		
 //		break;
@@ -528,13 +530,14 @@ public class Control {
 	 */
 	public boolean makeInsuranceContract(int choice, String expirationDate){
 		// 보험 계약을 한다(파라미터 변경 id->choice)
-		boolean result = m_ContractListImpl.add(new Contract(enquirePassedCustomerList.get(choice-1).getName(), 
-				expirationDate, enquirePassedCustomerList.get(choice-1).isGender(), 
-				enquirePassedCustomerList.get(choice-1).getInsuranceName(), 
-				enquirePassedCustomerList.get(choice-1).getPhoneNum(), 
-				enquirePassedCustomerList.get(choice-1).getSSN()));
-		enquirePassedCustomerList.remove(choice-1);
-		return result;
+//		boolean result = m_ContractListImpl.add(new Contract(enquirePassedCustomerList.get(choice-1).getName(), 
+//				expirationDate, enquirePassedCustomerList.get(choice-1).isGender(), 
+//				enquirePassedCustomerList.get(choice-1).getInsuranceName(), 
+//				enquirePassedCustomerList.get(choice-1).getPhoneNum(), 
+//				enquirePassedCustomerList.get(choice-1).getSSN()));
+//		enquirePassedCustomerList.remove(choice-1);
+//		return result;
+		return false;
 	}
 
 	public String modifyCustomerInformation(int index, int type, String newInformation){
