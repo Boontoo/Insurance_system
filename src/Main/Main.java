@@ -16,7 +16,7 @@ public class Main {
 
 	private Control control = new Control();
 
-	public static  ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
+	public static ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
 
 	public Main(){
 
