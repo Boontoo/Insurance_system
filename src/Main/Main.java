@@ -286,7 +286,26 @@ public class Main {
 	}
 
 	private void reinsurance(Scanner scanner) {
-		// 민재 - 재보험 처리하기(할 수 있으면)
+		// 민재 - 재보험 처리하기
+		String name;
+		String sSN;
+		System.out.print("무엇을 하시겠습니까?\n1.산출 2. 정산 3. 재보험 등록 (그 이외. 뒤로가기) : ");
+		String input = scanner.next();
+		if(!(input.equals("1") || 
+				input.equals("2") || 
+				input.equals("3"))) return;
+		while(true) {
+			System.out.print("이름 : ");
+			name = scanner.next();
+			System.out.print("주민번호 : ");
+			sSN = scanner.next();
+			if(!control.checkCitizenNumFormat(sSN)) {
+				System.out.println("주민번호를 다시 입력해 주세요");
+				continue;
+			}
+			// 이름, 주민번호 입력까지
+			break;
+		}
 	}
 
 	private void manageCompensationManagement(Scanner scanner) {

@@ -194,8 +194,8 @@ public class Control {
 			return false;
 		return true;
 	}
-	private boolean checkCitizenNumFormat(String input) {
-		// 새로 만든 함수
+	public boolean checkCitizenNumFormat(String input) {
+		// 새로 만든 함수 (private -> public)
 		if(input.length() != 14) return false;
 		if(input.charAt(6) != '-') return false;
 		if(!(input.charAt(7) == '1'
