@@ -1,4 +1,4 @@
-package Control;
+package Controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import Insurance.InsuranceListImpl;
  * @version 1.0
  * @created 16-5-2022 ���� 2:40:57
  */
-public class Control {
+public class Controller {
 
 	private int customerID;
 	private ArrayList<Customer> customerList;
@@ -35,7 +35,7 @@ public class Control {
 	// 바로 위는 새로 만든 속성
 	// Impl들 모두 private으로 바꿀 것
 
-	public Control(){
+	public Controller(){
 		this.m_CustomerListImpl = new CustomerListImpl();
 		this.m_AccidentReceptionListImpl = new AccidentReceptionListImpl();
 		this.m_ContractListImpl = new ContractListImpl();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import AccidentReception.AccidentReception;
-import Control.Control;
+import Controller.Controller;
 
 /**
  * @author dlsqo
@@ -13,7 +13,7 @@ import Control.Control;
  */
 public class Main {
 
-	private Control control = new Control();
+	private Controller controller = new Controller();
 
 	public static ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
 
@@ -44,11 +44,11 @@ public class Main {
 					int type = scanner.nextInt();
 					System.out.println("조회할 고객 정보를 입력하세요.");
 					String key = scanner.next();
-					System.out.println(this.control.enquireCustomerInformation(type, key));
+					System.out.println(this.controller.enquireCustomerInformation(type, key));
 					//if null 필요
 					System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
 					int index = scanner.nextInt();
-					System.out.println(this.control.enquireCustomerDetailInformation(index));
+					System.out.println(this.controller.enquireCustomerDetailInformation(index));
 	
 					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
 					break;
@@ -85,14 +85,14 @@ public class Main {
 						String newInformation = scanner.next();
 						if(newInformation != null) {
 							//////////////////////////
-							System.out.println(control.checkCustomerInformation(index, choice, newInformation));
+							System.out.println(controller.checkCustomerInformation(index, choice, newInformation));
 							System.out.println("1.저장");
 							System.out.println("2.재작성");
 							choice = scanner.nextInt();
 							//							switch(choose)
 							if(choice == 1) {
-								System.out.println(control.modifyCustomerInformation(index, type, newInformation));
-								System.out.println(this.control.enquireCustomerDetailInformation(index));
+								System.out.println(controller.modifyCustomerInformation(index, type, newInformation));
+								System.out.println(this.controller.enquireCustomerDetailInformation(index));
 								return;
 								//								bOnLoop = false;
 							}
@@ -105,7 +105,7 @@ public class Main {
 					}
 					break;
 				case 2:
-					System.out.println(this.control.enquireCustomerDetailInformation(index));
+					System.out.println(this.controller.enquireCustomerDetailInformation(index));
 					System.out.println("해당 고객을 삭제하겠습니까?");
 					System.out.println("1.삭제");
 					System.out.println("2.뒤로가기");
@@ -113,7 +113,7 @@ public class Main {
 					if(choice == 1) {
 						System.out.println("삭제 고객ID를 입력하세요.");
 						String id = scanner.next();
-						System.out.println(control.deleteCustomerInformation(index, id));
+						System.out.println(controller.deleteCustomerInformation(index, id));
 					}
 					else if(choice == 2) {
 						break;
@@ -157,7 +157,7 @@ public class Main {
 				String jop = scanner.next();
 				System.out.print("주민번호 : ");
 				String SSN = scanner.next();
-				boolean result = this.control.applyForMembership(insurance, phoneNum, age, gender, name, jop, SSN);
+				boolean result = this.controller.applyForMembership(insurance, phoneNum, age, gender, name, jop, SSN);
 				if(!result) {
 					System.out.println("올바른 형식에 맞게 입력하세요");
 					continue;
@@ -178,17 +178,17 @@ public class Main {
 		// 민재 - 인수심사 진행하기
 		while(true) {
 			try {
-				System.out.println(control.enquireInformationAboutApplicationForMembership());
+				System.out.println(controller.enquireInformationAboutApplicationForMembership());
 				System.out.print("선택번호를 입력해 주세요(0 : 뒤로가기) : ");
 				int choice = scanner.nextInt();
 				if(choice == 0) return;
-				boolean checkInID = control.checkInID(choice + "");
+				boolean checkInID = controller.checkInID(choice + "");
 				if(!checkInID) {
 					System.out.println("선택번호 내 번호를 다시 입력해 주세요");
 					continue;
 				}
 				System.out.println("입력 번호 : " + choice);
-				if(control.checkAlreadyJudged(choice + "")) {
+				if(controller.checkAlreadyJudged(choice + "")) {
 					System.out.println("이미 인수심사가 완료된 신청정보입니다. 다른 번호를 입력해 주세요");
 					continue;
 				}
@@ -201,10 +201,10 @@ public class Main {
 				boolean specialExaminationResult = (scanner.next().equals("1"));
 				System.out.print("일반심사 결과(1.합격, 그이외.불합격) : ");
 				boolean generalExaminationResult = (scanner.next().equals("1"));
-				String uwResult = control.enquireUWResult(choice + "", automaticExaminationResult, diagnosticExaminationResult, 
+				String uwResult = controller.enquireUWResult(choice + "", automaticExaminationResult, diagnosticExaminationResult, 
 						imageExaminationResult, specialExaminationResult, generalExaminationResult);
 				System.out.println(uwResult);
-				System.out.println("타보험사에 보낼 가입 희망 보험 정보\n" + control.enquireApplicationForMembership(choice + "")); // 이거 다시 확인
+				System.out.println("타보험사에 보낼 가입 희망 보험 정보\n" + controller.enquireApplicationForMembership(choice + "")); // 이거 다시 확인
 				break;
 			} catch(InputMismatchException e) {
 				System.out.println("올바른 값을 입력해 주세요");
@@ -231,12 +231,12 @@ public class Main {
 			System.out.print("건물 가격(점수 입력 - 0점~20점) : ");
 			int buildingConditionScore = scanner.nextInt();
 			//파라미터 길이 줄일 것
-			if(!control.checkPointInput(buildingAgeScore, fireEquipmentConditionScore, 
+			if(!controller.checkPointInput(buildingAgeScore, fireEquipmentConditionScore, 
 					buildingLocationScore, buildingConditionScore)) {
 				System.out.println("범위에 맞는 점수를 다시 적어주세요");
 				continue;
 			}
-			return control.automaticJudge(id, isOwnedBuilding, isRemodeling, buildingAgeScore, 
+			return controller.automaticJudge(id, isOwnedBuilding, isRemodeling, buildingAgeScore, 
 					fireEquipmentConditionScore, buildingLocationScore, buildingConditionScore);
 		}
 
@@ -245,23 +245,23 @@ public class Main {
 	private void joinInsurance(Scanner scanner) {
 		// 민재 - 보험 가입하기
 		while(true) {
-			System.out.println(control.enquirePassedCustomerInUW());
+			System.out.println(controller.enquirePassedCustomerInUW());
 			System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
 			int choice = scanner.nextInt();
 			if(choice == 0) return;
-			if(!control.checkInIDUW(choice)) {
+			if(!controller.checkInIDUW(choice)) {
 				System.out.println("번호에 해당하는 고객이 없습니다");
 				continue;
 			}
 			System.out.println("[선택 고객 세부 정보]");
-			System.out.println(control.enquireCustDetailInfoFromEnquirePassedList(choice));
+			System.out.println(controller.enquireCustDetailInfoFromEnquirePassedList(choice));
 			System.out.print("가입 신청 하시겠습니까?(1. 예, 그이외. 뒤로가기) : ");
 			String checkInput = scanner.next();
 			if(!checkInput.equals("1")) continue;
-			if(control.makeInsuranceContract(choice, checkDate(scanner))) {
+			if(controller.makeInsuranceContract(choice, checkDate(scanner))) {
 				System.out.println("가입 신청이 완료되었습니다(신규 가입 정보)");
 				System.out.println("id custID 만기일 insID 지불금액 납입여부");
-				System.out.println(control.enquireNewContractInformation());
+				System.out.println(controller.enquireNewContractInformation());
 			}
 			else {
 				System.out.println("가입 고객을 찾지 못하였습니다 다시 입력해 주세요");
@@ -277,7 +277,7 @@ public class Main {
 		while(true) {
 			System.out.print("지정할 만기일(YYYY-MM-DD) : ");
 			String date = scanner.next();
-			if(!control.checkInputDateFormat(date)) {
+			if(!controller.checkInputDateFormat(date)) {
 				System.out.println("날짜 입력 형식이 올바르지 않습니다.");
 				continue;
 			}
@@ -299,7 +299,7 @@ public class Main {
 			name = scanner.next();
 			System.out.print("주민번호 : ");
 			sSN = scanner.next();
-			if(!control.checkCitizenNumFormat(sSN)) {
+			if(!controller.checkCitizenNumFormat(sSN)) {
 				System.out.println("주민번호를 다시 입력해 주세요");
 				continue;
 			}
@@ -333,7 +333,7 @@ public class Main {
 			String accidentLocation = scanner.next();
 			System.out.println("사고유형을 입력해주세요.");
 			String accidentType = scanner.next();
-			System.out.println(control.enquireAccidentInformation(name, phoneNum));
+			System.out.println(controller.enquireAccidentInformation(name, phoneNum));
 			System.out.println("직원콜여부");
 			System.out.println("1.yes");
 			System.out.println("2.no");
