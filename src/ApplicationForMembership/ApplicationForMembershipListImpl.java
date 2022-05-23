@@ -56,7 +56,8 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 	 */
 	public ApplicationForMembership get(String id){
 		for(int i = 0; i < size; i++) {
-			if(applicationForMembershipList.get(i).getId().equals(id)) return applicationForMembershipList.get(i);
+			if(applicationForMembershipList.get(i).getId().equals(id)) 
+				return applicationForMembershipList.get(i);
 		}
 		return null;
 	}

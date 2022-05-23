@@ -24,12 +24,12 @@ public class ApplicationForMembership {
 
 	public ApplicationForMembership(String wishInsurance, String phoneNum, int age, boolean gender, String name, String jop, String SSN) {
 		this.insuranceName = wishInsurance;
-		this.phoneNum = phoneNum;
-		this.age = age;
-		this.gender = gender;
-		this.name = name;
-		this.job = jop;
-		this.SSN = SSN;
+		this.phoneNum = phoneNum; // 0
+		this.age = age; // 0
+		this.gender = gender; // 0
+		this.name = name; // 0
+		this.job = jop; 
+		this.SSN = SSN; // 0
 		this.UWExecutionStatus = false;
 		this.UWResult = false;
 	}

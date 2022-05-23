@@ -258,9 +258,15 @@ public class Main {
 			System.out.print("가입 신청 하시겠습니까?(1. 예, 그이외. 뒤로가기) : ");
 			String checkInput = scanner.next();
 			if(!checkInput.equals("1")) continue;
-			if(control.makeInsuranceContract(choice, checkDate(scanner)))
+			if(control.makeInsuranceContract(choice, checkDate(scanner))) {
 				System.out.println("가입 신청이 완료되었습니다(신규 가입 정보)");
-			System.out.println(control.enquireNewContractInformation());
+				System.out.println("id custID 만기일 insID 지불금액 납입여부");
+				System.out.println(control.enquireNewContractInformation());
+			}
+			else {
+				System.out.println("가입 고객을 찾지 못하였습니다 다시 입력해 주세요");
+				continue;
+			}
 			System.out.println("============================");
 			break;
 		}

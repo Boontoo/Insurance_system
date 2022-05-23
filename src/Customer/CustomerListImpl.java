@@ -23,7 +23,7 @@ public class CustomerListImpl implements CustomerList {
 		customer.setPhoneNum("01068004320");
 		customer.setSsn("60201672");
 		ArrayList<String> subscribedInsurance = new ArrayList<String>();
-		subscribedInsurance.add("일반화재보험");
+		subscribedInsurance.add("일반 화재 보험");
 		customer.setSubscribedInsurance(subscribedInsurance);
 		customer.setUniqueness("하이");
 		ArrayList<String> accidentId = new ArrayList<String>();
@@ -36,7 +36,17 @@ public class CustomerListImpl implements CustomerList {
 	}
 
 	public boolean add(Customer customer){
-		return false;
+		boolean result = customerList.add(customer);
+		customerList.get(customerList.size()-1).setId(customerList.size() + "");
+		return result;
+	}
+	public int getSize() {
+		// 새로 만든 함수
+		return customerList.size();
+	}
+	public ArrayList<Customer> getAll(){
+		// 새로 만든 함수
+		return customerList;
 	}
 
 	public boolean delete(String customerID){

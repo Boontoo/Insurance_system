@@ -8,20 +8,34 @@ import java.util.ArrayList;
  */
 public class Customer {
 
-	private int age;
+	private int age; // 0
 	private int birthDate;
-	private boolean gender;
+	private boolean gender; // 0
 	private String id;
 	private enum job{};
-	private String name;
-	private String phoneNum;
-	private String ssn;
+	private String name; // 0
+	private String phoneNum; // 0
+	private String ssn; // 0
 	private ArrayList<String> subscribedInsurance;
 	private String uniqueness;
 	private ArrayList<String> accidentId;
 
-	public Customer(){
-
+	public Customer() {
+		
+	}
+	
+	public Customer(int age,
+					int birthDate,
+					boolean gender,
+					String name,
+					String phoneNum,
+					String ssn){
+		this.age = age;
+		this.birthDate = birthDate;
+		this.gender = gender;
+		this.name = name;
+		this.phoneNum = phoneNum;
+		this.ssn = ssn;
 	}
 
 	public void finalize() throws Throwable {

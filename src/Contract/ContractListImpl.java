@@ -10,12 +10,10 @@ public class ContractListImpl implements ContractList {
 
 	private ArrayList<Contract> contractList = new ArrayList<Contract>();
 	public Contract m_Contract;
-	private int size = 0;
 
 	public ContractListImpl(){
 		Contract contract = new Contract();
 		contract.setCustomerID("문인배");
-		contract.setId(++size + "");
 		// 인배야 이거도 바꿨다잉
 		contract.setInsuranceID("일반화재보험");
 		contract.setPaymentAmount(10000);
@@ -33,7 +31,7 @@ public class ContractListImpl implements ContractList {
 	 */
 	public boolean add(Contract contract){
 		boolean result = contractList.add(contract);
-		contractList.get(contractList.size()-1).setId(++size + "");
+		contractList.get(contractList.size()-1).setId(contractList.size()+1 + "");
 		return result;
 	}
 
@@ -52,13 +50,14 @@ public class ContractListImpl implements ContractList {
 	public Contract get(String id){
 		return null;
 	}
+	public int getSize() {
+		// 새로 만든 함수
+		return contractList.size();
+	}
 	@Override
 	public Contract get(int index) {
 		// 새로 만든 함수 
 		return contractList.get(index);
-	}
-	public int getSize() {
-		return size;
 	}
 	@Override
 	public String toString() {

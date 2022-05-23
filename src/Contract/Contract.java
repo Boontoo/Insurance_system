@@ -30,9 +30,6 @@ public class Contract {
 	public void finalize() throws Throwable {
 
 	}
-
-	
-	
 	public String getCustomerID() {
 		return customerID;
 	}
@@ -84,13 +81,10 @@ public class Contract {
 
 	public String toString(){
 		return id + " " + 
-//				customerName + " " + 
+				customerID + " " + 
 				expirationDate + " " + 
-//				insuranceName + " " + 
+				insuranceID + " " + 
 				paymentAmount + " " + 
-//				phoneNum + " " + 
-//				SSN + " " + 
-//				gender + " " + 
 				PaymentStatus;
 	}
 
