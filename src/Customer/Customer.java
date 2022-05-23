@@ -36,6 +36,7 @@ public class Customer {
 		this.name = name;
 		this.phoneNum = phoneNum;
 		this.ssn = ssn;
+		this.subscribedInsurance = new ArrayList<String>();
 	}
 
 	public void finalize() throws Throwable {

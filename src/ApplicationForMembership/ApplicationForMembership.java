@@ -22,7 +22,13 @@ public class ApplicationForMembership {
 
 	}
 
-	public ApplicationForMembership(String wishInsurance, String phoneNum, int age, boolean gender, String name, String jop, String SSN) {
+	public ApplicationForMembership(String wishInsurance, 
+									String phoneNum, 
+									int age, 
+									boolean gender, 
+									String name, 
+									String jop, 
+									String SSN) {
 		this.insuranceName = wishInsurance;
 		this.phoneNum = phoneNum; // 0
 		this.age = age; // 0
