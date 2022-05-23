@@ -1,4 +1,4 @@
-package AccidentReception;
+package Model.AccidentReception;
 import java.util.ArrayList;
 
 /**

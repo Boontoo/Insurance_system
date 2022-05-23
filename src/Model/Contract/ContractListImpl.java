@@ -1,4 +1,4 @@
-package Contract;
+package Model.Contract;
 import java.util.ArrayList;
 
 /**

@@ -1,4 +1,4 @@
-package Customer;
+package Model.Customer;
 import java.util.ArrayList;
 
 /**

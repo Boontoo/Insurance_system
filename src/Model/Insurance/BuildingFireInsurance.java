@@ -1,4 +1,4 @@
-package Insurance;
+package Model.Insurance;
 
 /**
  * @author dlsqo

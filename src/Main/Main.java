@@ -1,10 +1,10 @@
 package Main;
-import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import AccidentReception.AccidentReception;
 import Controller.Controller;
+import Model.AccidentReception.AccidentReception;
 
 /**
  * @author dlsqo

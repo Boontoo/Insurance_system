@@ -1,13 +1,14 @@
-package Insurance;
+package Model.Insurance;
+
 
 /**
  * @author dlsqo
  * @version 1.0
  * @created 10-5-2022 ���� 9:00:56
  */
-public class IndustryFireInsurance extends Insurance {
+public class ForestFireInsurance extends Insurance {
 
-	public IndustryFireInsurance(String InsuranceName){
+	public ForestFireInsurance(String InsuranceName){
 		super(InsuranceName);
 	}
 

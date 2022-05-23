@@ -3,17 +3,17 @@ package Controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import AccidentReception.AccidentReception;
-import AccidentReception.AccidentReceptionListImpl;
-import ApplicationForMembership.ApplicationForMembership;
-import ApplicationForMembership.ApplicationForMembershipListImpl;
-import CompensationManagement.CompensationManagementListImpl;
-import Contract.Contract;
-import Contract.ContractListImpl;
-import Customer.Customer;
-import Customer.CustomerListImpl;
-import Insurance.Insurance;
-import Insurance.InsuranceListImpl;
+import Model.AccidentReception.AccidentReception;
+import Model.AccidentReception.AccidentReceptionListImpl;
+import Model.ApplicationForMembership.ApplicationForMembership;
+import Model.ApplicationForMembership.ApplicationForMembershipListImpl;
+import Model.CompensationManagement.CompensationManagementListImpl;
+import Model.Contract.Contract;
+import Model.Contract.ContractListImpl;
+import Model.Customer.Customer;
+import Model.Customer.CustomerListImpl;
+import Model.Insurance.Insurance;
+import Model.Insurance.InsuranceListImpl;
 
 /**
  * @author dlsqo

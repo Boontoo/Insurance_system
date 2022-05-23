@@ -1,4 +1,4 @@
-package Customer;
+package Model.Customer;
 
 public class DeletedCustomer extends Customer {
 

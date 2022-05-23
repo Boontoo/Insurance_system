@@ -1,4 +1,4 @@
-package ApplicationForMembership;
+package Model.ApplicationForMembership;
 
 
 /**

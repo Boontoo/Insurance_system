@@ -1,4 +1,4 @@
-package AccidentReception;
+package Model.AccidentReception;
 /**
  * @author dlsqo
  * @version 1.0
