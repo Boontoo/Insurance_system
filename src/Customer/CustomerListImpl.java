@@ -48,6 +48,13 @@ public class CustomerListImpl implements CustomerList {
 		// 새로 만든 함수
 		return customerList;
 	}
+	public Customer getBySsn(String ssn) {
+		// 새로 만든 함수
+		for(Customer customer : customerList) {
+			if(customer.getSsn().equals(ssn)) return customer;
+		}
+		return null;
+	}
 
 	public boolean delete(String customerID){
 		for(Customer customer : this.customerList) {
@@ -67,7 +74,6 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return result;
 	}
-
 
 	public ArrayList<Customer> get(Date today){
 		return null;

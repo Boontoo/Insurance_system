@@ -31,8 +31,9 @@ public class Control {
 	public CompensationManagementListImpl m_CompensationManagementListImpl;
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
-	private ArrayList<ApplicationForMembership> passedCustomerList;
-	// 바로 위는 새로 만든 속성
+	private ArrayList<ApplicationForMembership> passedCustomerList; // 새로 만든 속성
+	private ArrayList<Insurance> submitInsList; // 새로 만든 속성
+	private Insurance selectedIns; // 새로 만든 속성
 	// Impl들 모두 private으로 바꿀 것
 
 	public Control(){
@@ -41,17 +42,18 @@ public class Control {
 		this.m_ContractListImpl = new ContractListImpl();
 		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
 		this.m_InsuranceListImpl = new InsuranceListImpl();
+		this.passedCustomerList = new ArrayList<ApplicationForMembership>();
 		
 		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
 		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
 		this.m_InsuranceListImpl.add(new Insurance("일반 화재 보험"));
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유민재", "010-3737-2855", "990713-1058827"));
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "990713-1058827"));
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "990713-1058827"));
+		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323"));
+		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827"));
 		
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", 24, true, "황혜경", "대학생", "990713-1058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", 24, true, "유철민", "대학생", "990713-1058827"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", 24, true, "황혜경", "대학생", "701205-2058827"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", 24, true, "유철민", "대학생", "730128-1055323"));
 		this.m_ApplicationForMembershipListImpl.get(0).setUWExecutionStatus(true);
 		this.m_ApplicationForMembershipListImpl.get(2).setUWExecutionStatus(true);
 		this.m_ApplicationForMembershipListImpl.get(0).setUWResult(true);
@@ -215,6 +217,14 @@ public class Control {
 		return true;
 	}
 
+	public boolean checkNumFormat(String input) {
+		// 새로 만든 함수
+		if(input.matches(".*[가-힣]+.*")) return false;
+		if(input.matches(".*[ㄱ-ㅎㅏ-ㅣ]+.*")) return false;
+		if(input.matches(".*[a-zA-Z]+.*")) return false;
+		if(input.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) return false;
+		return true;
+	}
 
 	public int countInsuranceFeeNotPaid(){
 		// 보험료 미납입 고객을 센다
@@ -462,14 +472,13 @@ public class Control {
 	public String enquirePassedCustomerInUW(){
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
 		String temp = "";
-		passedCustomerList = new ArrayList<ApplicationForMembership>();
 		int choice = 0;
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
 			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
 				passedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
 				temp += ++choice + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
-						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " +  
+						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " + 
 						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
 			}
 		}
@@ -513,7 +522,74 @@ public class Control {
 		// 보험 상품 설계 양식 조회하기
 		return "";
 	}
-
+	
+	public String enquireCustInsurances(String name, String sSN) {
+		// 새로 만든 함수 - 해당 고객이 가입한 보험 리스트 출력(재보험)
+		String result = "=====================\n"+name+" 고객의 보험 가입 정보\n===================\n";
+		submitInsList = new ArrayList<Insurance>();
+		ArrayList<String> insNames = null;
+		int index = 0;
+		for(Customer customer : m_CustomerListImpl.getAll()) {
+			if(customer.getName().equals(name) && customer.getSsn().equals(sSN)) 
+				insNames = customer.getSubscribedInsurance();
+		}
+		for(String insName : insNames) {
+			submitInsList.add(m_InsuranceListImpl.get(m_InsuranceListImpl.getIdFromName(insName)));
+			result += ++index + ". " + insName + "\n";
+		}
+		return result;
+	}
+	
+	public boolean checkValidCustomer(String name, String sSN) {
+		// 새로 만든 함수 - 해당 고객이 리스트에 있는지, 가입한 보험이 최소 하나이상 있는지 확인(재보험)
+		for(Customer customer : m_CustomerListImpl.getAll()) {
+			if(customer.getName().equals(name) && customer.getSsn().equals(sSN)) 
+				return customer.getSubscribedInsurance().size() > 0;
+		}
+		return false;
+	}
+	public String enquireReinsInfo() {
+		String result = "";
+		for(Insurance insurance : submitInsList)
+			result = "기입된 보험명 : " + insurance.getInsuranceName() + 
+						", 재보험료 : " + insurance.getReInsuranceFee();
+		return result;
+	}
+	public boolean checkValidReInsName(String selectInsNum) {
+		// 새로 만든 함수 - 입력 번호가 가입 보험 번호 내 있는지 확인(재보험)
+		String inputFormat;
+		for(int i = 0; i < submitInsList.size(); i++) {
+			inputFormat = i+1 + "";
+			if(inputFormat.equals(selectInsNum)) return true;
+			else continue;
+		}
+		return false;
+	}
+	public String enquireSpecificReinsInfo(String name, String sSN, String selectInsNum) {
+		// 새로 만든 함수 - 입력 번호 해당 재보험 정보 출력(재보험)
+		selectedIns = submitInsList.get(Integer.parseInt(selectInsNum)-1);
+		Customer selectCust = m_CustomerListImpl.getBySsn(sSN);
+		Contract selectCont = m_ContractListImpl.getById(selectedIns.getInsuranceID(), selectCust.getId());
+		String isRenewStr = selectedIns.isRenew()? "예":"아니오";
+		return "고객명 : " + name + 
+				"\n주민번호 : " + sSN + 
+				"\n보험명 : " + selectedIns.getInsuranceName() + 
+				"\n만기일 : " + selectCont.getExpirationDate() + 
+				"\n재등록 보험 요금 : " + selectedIns.getReInsuranceFee() + 
+				"\n갱신 여부 : " + isRenewStr;
+	}
+	public String reinsCommit(String name, String sSN) {
+		String result = "고객명 : " + name + 
+				"\n주민번호 : " + sSN + 
+				"\n보험명 : " + selectedIns.getInsuranceName() + 
+				"\n재등록 보험 요금 : " + selectedIns.getReInsuranceFee();
+		// DB 보상처리 테이블 이거 뭔소리임 도저히 모르것다
+		return result;
+	}
+	public String enquireSpecificPayInfo(String name, String sSN, String selectInsNum) {
+		// 새로 만든 함수 - 정산된 보험명 출력(재보험)
+		return submitInsList.get(Integer.parseInt(selectInsNum)-1).getInsuranceName();
+	}
 	/**
 	 * 
 	 * @param extendedExpirationDate
@@ -542,7 +618,18 @@ public class Control {
 		String[] ids = getIdsFromImpl(choice);
 		if(ids[0] == null || ids[1] == null) return false;
 		boolean result = m_ContractListImpl.add(new Contract(ids[0], expirationDate, ids[1]));
-		passedCustomerList.remove(choice-1);
+		
+		if(!result) return result;
+		String insuranceName = null;
+		for(Insurance insurance : m_InsuranceListImpl.getAll()) {
+			if(insurance.getInsuranceID().equals(ids[1])) 
+				insuranceName = insurance.getInsuranceName();
+		}
+		for(Customer customer : m_CustomerListImpl.getAll()) {
+			if(customer.getId().equals(ids[0])) 
+				customer.addInsurance(insuranceName);
+		}
+		m_ApplicationForMembershipListImpl.delete(passedCustomerList.remove(choice-1).getId());
 		return result;
 	}
 
@@ -565,7 +652,7 @@ public class Control {
 	}
 	
 	private boolean checkGender(boolean passedGender, boolean custGender) {
-		// 새로 만든 함수
+		// 새로 만든 함수 - 동일 성별 확인
 		if(passedGender && custGender) return true;
 		else if(!passedGender && !custGender) return true;
 		else return false;
@@ -653,7 +740,4 @@ public class Control {
 	public void saveProductSalesSupportDetails(){
 		// 제품 판매 지원 세부 정보 저장하기
 	}
-
-
-
 }

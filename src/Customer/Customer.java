@@ -123,5 +123,9 @@ public class Customer {
 		this.accidentId = accidentId;
 	}
 
+	public boolean addInsurance(String insuranceName) {
+		// 새로 만든 함수
+		return subscribedInsurance.add(insuranceName);
+	}
 	
 }

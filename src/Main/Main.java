@@ -130,11 +130,11 @@ public class Main {
 	}
 
 	private void startContractMaintenanceActivities(Scanner scanner) {
-
+		// 계약 유지 관리
 	}
 
 	private void payInsuranceFee(Scanner scanner) {
-
+		// 월 보험료 납입
 	}
 
 	private void applyForMembership(Scanner scanner) {
@@ -289,31 +289,113 @@ public class Main {
 		// 민재 - 재보험 처리하기
 		String name;
 		String sSN;
-		System.out.print("무엇을 하시겠습니까?\n1.산출 2. 정산 3. 재보험 등록 (그 이외. 뒤로가기) : ");
-		String input = scanner.next();
-		if(!(input.equals("1") || 
-				input.equals("2") || 
-				input.equals("3"))) return;
+		System.out.print("무엇을 하시겠습니까?\n1. 산출 2. 정산 3. 재보험 등록 (그 이외. 뒤로가기) : ");
+		String selectCase = scanner.next();
+		if(!(selectCase.equals("1") || 
+				selectCase.equals("2") || 
+				selectCase.equals("3"))) {
+			System.out.println("=========================");
+			return;
+		}
 		while(true) {
-			System.out.print("이름 : ");
-			name = scanner.next();
-			System.out.print("주민번호 : ");
-			sSN = scanner.next();
-			if(!control.checkCitizenNumFormat(sSN)) {
-				System.out.println("주민번호를 다시 입력해 주세요");
+			try {
+				System.out.print("이름 : ");
+				name = scanner.next();
+				System.out.print("주민번호 : ");
+				sSN = scanner.next();
+				if(!control.checkCitizenNumFormat(sSN)) {
+					System.out.println("주민번호를 다시 입력해 주세요");
+					continue;
+				}
+				if(!control.checkValidCustomer(name, sSN)) {
+					System.out.println("입력 정보에 맞는 고객 혹은 가입한 보험이 없습니다.");
+					return;
+				}
+				switch(Integer.parseInt(selectCase)) {
+				case 1:
+					control.enquireCustInsurances(name, sSN);
+					System.out.println("\n[산출 재보험료 정보]");
+					System.out.println("이름 : " + name);
+					System.out.println("주민번호 : " + sSN);
+					System.out.println("<가입 보험명, 재보험료 목록>");
+					System.out.println(control.enquireReinsInfo());
+					System.out.println("\n=========================");
+					break;
+				case 2:
+					while(true) {
+						String selectInsNum = showInputCustInsurances(scanner, name, sSN);
+						if(!control.checkValidReInsName(selectInsNum)) {
+							System.out.println("선택 번호 해당 정보가 없습니다. 다시 입력해 주세요");
+							continue;
+						}
+						String payInsName = control.enquireSpecificPayInfo(name, sSN, selectInsNum);
+						System.out.println("-------------------------\n"+
+								"고객 명 : " + name + 
+								"\n주민번호 : " + sSN + 
+								"\n정산된 보험명 : " + payInsName);
+						String payFee = null;
+						boolean validInput = false;
+						while(!validInput) {
+							System.out.print("정산 요금 입력 : ");
+							payFee = scanner.next();
+							if(control.checkNumFormat(payFee)) validInput = true;
+							else System.out.println("지불 금액을 다시 입력해 주세요");
+						}
+						System.out.print("정산하겠습니까?(1. 예, 그이외. 아니오) : ");
+						if(!scanner.next().equals("1")) {
+							System.out.println("=========================");
+							return;
+						}
+						System.out.println("\n[정산 결과]\n" + 
+								"고객명 : " + name + 
+								"\n주민번호 : " + sSN + 
+								"\n정산 보험명 : " + payInsName + 
+								"\n정산 요금 : " + payFee);
+						System.out.println("=========================");
+						break;
+					}
+					break;
+				case 3:
+					while(true) {
+						String selectInsNum = showInputCustInsurances(scanner, name, sSN);
+						if(!control.checkValidReInsName(selectInsNum)) {
+							System.out.println("선택 번호 해당 정보가 없습니다. 다시 입력해 주세요");
+							continue;
+						}
+						System.out.println("-------------------------\n"+
+								control.enquireSpecificReinsInfo(name, sSN, selectInsNum));
+						System.out.print("재보험 등록하겠습니까?\n(1. 등록, 그 이외. 뒤로가기) : ");
+						if(!scanner.next().equals("1")) {
+							System.out.println("=========================");
+							return;
+						}
+						System.out.println("\n[재보험 등록 정보]\n" + 
+								control.reinsCommit(name, sSN) + "\n");
+						System.out.println("=========================");
+						break;
+					}
+				}
+				break;
+			}catch(InputMismatchException e) {
+				System.out.println("정수를 입력해 주세요");
 				continue;
 			}
-			// 이름, 주민번호 입력까지
-			break;
 		}
 	}
 
-	private void manageCompensationManagement(Scanner scanner) {
+	private String showInputCustInsurances(Scanner scanner, String name, String sSN) {
+		// 새로 만든 함수
+		System.out.println(control.enquireCustInsurances(name, sSN));
+		System.out.print("선택 번호 : ");
+		return scanner.next();
+	}
 
+	private void manageCompensationManagement(Scanner scanner) {
+		// 보상 운용 관리
 	}
 
 	private void payInsuranceMoney(Scanner scanner) {
-
+		// 보험금 지급
 	}
 
 	private void reportAccident(Scanner scanner) {
@@ -363,19 +445,20 @@ public class Main {
 	}
 
 	private void manageExpirationContract(Scanner scanner) {
-
+		// 만기계약 관리
 	}
 
 	private void managePaymentInformation(Scanner scanner) {
-
+		// 납입 정보 관리
 	}
 
 	private void designInsuranceProduct(Scanner scanner) {
+		// 보험 상품 설계
 		this.requestAuthorization(scanner);
 	}
 
 	private void requestAuthorization(Scanner scanner) {
-
+		// 새로 만든 함수
 	}
 
 	public static void main(String[] args) {

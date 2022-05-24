@@ -54,6 +54,14 @@ public class ContractListImpl implements ContractList {
 		// 새로 만든 함수
 		return contractList.size();
 	}
+	public Contract getById(String insuranceID, String id) {
+		// 새로 만든 함수
+		for(Contract contract : contractList) {
+			if(contract.getinsuranceID().equals(insuranceID) 
+					&& contract.getCustomerID().equals(id)) return contract;
+		}
+		return null;
+	}
 	@Override
 	public Contract get(int index) {
 		// 새로 만든 함수 
