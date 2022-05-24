@@ -7,7 +7,8 @@ package ApplicationForMembership;
  */
 public class ApplicationForMembership {
 	// ���� ��û �� ����
-	private int age;
+	private String age;
+	// 타입 변경(int -> String)
 	private boolean gender;
 	private String id;
 	private String insuranceName;
@@ -24,7 +25,7 @@ public class ApplicationForMembership {
 
 	public ApplicationForMembership(String wishInsurance, 
 									String phoneNum, 
-									int age, 
+									String age, 
 									boolean gender, 
 									String name, 
 									String jop, 
@@ -44,11 +45,11 @@ public class ApplicationForMembership {
 
 	}
 	
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 

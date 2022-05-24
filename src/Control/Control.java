@@ -42,7 +42,6 @@ public class Control {
 		this.m_ContractListImpl = new ContractListImpl();
 		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
 		this.m_InsuranceListImpl = new InsuranceListImpl();
-		this.passedCustomerList = new ArrayList<ApplicationForMembership>();
 		
 		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
 		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
@@ -51,9 +50,9 @@ public class Control {
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323"));
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827"));
 		
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", 24, true, "유민재", "대학생", "990713-1058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", 24, true, "황혜경", "대학생", "701205-2058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", 24, true, "유철민", "대학생", "730128-1055323"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "990713-1058827"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "황혜경", "대학생", "701205-2058827"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유철민", "대학생", "730128-1055323"));
 		this.m_ApplicationForMembershipListImpl.get(0).setUWExecutionStatus(true);
 		this.m_ApplicationForMembershipListImpl.get(2).setUWExecutionStatus(true);
 		this.m_ApplicationForMembershipListImpl.get(0).setUWResult(true);
@@ -75,10 +74,10 @@ public class Control {
 	 * @param job
 	 * @param SSN
 	 */
-	public boolean applyForMembership(String insurance, String phoneNum, int age, boolean gender, String name, String jop, String SSN){
+	public boolean applyForMembership(String insurance, String phoneNum, String age, boolean gender, String name, String jop, String SSN){
 		// 가입 신청을 한다 - 가입 신청하기
 		// 반환형 변경(void -> boolean)
-		if(!checkInputImformation(insurance, phoneNum, age, SSN, name, jop)) return false;
+		if(!checkInputInformation(insurance, phoneNum, age, SSN, name, jop)) return false;
 		boolean result = m_ApplicationForMembershipListImpl.add(new ApplicationForMembership(insurance, phoneNum, age, gender, name, jop, SSN));
 		return result;
 		// 입력 고객 정보 저장까지 포함
@@ -157,13 +156,14 @@ public class Control {
 	 * @param name
 	 * @param job
 	 */
-	private boolean checkInputImformation(String insurance, String phoneNum, int age, String citizenNum, String name, String jop){
+	private boolean checkInputInformation(String insurance, String phoneNum, String age, String citizenNum, String name, String jop){
 		// 입력 정보를 확인한다 - 가입 신청하기
 		// 파라미터(성별 -> 주민번호)
+		// 이름 변경(Im -> In)
 		if(!checkKoreanFormat(name)) return false;
 		if(!checkKoreanFormat(insurance)) return false;
 		if(!checkPhoneNumFormat(phoneNum)) return false;
-		if(!(age > 0 && age < 120)) return false;
+		if(!(Integer.parseInt(age) > 0 && Integer.parseInt(age) < 120)) return false;
 		if(!checkKoreanFormat(jop)) return false;
 		if(!checkCitizenNumFormat(citizenNum)) return false;
 		return true;
@@ -473,6 +473,7 @@ public class Control {
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
 		String temp = "";
 		int choice = 0;
+		passedCustomerList = new ArrayList<ApplicationForMembership>();
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
 			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
 				passedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
@@ -641,7 +642,7 @@ public class Control {
 			if(passedCustomer.getName().equals(customer.getName()) &&
 					passedCustomer.getPhoneNum().equals(customer.getPhoneNum()) &&
 					checkGender(passedCustomer.isGender(), customer.isGender()) &&
-					(passedCustomer.getAge() == customer.getAge()) &&
+					(passedCustomer.getAge().equals(customer.getAge() + "")) &&
 					passedCustomer.getSSN().equals(customer.getSsn())) ids[0] = customer.getId();
 		}
 		for(Insurance insurance : m_InsuranceListImpl.getAll()) {
