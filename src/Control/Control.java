@@ -247,7 +247,11 @@ public class Control {
 	
 	public int countInsuranceFeeNotPaid(){
 		// 보험료 미납입 고객을 센다 - 납입 정보 관리하기
-		return 0;
+		int count = 0;
+		for(Contract contract : m_ContractListImpl.getAll()) {
+			if(!contract.isPaymentStatus()) count++;
+		}
+		return count;
 	}
 	
 	public boolean checkInCustList(String name) {
@@ -264,6 +268,18 @@ public class Control {
 			if(insurance.getInsuranceName().equals(name)) return true;
 		}
 		return false;
+	}
+	
+	public boolean checkInMenu(String selectInput) {
+		// 새로 만든 함수 - 선택 메뉴내 번호 입력 확인 - 납입 정보 관리
+		return selectInput.equals("0") ||
+				selectInput.equals("1") || 
+				selectInput.equals("2");
+	}
+	public boolean checkInMenuIni(String selectInput) {
+		// 새로 만든 함수 - 선택 메뉴내 번호 입력 확인(초기화시)- 납입 정보 관리
+		return selectInput.equals("1") || 
+				selectInput.equals("2");
 	}
 
 	public String deleteCustomerInformation(int index, String id){
@@ -479,8 +495,8 @@ public class Control {
 		String result = "";
 		for(int i = 0; i < m_ContractListImpl.getSize(); i++) {
 			result += i+1 + ". " + 
-					m_CustomerListImpl.getById(m_ContractListImpl.get(i).getCustomerID()).getName() + "    " +
-					m_InsuranceListImpl.get(m_ContractListImpl.get(i).getinsuranceID()).getInsuranceName() + "    " + 
+					getCustNameFromContID(m_ContractListImpl.get(i).getCustomerID()) + "    " +
+					getInsNameFromContID(m_ContractListImpl.get(i).getInsuranceID()) + "    " + 
 					m_ContractListImpl.get(i).getPaymentAmount() + "    " + 
 					enquirePaymentStatus(i) + "\n";
 		}
@@ -491,9 +507,30 @@ public class Control {
 		return m_ContractListImpl.get(i).isPaymentStatus()? "예" : "아니오";
 	}
 	public String enquirePaymentResult(int choice) {
-		return "가입 보험 상품 이름 : " + m_InsuranceListImpl.get(m_ContractListImpl.get(choice-1).getinsuranceID()).getInsuranceName() + 
+		return "가입 보험 상품 이름 : " + getInsNameFromContID(m_ContractListImpl.get(choice-1).getInsuranceID()) + 
 				"\n납입 금액 : " + m_ContractListImpl.get(choice-1).getPaymentAmount() + 
 				"\n총 납입 금액 : " + m_ContractListImpl.get(choice-1).getTotalPaymentAmount();
+	}
+	public String enquireContractedInsList() {
+		// 새로 만든 함수 - 보험 가입자 보험 상품 가입 현황 조회 - 납입 정보 관리
+		String isPay = "";
+		String result = "";
+		for(Contract contract : m_ContractListImpl.getAll()) {
+			isPay = contract.isPaymentStatus()? "예" : "아니오";
+			result += getCustNameFromContID(contract.getCustomerID()) + "    " + 
+					m_CustomerListImpl.getById(contract.getCustomerID()).getPhoneNum() + "    " + 
+					getInsNameFromContID(contract.getInsuranceID()) + "    " + 
+					contract.getPaymentAmount() + "    " + isPay + "\n";
+		}
+		return result;
+	}
+	private String getCustNameFromContID(String id) {
+		// 새로 만든 함수 - 계약리스트 고객 아이디로부터 이름 반환
+		return m_CustomerListImpl.getById(id).getName();
+	}
+	private String getInsNameFromContID(String id) {
+		// 새로 만든 함수 - 계약리스트 보험 아이디로부터 이름 반환
+		return m_InsuranceListImpl.get(id).getInsuranceName();
 	}
 	public String enquireInsuranceList(){
 		// 보험 리스트 조회하기
@@ -653,7 +690,9 @@ public class Control {
 
 	public String initializeInsuranceFeePaymentStatus(){
 		// 보험료 납입여부를 초기화한다 - 납입 정보 관리하기
-		return "";
+		for(Contract contract : m_ContractListImpl.getAll())
+			contract.setPaymentStatus(false);
+		return "\n납입 여부 초기화가 완료되었습니다";
 	}
 
 	public void makeDecisionInsuranceProduct(){
@@ -758,8 +797,8 @@ public class Control {
 		// 파라미터 변경 (String id -> int choice)
 		m_ContractListImpl.addPayment(choice, amountOfInsuranceFee);
 		String result = "[영업 활동 부서에 보낼 납입 정보]\n"+
-				"보험 가입자 이름 : " + m_CustomerListImpl.getById(m_ContractListImpl.get(choice-1).getCustomerID()).getName() + "\n" +
-				"보험 상품 이름 : " + m_InsuranceListImpl.get(m_ContractListImpl.get(choice-1).getinsuranceID()).getInsuranceName() + "\n" + 
+				"보험 가입자 이름 : " + getCustNameFromContID(m_ContractListImpl.get(choice-1).getCustomerID()) + "\n" +
+				"보험 상품 이름 : " + getInsNameFromContID(m_ContractListImpl.get(choice-1).getInsuranceID()) + "\n" + 
 				"납입 금액 : " + amountOfInsuranceFee;
 		return result;
 	}
@@ -771,7 +810,8 @@ public class Control {
 	 * @param InsuranceProductName
 	 * @param evaluation
 	 */
-	public void saveCompensationManagementInformation(String targetCustomer, String compensationDevelopmentPlan, String InsuranceProductName, String evaluation){
+	public void saveCompensationManagementInformation(String targetCustomer, 
+			String compensationDevelopmentPlan, String InsuranceProductName, String evaluation){
 		// 보상운용정보를 저장한다
 	}
 

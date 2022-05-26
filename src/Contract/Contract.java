@@ -50,7 +50,7 @@ public class Contract {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getinsuranceID() {
+	public String getInsuranceID() {
 		return insuranceID;
 	}
 	public void setInsuranceID(String insuranceID) {
@@ -73,9 +73,6 @@ public class Contract {
 	}
 	public void setTotalPaymentAmount(int totalPaymentAmount) {
 		this.totalPaymentAmount = totalPaymentAmount;
-	}
-	public String getInsuranceID() {
-		return insuranceID;
 	}
 	public void addPayment(int amountOfInsuranceFee) {
 		// 새로 만든 함수 - 납입 보험금 추가 - 보험금 납입

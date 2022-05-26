@@ -56,7 +56,7 @@ public class ContractListImpl implements ContractList {
 	public Contract getById(String insuranceID, String id) {
 		// 새로 만든 함수
 		for(Contract contract : contractList) {
-			if(contract.getinsuranceID().equals(insuranceID) 
+			if(contract.getInsuranceID().equals(insuranceID) 
 					&& contract.getCustomerID().equals(id)) return contract;
 		}
 		return null;
