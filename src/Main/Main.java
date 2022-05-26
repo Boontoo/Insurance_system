@@ -494,23 +494,30 @@ public class Main {
 	private void payInsuranceMoney(Scanner scanner) {
 		// 보험금 지급
 		scanner.nextLine();
-		System.out.print("보험금 진행하겠습니까?(1.진행, 그이외.뒤로가기) : ");
-		if(!scanner.nextLine().equals("1")) return;
-		System.out.println("[처리할 사고 선택]");
-		System.out.println(control.enquireAccidentList());
-		
 		boolean isContinue = false;
 		String name = "";
 		String sSN = "";
 		String accidentId = "";
+		System.out.print("보험금 지급 진행하겠습니까?(1.진행, 그이외.뒤로가기) : ");
+		if(!scanner.nextLine().equals("1")) return;
+		String accList = control.enquireAccidentList();
+		if(accList.length() == 0) return;
 		while(!isContinue) {
+			System.out.println("[처리할 사고 선택]\n고객 이름    주민번호            사건번호");
+			System.out.println(accList);
 			System.out.print("고객 이름 : ");
 			name = scanner.nextLine();
 			System.out.print("주민 번호 : ");
 			sSN = scanner.nextLine();
 			System.out.print("사건 번호 : ");
 			accidentId = scanner.nextLine();
+			if(control.checkInAccidentList(name, sSN, accidentId)) isContinue = true;
+			else System.out.println("입력 형식이 맞지 않습니다(고객이름, 주민번호, 사건번호)");
 		}
+		isContinue = false;
+		// 사고 접수자 상품명, 납입 기간, 납입 주기 출력
+		// 보험금 지금 or 취소 버튼 출력
+		// 이후 출력 처리
 	}
 
 	private void reportAccident(Scanner scanner) {
@@ -524,25 +531,35 @@ public class Main {
 		String name = "";
 		while(!isContinue) {
 			System.out.print("보험 가입자 이름 : ");
-			name = scanner.next();
+			name = scanner.nextLine();
 			if(control.checkInCustList(name)) isContinue = true;
 			else System.out.println("입력 고객이 고객 리스트에 없습니다");
 		}
-		scanner.nextLine();
 		isContinue = false;
 		String phoneNum = "";
 		while(!isContinue) {
 			System.out.print("전화번호 : ");
-			phoneNum = scanner.next();
+			phoneNum = scanner.nextLine();
 			if(control.checkPhoneNumFormat(phoneNum)) isContinue = true;
 			else System.out.println("입력 형식에 맞게 입력해 주세요");
 		}
-		scanner.nextLine();
 		isContinue = false;
-		System.out.print("사고위치 : ");
-		String accidentLocation = scanner.nextLine();
-		System.out.print("사고유형 : ");
-		String accidentType = scanner.nextLine();
+		String accidentLocation = "";
+		while(!isContinue) {
+			System.out.print("사고위치 : ");
+			accidentLocation = scanner.nextLine();
+			if(accidentLocation.length() != 0) isContinue = true;
+			else System.out.println("내용을 입력해 주세요");
+		}
+		isContinue = false;
+		String accidentType = "";
+		while(!isContinue) {
+			System.out.print("사고유형 : ");
+			accidentType = scanner.nextLine();
+			if(accidentType.length() != 0) isContinue = true;
+			else System.out.println("내용을 입력해 주세요");
+		}
+		isContinue = false;
 		if(!control.checkCustContracted(name, phoneNum)) {
 			System.out.println("해당 정보를 조회할 수 없습니다");
 			return;
@@ -565,8 +582,8 @@ public class Main {
 		System.out.print("\n직원콜여부(1.yes 그이외.no) : ");
 		String employeeCallStatus = scanner.nextLine();
 		if(employeeCallStatus.equals("1")) {
-			System.out.println("\n[관할 직원에 보낼 사고 정보]\n이름      전화번호            사고위치    사고유형");
-			System.out.println(name + "    " + phoneNum + "    " + accidentLocation + "    " + accidentType);
+			System.out.println("\n[관할 직원에 보낼 사고 정보]\n이름      전화번호         사고위치      사고유형");
+			System.out.println(name + "    " + phoneNum + "    " + accidentLocation + "       " + accidentType);
 		}
 		System.out.print("렉카콜여부(1.yes 그이외.no) : ");
 		String towTruckCallStatus = scanner.nextLine();

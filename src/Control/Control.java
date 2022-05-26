@@ -351,7 +351,23 @@ public class Control {
 
 	public String enquireAccidentList(){
 		// 사고 목록 조회하기(고객 이름, 주민번호, 사건번호) - 보험급 지급
-		return "";
+		String result = "";
+		for(AccidentReception accidentReception : m_AccidentReceptionListImpl.getAll()) {
+			Customer customer = m_CustomerListImpl.getById(
+					m_ContractListImpl.get(accidentReception.getContractID()).getCustomerID());
+			result += customer.getName() + "      " + customer.getSsn() + "     " + 
+						accidentReception.getAccidentID() + "\n";
+		}
+		return result;
+	}
+	
+	public boolean checkInAccidentList(String name, String sSN, String accidentId) {
+		// 새로 만든 함수 - 입력 사고 정보가 리스트에 있는지 확인
+		AccidentReception selectedAccident = m_AccidentReceptionListImpl.get(accidentId);
+		if(selectedAccident == null) return false;
+		Customer customer = m_CustomerListImpl.getById(
+				m_ContractListImpl.get(selectedAccident.getContractID()).getCustomerID());
+		return customer.getName().equals(name) && customer.getSsn().equals(sSN);
 	}
 
 	/**
