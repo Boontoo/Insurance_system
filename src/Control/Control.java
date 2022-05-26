@@ -189,8 +189,9 @@ public class Control {
 		return false;
 	}
 
-	private boolean checkPhoneNumFormat(String input) {
+	public boolean checkPhoneNumFormat(String input) {
 		// 새로 만든 함수(휴대폰 번호만 유효 ex010-3737-2855)
+		// scope변경(private -> public)
 		if(input.length() != 13) return false;
 		if(input.charAt(3) != '-' || input.charAt(8) != '-') return false;
 		if(!input.substring(0, 3).equals("010")) return false;
@@ -303,44 +304,53 @@ public class Control {
 		// 새로 만든 함수
 		return m_ApplicationForMembershipListImpl.get(id).toString();
 	}
-
+	// 사고 접수 시나리오 다시 구성해야 함
+	public boolean checkCustContracted(String name, String phoneNum) {
+		// 새로 만든 함수 - 해당 고객이 보험에 가입했는지 확인 - 사고 접수
+		Customer customer;
+		for(Contract contract : m_ContractListImpl.getAll()) {
+		 	customer = m_CustomerListImpl.getById(contract.getCustomerID());
+		 	if(customer.getName().equals(name) && 
+		 			customer.getPhoneNum().equals(phoneNum)) return true;
+		}
+		return false;
+	}
+	public String enquireCustomerContracted(String name) {
+		// 새로 만든 함수 - 고객이 가입한 보험 가입 정보 출력, 선택 번호내 입력하게 하기 - 사고 접수
+		String result = "";
+		for(Contract contract : m_ContractListImpl.getAll()) {
+			if(getCustNameFromContID(contract.getCustomerID()).equals(name)) 
+				result += contract.getId() + ".  " + 
+							getInsNameFromContID(contract.getInsuranceID()) + "   " + 
+							contract.getExpirationDate() + "\n";
+		}
+		return result;
+	}
+	public boolean checkIdInContract(String id) {
+		// 새로 만든 함수 - 입력 아이디가 계약 리스트에 포함되었는지 확인
+		return m_ContractListImpl.get(id) != null;
+	}
+	public void saveAccident(String selectedID) {
+		// 사고 접수 내역 저장 - 사고 접수
+		// 파라미터 변경 (AccidentReception -> String)
+		m_AccidentReceptionListImpl.add(selectedID);
+	}
 	/**
 	 * 
 	 * @param customerName
 	 * @param phoneNum 
 	 */
-	public String enquireAccidentInformation(String customerName, String phoneNum){
-		// 사고접수 정보를 조회한다
-		this.customerList = this.m_CustomerListImpl.get(1, customerName);
-		ArrayList<String> accidentIds = new ArrayList<String>();
-		Customer customer = null;
-		for(Customer customer1 : this.customerList) {
-			if(customer1.getPhoneNum().equals(customerName)) customer = customer1;
-		}
-		// customer가 null일 때 null처리
-		accidentIds = customer.getAccidentId();
-		String accidentId = accidentIds.get(accidentIds.size()-1);
-		AccidentReception accidentReception = this.m_AccidentReceptionListImpl.get(accidentId);
-		
-		String contractID = accidentReception.getContractID();
-		Contract contract = m_ContractListImpl.get(contractID);
-		// 일단 막아놓음
-//		String insuranceName = contract.getInsuranceName();
-		
-		int remainingNumberOfTowTruckCalls = accidentReception.getRemainingNumberOfTowTruckCalls();
-		
-		String result = "";
-		// 일단 막아놓음
-//		result = result + "보험이름: " + insuranceName + ", ";
-		result = result + "잔여 무료 렉카 서비스 횟수: " + remainingNumberOfTowTruckCalls;
-		
-//		break;
-//		this.m_AccidentReceptionListImpl.get
-		return result;
+	public String enquireAccidentInformation(){
+		// 사고접수 정보를 조회한다 - 사고 접수
+		// 파라미터 삭제
+		AccidentReception accidentReception = m_AccidentReceptionListImpl.getLast();
+		String insId = m_ContractListImpl.get(accidentReception.getContractID()).getInsuranceID();
+		return "적용 보험 이름 : " + getInsNameFromContID(insId) + "\n" + 
+				"잔여 무료 렉카 서비스 횟수 : " + accidentReception.getRemainingNumberOfTowTruckCalls();
 	}
 
 	public String enquireAccidentList(){
-		// 사고 목록 조회하기
+		// 사고 목록 조회하기(고객 이름, 주민번호, 사건번호) - 보험급 지급
 		return "";
 	}
 
@@ -470,16 +480,8 @@ public class Control {
 	public String enquireEmployeeCallStatusInformation(String id, String accidentLocation, String accidentType){
 		// 직원콜 정보를 출력한다
 		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
-		String temp =  accidentReception.getAccidentID()+" "+accidentReception.getCustomerID()
-		+" "+accidentReception.getCustomerName()+" "+accidentReception.isEmployeeCallStatus()
-		+" "+accidentReception.getRemainingNumberOfTowTruckCalls()+" "+accidentReception.isTowTruckCallPresent();
-		return temp;
+		return null;
 	}
-	
-	public void saveAccident(AccidentReception AccidentReception) {
-
-	}
-
 	public String enquireExpirationContractInformation(){
 		// 만기 계약정보를 조회한다
 		return "";

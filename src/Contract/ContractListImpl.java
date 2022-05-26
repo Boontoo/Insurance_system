@@ -47,6 +47,9 @@ public class ContractListImpl implements ContractList {
 	 * @param id
 	 */
 	public Contract get(String id){
+		for(Contract contract : contractList) {
+			if(contract.getId().equals(id)) return contract;
+		}
 		return null;
 	}
 	public int getSize() {

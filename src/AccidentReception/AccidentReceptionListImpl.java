@@ -13,24 +13,43 @@ public class AccidentReceptionListImpl implements AccidentReceptionList {
 
 	public AccidentReceptionListImpl(){}
 	public void finalize() throws Throwable {
+		
+	}
+	public boolean add(String contractID) {
+		// 새로 만든 함수 - 가입 보험 아이디 받음
+		accidentReceptionList.add(new AccidentReception(15, contractID));
+		accidentReceptionList.get(accidentReceptionList.size()-1).setAccidentID(accidentReceptionList.size() + "");
+		return false;
+	}
+	public ArrayList<AccidentReception> getAll(){
+		// 새로 만든 함수
+		return accidentReceptionList;
+	}
+	public AccidentReception getLast() {
+		// 새로 만든 함수
+		return accidentReceptionList.get(accidentReceptionList.size()-1);
 	}
 	/**
 	 * 
 	 * @param accidentReception
 	 */
-	public boolean add(AccidentReception accidentReception){return false;}
+	public boolean add(AccidentReception accidentReception){
+		return accidentReceptionList.add(accidentReception);
+	}
 	/**
 	 * 
 	 * @param accidentID
 	 */
-	public boolean delete(String accidentID){return false;}
+	public boolean delete(String accidentID){
+		return false;
+	}
 	/**
 	 * 
 	 * @param accidentID
 	 */
 	public AccidentReception get(String accidentID){
 		for(AccidentReception accidentReception: accidentReceptionList) {
-			if(accidentReception.getCustomerID().equals(accidentID))
+			if(accidentReception.getAccidentID().equals(accidentID))
 			return accidentReception;
 		}
 		return null;

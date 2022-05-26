@@ -493,52 +493,87 @@ public class Main {
 
 	private void payInsuranceMoney(Scanner scanner) {
 		// 보험금 지급
+		scanner.nextLine();
+		System.out.print("보험금 진행하겠습니까?(1.진행, 그이외.뒤로가기) : ");
+		if(!scanner.nextLine().equals("1")) return;
+		System.out.println("[처리할 사고 선택]");
+		System.out.println(control.enquireAccidentList());
+		
+		boolean isContinue = false;
+		String name = "";
+		String sSN = "";
+		String accidentId = "";
+		while(!isContinue) {
+			System.out.print("고객 이름 : ");
+			name = scanner.nextLine();
+			System.out.print("주민 번호 : ");
+			sSN = scanner.nextLine();
+			System.out.print("사건 번호 : ");
+			accidentId = scanner.nextLine();
+		}
 	}
 
 	private void reportAccident(Scanner scanner) {
 		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기 
-		// 민우
-		
-		MainFrame frame = new MainFrame();
-		
+		// 민우(재)
+		// 이거 시나리오 다시 써야 함
+		scanner.nextLine();
 		System.out.println("----------------------------");
 		System.out.println("사고 처리를 시작합니다.");
-		while(true) {
-			System.out.println("보험 가입자 이름을 입력해주세요.");
-			String name = scanner.next();
-			System.out.println("전화번호를 입력해주세요.");
-			String phoneNum = scanner.next();
-			System.out.println("사고위치를 입력해주세요.");
-			String accidentLocation = scanner.next();
-			System.out.println("사고유형을 입력해주세요.");
-			String accidentType = scanner.next();
-			System.out.println(control.enquireAccidentInformation(name, phoneNum));
-			System.out.println("직원콜여부");
-			System.out.println("1.yes");
-			System.out.println("2.no");
-			int employeeCallStatus = scanner.nextInt();
-			System.out.println("렉카콜여부");
-			System.out.println("1.yes");
-			System.out.println("2.no");
-			int towTruckCallStatus = scanner.nextInt();
-			//확인메세지
-			System.out.println("직원콜을 호출하시겠습니까?");
-			System.out.println("1.yes");
-			System.out.println("2.no");
-			int choice = scanner.nextInt();
-			//관할 직원에 보험자 가입 이름, 전화번호, 사고위치, 사고유형을 자동 메시지로 보낸다.
-			//확인메세지
-			System.out.println("렉카콜을 호출하시겠습니까?");
-			System.out.println("1.yes");
-			System.out.println("2.no");
-//			int choice = scanner.nextInt(); 민우형이 처리하기로
-			//관할 렉카 협력업체에 보험가입자 이름, 사고위치, 사고유형을 자동 메시지로 보낸다.
-			
-			int remainingNumberOfTowTruckCalls = 0;
-			boolean towTruckCallPresent = false;
-//			control.saveAccident(new AccidentReception(accidentID, customerID, customerName, employeeCallStatus, remainingNumberOfTowTruckCalls, towTruckCallPresent));
-			System.out.println();
+		boolean isContinue = false;
+		String name = "";
+		while(!isContinue) {
+			System.out.print("보험 가입자 이름 : ");
+			name = scanner.next();
+			if(control.checkInCustList(name)) isContinue = true;
+			else System.out.println("입력 고객이 고객 리스트에 없습니다");
 		}
+		scanner.nextLine();
+		isContinue = false;
+		String phoneNum = "";
+		while(!isContinue) {
+			System.out.print("전화번호 : ");
+			phoneNum = scanner.next();
+			if(control.checkPhoneNumFormat(phoneNum)) isContinue = true;
+			else System.out.println("입력 형식에 맞게 입력해 주세요");
+		}
+		scanner.nextLine();
+		isContinue = false;
+		System.out.print("사고위치 : ");
+		String accidentLocation = scanner.nextLine();
+		System.out.print("사고유형 : ");
+		String accidentType = scanner.nextLine();
+		if(!control.checkCustContracted(name, phoneNum)) {
+			System.out.println("해당 정보를 조회할 수 없습니다");
+			return;
+		}
+		System.out.println("[" + name + " 고객님이 가입한 가입 정보]");
+		System.out.println("ID     보험 이름      만기일");
+		System.out.println(control.enquireCustomerContracted(name));
+		String selectedID = null;
+		while(!isContinue) {
+			System.out.print("어떤 보험을 적용하겠습니까?(ID입력) : ");
+			selectedID = scanner.nextLine();
+			if(control.checkIdInContract(selectedID)) isContinue = true;
+			else System.out.println("입력 아이디가 존재하지 않습니다. 다시 입력하세요");
+		}
+		isContinue = false;
+		control.saveAccident(selectedID); // 사고 접수 내역 저장
+		System.out.println("\n[사고 접수 정보]");
+		System.out.println(control.enquireAccidentInformation());
+		
+		System.out.print("\n직원콜여부(1.yes 그이외.no) : ");
+		String employeeCallStatus = scanner.nextLine();
+		if(employeeCallStatus.equals("1")) {
+			System.out.println("\n[관할 직원에 보낼 사고 정보]\n이름      전화번호            사고위치    사고유형");
+			System.out.println(name + "    " + phoneNum + "    " + accidentLocation + "    " + accidentType);
+		}
+		System.out.print("렉카콜여부(1.yes 그이외.no) : ");
+		String towTruckCallStatus = scanner.nextLine();
+		if(!towTruckCallStatus.equals("1")) return;
+		System.out.println("\n[관할 렉카 협력업체에 보낼 사고 정보]\n이름    사고위치    사고유형");
+		System.out.println(name + "    " + accidentLocation + "      " + accidentType);
+		System.out.println("=======================");
 	}
 
 	private void manageExpirationContract(Scanner scanner) {
@@ -670,13 +705,14 @@ public class Main {
 				case 8:
 					main.manageCompensationManagement(scanner);
 					break;
-				case 9:
+				case 9: 
+					// 민재 
 					main.payInsuranceMoney(scanner);
 					break;
 				case 10:
 					// 민우 사고 접수를 하다
-					// 일단 이 내용은 사고처리를 적어 놓은 것 
 					// 20220521 수정필요
+					// 민재 20220506완성(시나리오 수정)
 					main.reportAccident(scanner);
 					break;
 				case 11:
