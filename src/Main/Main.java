@@ -134,7 +134,57 @@ public class Main {
 	}
 
 	private void payInsuranceFee(Scanner scanner) {
-		// 월 보험료 납입
+		// 민재 - 월 보험료 납입하기
+		while(true) {
+			boolean isInputValid = false;
+			String selected = null;
+			while(!isInputValid) {
+				System.out.println("[보험 상품 납입 정보]");
+				System.out.println(control.enquireInsuranceFeePaymentStatus());
+				System.out.print("납부할 보험상품 선택번호를 입력하세요(0.뒤로 가기) : ");
+				selected = scanner.next();
+				if(selected.equals("0")) return;
+				if(control.checkNumFormat(selected) && 
+						control.checkInSelectSize(selected)) isInputValid = true;
+				else System.out.println("번호를 다시 입력해 주세요");
+			}
+			scanner.nextLine();
+			isInputValid = false;
+			String inputPay = null;
+			while(!isInputValid) {
+				System.out.print("납입 금액 입력 : ");
+				inputPay = scanner.nextLine();
+				if(inputPay.length() == 0 || !control.checkNumFormat(inputPay)) {
+					System.out.println("금액을 입력해 주세요");
+					continue;
+				}
+				if(control.checkAmountOfInsuranceFee(Integer.parseInt(inputPay), 
+						Integer.parseInt(selected))) isInputValid = true;
+				else System.out.println("납입 금액 이상 입력해 주세요");
+			}
+			isInputValid = false;
+//			System.out.println("납입 금액 : " + inputPay);
+			if(!control.checkAlreadyPay(Integer.parseInt(selected))) {
+				System.out.println("\n" + control.saveAmountOfInsuranceFee(Integer.parseInt(selected), Integer.parseInt(inputPay)));
+				System.out.println("\n<월 보험료 납입이 완료되었습니다>");
+				System.out.println(control.enquirePaymentResult(Integer.parseInt(selected)));
+			}else System.out.println("이미 월 납입을 완료하셨습니다");
+			String inputBinCase = null;
+			while(!isInputValid) {
+				System.out.println("\n<다른 보험 상품을 납부하시겠습니까?>");
+				System.out.print("(1. 예, 2. 아니오) : ");
+				inputBinCase = scanner.nextLine();
+				if(!control.checkNumFormat(inputBinCase) ||
+						!(Integer.parseInt(inputBinCase) == 1 || 
+						Integer.parseInt(inputBinCase) == 2)) 
+					System.out.println("1 혹은 2를 입력해 주세요");
+				else isInputValid = true;
+			}
+			if(inputBinCase.equals("2")) {
+				System.out.println("===========================");
+				return;
+			}
+		}
 	}
 
 	private void applyForMembership(Scanner scanner) {
@@ -142,35 +192,51 @@ public class Main {
 		boolean ageCheck;
 		System.out.print("가입신청을 진행하시겠습니까? (1.진행, 그 이외.뒤로가기) : ");
 		if(!scanner.next().equals("1")) return; 
+		scanner.nextLine();
 		while(true) {
-			ageCheck = false;
-			System.out.print("고객 이름 : ");
-			String name = scanner.next();
-			scanner.nextLine();
-			System.out.print("가입 희망 보험 : ");
-			String insurance = scanner.next();
-			scanner.nextLine();
+			boolean isNameIn = false;
+			String name = null;
+			String insuranceName = null;
+			while(!isNameIn) {
+				System.out.print("고객 이름 : ");
+				name = scanner.nextLine();
+				if(control.checkInCustList(name)) isNameIn = true;
+				else System.out.println("입력된 정보가 고객으로 등록되어있지 않습니다. 다시 입력하세요");
+			}
+			isNameIn = false;
+			while(!isNameIn) {
+				System.out.print("가입 희망 보험 : ");
+				insuranceName = scanner.nextLine(); 
+				if(control.checkInInsList(insuranceName)) isNameIn = true;
+				else System.out.println("입력된 정보가 보험으로 등록되어있지 않습니다. 다시 입력하세요");
+			}
 			System.out.print("전화번호 : ");
-			String phoneNum = scanner.next();
-			scanner.nextLine();
+			String phoneNum = scanner.nextLine();
 			String age = null;
+			ageCheck = false;
 			while(!ageCheck) {
 				System.out.print("나이 : ");
-				age = scanner.next();
-				scanner.nextLine();
+				age = scanner.nextLine();
 				if(control.checkNumFormat(age)) ageCheck = true;
+				// 나이나 숫자 입력 시 24를 2 4 이렇게 입력하면 에러 생기던데 시간 나면 해결해 보자
 				else System.out.println("나이를 다시 입력해 주세요");
 			}
 			System.out.print("성별(1.남자, 그 이외.여자) : ");
-			boolean gender = scanner.next().equals("1");
-			scanner.nextLine();
+			boolean gender = scanner.nextLine().equals("1");
 			System.out.print("직업 : ");
-			String jop = scanner.next();
-			scanner.nextLine();
+			String jop = scanner.nextLine();
 			System.out.print("주민번호 : ");
-			String SSN = scanner.next();
-			scanner.nextLine();
-			boolean result = this.control.applyForMembership(insurance, phoneNum, age, gender, name, jop, SSN);
+			String SSN = scanner.nextLine();
+//			System.out.println("[입력 정보]");
+//			System.out.println("나이 : " + age);
+//			System.out.println("가입 희망 보험 : " + insuranceName);
+//			System.out.println("직업 : " + jop);
+//			System.out.println("이름 :" + name);
+//			System.out.println("전화번호 : " + phoneNum);
+//			System.out.println("주민번호 : " + SSN);
+//			System.out.println("성별 : " + gender);
+//			System.out.println("===========================");
+			boolean result = this.control.applyForMembership(insuranceName, phoneNum, age, gender, name, jop, SSN);
 			if(!result) {
 				System.out.println("올바른 형식에 맞게 입력하세요");
 				continue;
@@ -281,9 +347,9 @@ public class Main {
 				System.out.println("번호에 해당하는 고객이 없습니다");
 				continue;
 			}
-			System.out.println("[선택 고객 세부 정보]");
+			System.out.println("\n[선택 고객 세부 정보]");
 			System.out.println(control.enquireCustDetailInfoFromEnquirePassedList(Integer.parseInt(choice)));
-			System.out.print("가입 신청 하시겠습니까?(1. 예, 그이외. 뒤로가기) : ");
+			System.out.print("\n가입 신청 하시겠습니까?(1. 예, 그이외. 뒤로가기) : ");
 			String checkInput = scanner.next();
 			if(!checkInput.equals("1")) continue;
 			if(control.makeInsuranceContract(Integer.parseInt(choice), checkDate(scanner))) {
@@ -295,7 +361,7 @@ public class Main {
 				System.out.println("가입 고객을 찾지 못하였습니다 다시 입력해 주세요");
 				continue;
 			}
-			System.out.println("============================");
+			System.out.println("\n============================");
 			break;
 		}
 	}
@@ -325,12 +391,13 @@ public class Main {
 			System.out.println("=========================");
 			return;
 		}
+		scanner.nextLine();
 		while(true) {
 			try {
 				System.out.print("이름 : ");
-				name = scanner.next();
+				name = scanner.nextLine();
 				System.out.print("주민번호 : ");
-				sSN = scanner.next();
+				sSN = scanner.nextLine();
 				if(!control.checkCitizenNumFormat(sSN)) {
 					System.out.println("주민번호를 다시 입력해 주세요");
 					continue;
@@ -535,6 +602,7 @@ public class Main {
 					main.startContractMaintenanceActivities(scanner);
 					break;
 				case 3:
+					// 민재 20220526d완성
 					main.payInsuranceFee(scanner);
 					break;
 				case 4:
