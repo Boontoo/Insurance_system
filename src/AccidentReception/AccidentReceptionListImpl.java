@@ -15,9 +15,10 @@ public class AccidentReceptionListImpl implements AccidentReceptionList {
 	public void finalize() throws Throwable {
 		
 	}
-	public boolean add(String contractID) {
+	public boolean add(String contractID, String accidentLocation, String accidentType) {
 		// 새로 만든 함수 - 가입 보험 아이디 받음
-		accidentReceptionList.add(new AccidentReception(15, contractID));
+		// 파라미터 변경 (String -> String 3개)
+		accidentReceptionList.add(new AccidentReception(15, contractID, accidentLocation, accidentType));
 		accidentReceptionList.get(accidentReceptionList.size()-1).setAccidentID(accidentReceptionList.size() + "");
 		return false;
 	}

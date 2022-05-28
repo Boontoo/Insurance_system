@@ -326,14 +326,21 @@ public class Control {
 		}
 		return result;
 	}
-	public boolean checkIdInContract(String id) {
+	public boolean checkIdInContract(String id, String name) {
 		// 새로 만든 함수 - 입력 아이디가 계약 리스트에 포함되었는지 확인
-		return m_ContractListImpl.get(id) != null;
+		// 파라미터 변경 (String -> String String)
+		for(Contract contract : m_ContractListImpl.getAll()) {
+			if(getCustNameFromContID(contract.getCustomerID()).equals(name) && 
+					contract.getId().equals(id)) return true;
+		}
+		
+		return false;
 	}
-	public void saveAccident(String selectedID) {
+	public void saveAccident(String selectedID, String accidentLocation, String accidentType) {
+		// 새로 만든 함수
 		// 사고 접수 내역 저장 - 사고 접수
-		// 파라미터 변경 (AccidentReception -> String)
-		m_AccidentReceptionListImpl.add(selectedID);
+		// 파라미터 변경 (AccidentReception -> String - > String 3개)
+		m_AccidentReceptionListImpl.add(selectedID, accidentLocation, accidentType);
 	}
 	/**
 	 * 
@@ -352,22 +359,38 @@ public class Control {
 	public String enquireAccidentList(){
 		// 사고 목록 조회하기(고객 이름, 주민번호, 사건번호) - 보험급 지급
 		String result = "";
+		String payedMoneyStr = "";
 		for(AccidentReception accidentReception : m_AccidentReceptionListImpl.getAll()) {
+			payedMoneyStr = accidentReception.isPayedMoney()? "예" : "아니오";
 			Customer customer = m_CustomerListImpl.getById(
 					m_ContractListImpl.get(accidentReception.getContractID()).getCustomerID());
 			result += customer.getName() + "      " + customer.getSsn() + "     " + 
-						accidentReception.getAccidentID() + "\n";
+						accidentReception.getAccidentID() + "           " + payedMoneyStr + "\n";
 		}
 		return result;
 	}
 	
 	public boolean checkInAccidentList(String name, String sSN, String accidentId) {
-		// 새로 만든 함수 - 입력 사고 정보가 리스트에 있는지 확인
+		// 새로 만든 함수 - 입력 사고 정보가 리스트에 있는지 확인 - 보험금 지급
 		AccidentReception selectedAccident = m_AccidentReceptionListImpl.get(accidentId);
 		if(selectedAccident == null) return false;
 		Customer customer = m_CustomerListImpl.getById(
 				m_ContractListImpl.get(selectedAccident.getContractID()).getCustomerID());
 		return customer.getName().equals(name) && customer.getSsn().equals(sSN);
+	}
+	
+	public String enquireDetailAccidentInfo(String accidentId) {
+		// 새로 만든 함수 - 사고 접수자의 이름, 나이, 사고 위치, 사고 유형, 상품명으로 바꿀 것
+		String result = "";
+		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(accidentId);
+		Contract contract = m_ContractListImpl.get(accidentReception.getContractID());
+		Customer customer = m_CustomerListImpl.getById(contract.getCustomerID());
+		result += "이름 : " + customer.getName() + "\n" + 
+					"나이 : " + customer.getAge() + "\n" + 
+					"사고 위치 : " + accidentReception.getAccidentLocation() + "\n" + 
+					"사고 유형 : " + accidentReception.getAccidentType() + "\n" + 
+					"상품명 : " + m_InsuranceListImpl.get(contract.getInsuranceID()).getInsuranceName();
+		return result;
 	}
 
 	/**
@@ -494,7 +517,7 @@ public class Control {
 	 */
 	
 	public String enquireEmployeeCallStatusInformation(String id, String accidentLocation, String accidentType){
-		// 직원콜 정보를 출력한다
+		// 직원콜 정보를 출력한다 - 이거 필요 없음
 		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
 		return null;
 	}
@@ -777,10 +800,18 @@ public class Control {
 //		this.customerList.get(index).set
 		return "저장되었습니다!";
 	}
-
-	public String payInsuranceMoney(){
+	public boolean checkMoneyPayed(String accidentId) {
+		// 새로 만든 함수 - 보험금 지급 완료되었는지 확인
+		return m_AccidentReceptionListImpl.get(accidentId).isPayedMoney();
+	}
+	public String payInsuranceMoney(String accidentId){
 		// 보험금 지급하기
-		return "";
+		// 파라미터 추가 - String
+		m_AccidentReceptionListImpl.get(accidentId).setPayedMoney(true);
+		return "약물 치료비 : 12000원\n"
+				+ "입원비 : 21000원\n"
+				+ "수술비 : 17000원\n"
+				+ "재산보상비 : 15000원";
 	}
 
 

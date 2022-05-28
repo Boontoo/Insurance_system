@@ -501,9 +501,13 @@ public class Main {
 		System.out.print("보험금 지급 진행하겠습니까?(1.진행, 그이외.뒤로가기) : ");
 		if(!scanner.nextLine().equals("1")) return;
 		String accList = control.enquireAccidentList();
-		if(accList.length() == 0) return;
+		if(accList.length() == 0) {
+			System.out.println("처리할 정보가 없습니다");
+			System.out.println("=========================");
+			return;
+		}
 		while(!isContinue) {
-			System.out.println("[처리할 사고 선택]\n고객 이름    주민번호            사건번호");
+			System.out.println("[처리할 사고 선택]\n고객 이름    주민번호            사건번호    보험금 지급 여부");
 			System.out.println(accList);
 			System.out.print("고객 이름 : ");
 			name = scanner.nextLine();
@@ -515,7 +519,23 @@ public class Main {
 			else System.out.println("입력 형식이 맞지 않습니다(고객이름, 주민번호, 사건번호)");
 		}
 		isContinue = false;
-		// 사고 접수자 상품명, 납입 기간, 납입 주기 출력
+		// 사고 접수자 상품명, 납입 기간, 납입 주기 출력 -> 사고 접수자의 이름, 나이, 직업, 사고 위치, 사고 유형, 상품명으로 시나리오 바꿀 것
+		System.out.println("\n[사고 접수자 사고 및 가입 정보]");
+		System.out.println(control.enquireDetailAccidentInfo(accidentId));
+		System.out.print("보험금을 지급하겠습니까?(1.지급  그이외.취소) : ");
+		if(!scanner.nextLine().equals("1")) {
+			System.out.println("\n보험금 지급을 취소합니다.");
+			System.out.println("=========================");
+			return;
+		}
+		if(control.checkMoneyPayed(accidentId)) {
+			System.out.println("\n<이미 보험금 지급이 완료된 고객입니다>\n=========================");
+			return;
+		}
+		System.out.println("\n[보험금 지급이 완료되었습니다]");
+		System.out.println(control.payInsuranceMoney(accidentId));
+		System.out.println("보상 기획부서에 위 내역을 지원합니다");
+		System.out.println("=========================");
 		// 보험금 지금 or 취소 버튼 출력
 		// 이후 출력 처리
 	}
@@ -571,11 +591,11 @@ public class Main {
 		while(!isContinue) {
 			System.out.print("어떤 보험을 적용하겠습니까?(ID입력) : ");
 			selectedID = scanner.nextLine();
-			if(control.checkIdInContract(selectedID)) isContinue = true;
+			if(control.checkIdInContract(selectedID, name)) isContinue = true;
 			else System.out.println("입력 아이디가 존재하지 않습니다. 다시 입력하세요");
 		}
 		isContinue = false;
-		control.saveAccident(selectedID); // 사고 접수 내역 저장
+		control.saveAccident(selectedID, accidentLocation, accidentType); // 사고 접수 내역 저장 - 사고 위치, 사고 유형 포함하자
 		System.out.println("\n[사고 접수 정보]");
 		System.out.println(control.enquireAccidentInformation());
 		
@@ -663,12 +683,6 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		boolean bOnLoop = true;
 		while(bOnLoop) {
-//	         try { 정수가 아니라 다른 값 입력시 예외 처리 구현 - 다들 같이 있을 때 논의해볼 것
-//          
-//       }catch(InputMismatchException e) {
-//          System.out.println("정수를 입력해 주세요");
-//          continue;
-//       }
 
 			System.out.println("분산투자화재 보험 시스템입니다.");
 			System.out.println("0.시스템 종료하기");
@@ -680,8 +694,8 @@ public class Main {
 			System.out.println("6.보험 가입하기"); // 0
 			System.out.println("7.재보험 처리하기"); // 0
 			System.out.println("8.보상운용 관리하기");
-			System.out.println("9.보험금 지급하기");
-			System.out.println("10.사고 접수하기");
+			System.out.println("9.보험금 지급하기"); // -
+			System.out.println("10.사고 접수하기"); // -
 			System.out.println("11.만기계약 관리하기");
 			System.out.println("12.납입정보 관리하기"); // 0
 			System.out.println("13.보험 상품 설계하기"); // -
@@ -729,7 +743,7 @@ public class Main {
 				case 10:
 					// 민우 사고 접수를 하다
 					// 20220521 수정필요
-					// 민재 20220506완성(시나리오 수정)
+					// 민재 20220526완성(시나리오 수정)
 					main.reportAccident(scanner);
 					break;
 				case 11:

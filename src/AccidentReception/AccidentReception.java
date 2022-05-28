@@ -15,12 +15,20 @@ public class AccidentReception {
 	private int remainingNumberOfTowTruckCalls;
 //	private boolean towTruckCallPresent;
 	// 렉카콜 속성 삭제
-	// 
+	private String accidentLocation; 
+	private String accidentType;
+	// 새로 추가한 속성 - 사고 위치, 사고 유형
+	private boolean payedMoney;
+	// 새로 추가한 속성 - 보험금 지급 여부
 	private String contractID;
 	
-	public AccidentReception(int remainingNumberOfTowTruckCalls, String contractID) {
+	public AccidentReception(int remainingNumberOfTowTruckCalls, String contractID , String accidentLocation, String accidentType) {
+		// 파라미터 변경(int String -> int String 3개)
 		this.remainingNumberOfTowTruckCalls = remainingNumberOfTowTruckCalls;
 		this.contractID = contractID;
+		this.accidentLocation = accidentLocation;
+		this.accidentType = accidentType;
+		this.payedMoney = false;
 	}
 	
 	public void finalize() throws Throwable {
@@ -39,8 +47,6 @@ public class AccidentReception {
 	public String getContractID() {
 		return contractID;
 	}
-	
-
 	public void setAccidentID(String accidentID) {
 		this.accidentID = accidentID;
 	}
@@ -49,5 +55,23 @@ public class AccidentReception {
 	}
 	public void setContractID(String contractID) {
 		this.contractID = contractID;
+	}
+	public String getAccidentLocation() {
+		return accidentLocation;
+	}
+	public void setAccidentLocation(String accidentLocation) {
+		this.accidentLocation = accidentLocation;
+	}
+	public String getAccidentType() {
+		return accidentType;
+	}
+	public void setAccidentType(String accidentType) {
+		this.accidentType = accidentType;
+	}
+	public boolean isPayedMoney() {
+		return payedMoney;
+	}
+	public void setPayedMoney(boolean payedMoney) {
+		this.payedMoney = payedMoney;
 	}
 }
