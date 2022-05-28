@@ -1,10 +1,10 @@
 package Main;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import Controller.Controller;
-import Model.AccidentReception.AccidentReception;
+import AccidentReception.AccidentReception;
+import Control.Control;
 
 /**
  * @author dlsqo
@@ -13,7 +13,7 @@ import Model.AccidentReception.AccidentReception;
  */
 public class Main {
 
-	private Controller controller = new Controller();
+	private Control control = new Control();
 
 	public static ArrayList<AccidentReception> accidentUserList = new ArrayList<AccidentReception>(); 
 
@@ -44,11 +44,11 @@ public class Main {
 					int type = scanner.nextInt();
 					System.out.println("조회할 고객 정보를 입력하세요.");
 					String key = scanner.next();
-					System.out.println(this.controller.enquireCustomerInformation(type, key));
+					System.out.println(this.control.enquireCustomerInformation(type, key));
 					//if null 필요
 					System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
 					int index = scanner.nextInt();
-					System.out.println(this.controller.enquireCustomerDetailInformation(index));
+					System.out.println(this.control.enquireCustomerDetailInformation(index));
 	
 					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
 					break;
@@ -85,14 +85,14 @@ public class Main {
 						String newInformation = scanner.next();
 						if(newInformation != null) {
 							//////////////////////////
-							System.out.println(controller.checkCustomerInformation(index, choice, newInformation));
+							System.out.println(control.checkCustomerInformation(index, choice, newInformation));
 							System.out.println("1.저장");
 							System.out.println("2.재작성");
 							choice = scanner.nextInt();
 							//							switch(choose)
 							if(choice == 1) {
-								System.out.println(controller.modifyCustomerInformation(index, type, newInformation));
-								System.out.println(this.controller.enquireCustomerDetailInformation(index));
+								System.out.println(control.modifyCustomerInformation(index, type, newInformation));
+								System.out.println(this.control.enquireCustomerDetailInformation(index));
 								return;
 								//								bOnLoop = false;
 							}
@@ -105,7 +105,7 @@ public class Main {
 					}
 					break;
 				case 2:
-					System.out.println(this.controller.enquireCustomerDetailInformation(index));
+					System.out.println(this.control.enquireCustomerDetailInformation(index));
 					System.out.println("해당 고객을 삭제하겠습니까?");
 					System.out.println("1.삭제");
 					System.out.println("2.뒤로가기");
@@ -113,7 +113,7 @@ public class Main {
 					if(choice == 1) {
 						System.out.println("삭제 고객ID를 입력하세요.");
 						String id = scanner.next();
-						System.out.println(controller.deleteCustomerInformation(index, id));
+						System.out.println(control.deleteCustomerInformation(index, id));
 					}
 					else if(choice == 2) {
 						break;
@@ -334,7 +334,7 @@ public class Main {
 	private void joinInsurance(Scanner scanner) {
 		// 민재 - 보험 가입하기
 		while(true) {
-			System.out.println(controller.enquirePassedCustomerInUW());
+			System.out.println(control.enquirePassedCustomerInUW());
 			System.out.print("신청할 고객 정보를 선택하세요(0 : 뒤로가기) : ");
 			String choice = scanner.next();
 			scanner.nextLine();
@@ -371,7 +371,7 @@ public class Main {
 		while(true) {
 			System.out.print("지정할 만기일(YYYY-MM-DD) : ");
 			String date = scanner.next();
-			if(!controller.checkInputDateFormat(date)) {
+			if(!control.checkInputDateFormat(date)) {
 				System.out.println("날짜 입력 형식이 올바르지 않습니다.");
 				continue;
 			}
