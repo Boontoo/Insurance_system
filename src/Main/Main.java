@@ -744,7 +744,7 @@ public class Main {
 			System.out.println("8.보상운용 관리하기");
 			System.out.println("9.보험금 지급하기"); // -
 			System.out.println("10.사고 접수하기"); // -
-			System.out.println("11.만기계약 관리하기");
+			System.out.println("11.만기계약 관리하기"); // 0
 			System.out.println("12.납입정보 관리하기"); // 0
 			System.out.println("13.보험 상품 설계하기"); // -
 

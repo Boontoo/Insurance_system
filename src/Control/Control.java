@@ -283,7 +283,7 @@ public class Control {
 				selectInput.equals("2");
 	}
 
-	public String deleteCustomerInformation(int index, String id){
+	public String deleteCustomerInformation(int index, String id) {
 		// 고객 정보를 삭제한다
 		boolean bDelete = false;
 		if(this.customerList.get(index-1).getId().equals(id)) {
