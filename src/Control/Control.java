@@ -610,7 +610,14 @@ public class Control {
 	}
 	public String enquireInsuranceList(){
 		// 보험 리스트 조회하기
-		return "";
+		ArrayList<Insurance> insuranceList = this.m_InsuranceListImpl.getAll();
+		String result = "";
+		int i = 1;
+		for(Insurance insurance : insuranceList) {
+			result += i + "." + insurance.getInsuranceName() + "\n";
+			i++;
+		}
+		return result;
 	}
 
 	/**
@@ -619,11 +626,14 @@ public class Control {
 	 */
 	public String enquireInsuranceProductDetails(int choice){
 		// 보험 상품 세부 정보 조회하기
+		// choice 예외 처리 필요
+		
 		return "";
 	}
 
 	public String enquireInsuranceProductDevelopmentInformation(){
 		// 보험 상품 개발 정보 조회하기
+//		보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을  반환한다
 		return "";
 	}
 
@@ -653,8 +663,10 @@ public class Control {
 		return (choice > 0 && choice <= passedCustomerList.size());
 	}
 	
-	public void enquireProductSalesSupportDetails(){
+	public ArrayList<String> enquireProductSalesSupportDetails(){
 		// 제품 판매 지원 세부정보 지원하기..?
+		ArrayList<String> productSalesSupportDetails = new ArrayList<String>();
+		return productSalesSupportDetails;
 	}
 
 	/**
@@ -683,9 +695,11 @@ public class Control {
 	}
 
 
-	public String euqireInsuranceProductDesignForm(){
+	public ArrayList<String> enqireInsuranceProductDesignForm(){
 		// 보험 상품 설계 양식 조회하기
-		return "";
+		ArrayList<String> designForm = new ArrayList<String>();
+		// 어떤 데이터베이스???
+		return designForm;
 	}
 	
 	public String enquireCustInsurances(String name, String sSN) {
@@ -901,8 +915,9 @@ public class Control {
 		// 보상운용정보를 저장한다
 	}
 
-	public void saveInsuranceDesignContent(){
+	public boolean saveInsuranceDesignContent(ArrayList<String> designContents){
 		// 보험 설계 내용 저장하기
+		return false;
 	}
 	/**
 	 * 
@@ -913,7 +928,7 @@ public class Control {
 		return "";
 	}
 
-	public void saveProductSalesSupportDetails(){
+	public void saveProductSalesSupportDetails(ArrayList<String> productSalesSupportDetailsContents){
 		// 제품 판매 지원 세부 정보 저장하기
 	}
 }
