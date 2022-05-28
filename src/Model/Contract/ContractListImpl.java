@@ -12,13 +12,7 @@ public class ContractListImpl implements ContractList {
 	public Contract m_Contract;
 
 	public ContractListImpl(){
-		Contract contract = new Contract();
-		contract.setCustomerID("문인배");
-		// 인배야 이거도 바꿨다잉
-		contract.setInsuranceID("일반화재보험");
-		contract.setPaymentAmount(10000);
-		contract.setPaymentStatus(true);
-		this.contractList.add(contract);
+		
 	}
 
 	public void finalize() throws Throwable {
@@ -42,17 +36,37 @@ public class ContractListImpl implements ContractList {
 	public boolean delete(String id){
 		return false;
 	}
+	public void addPayment(int choice, int amountOfInsuranceFee) {
+		// 새로 만든 함수 - 납입 보험금 추가 - 보험금 납입
+		contractList.get(choice-1).addPayment(amountOfInsuranceFee);
+		contractList.get(choice-1).setPaymentStatus(true);
+	}
 
 	/**
 	 * 
 	 * @param id
 	 */
 	public Contract get(String id){
+		for(Contract contract : contractList) {
+			if(contract.getId().equals(id)) return contract;
+		}
 		return null;
 	}
 	public int getSize() {
 		// 새로 만든 함수
 		return contractList.size();
+	}
+	public Contract getById(String insuranceID, String id) {
+		// 새로 만든 함수
+		for(Contract contract : contractList) {
+			if(contract.getInsuranceID().equals(insuranceID) 
+					&& contract.getCustomerID().equals(id)) return contract;
+		}
+		return null;
+	}
+	public ArrayList<Contract> getAll(){
+		// 새로 만든 함수
+		return contractList;
 	}
 	@Override
 	public Contract get(int index) {

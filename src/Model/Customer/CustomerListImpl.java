@@ -14,21 +14,7 @@ public class CustomerListImpl implements CustomerList {
 	public Customer m_Customer;
 
 	public CustomerListImpl(){
-		Customer customer = new Customer();
-		customer.setId("0");
-		customer.setAge(22);
-		customer.setBirthDate(20010213);
-		customer.setGender(true);
-		customer.setName("문인배");
-		customer.setPhoneNum("01068004320");
-		customer.setSsn("60201672");
-		ArrayList<String> subscribedInsurance = new ArrayList<String>();
-		subscribedInsurance.add("일반 화재 보험");
-		customer.setSubscribedInsurance(subscribedInsurance);
-		customer.setUniqueness("하이");
-		ArrayList<String> accidentId = new ArrayList<String>();
-		accidentId.add("0");
-		this.customerList.add(customer);
+		
 	}
 
 	public void finalize() throws Throwable {
@@ -40,6 +26,13 @@ public class CustomerListImpl implements CustomerList {
 		customerList.get(customerList.size()-1).setId(customerList.size() + "");
 		return result;
 	}
+	public int indexOf(String id) {
+		// 새로 만든 함수
+		for(int i = 0; i < customerList.size(); i++) {
+			if(customerList.get(i).getId().equals(id)) return i;
+		}
+		return -1;
+	}
 	public int getSize() {
 		// 새로 만든 함수
 		return customerList.size();
@@ -47,6 +40,19 @@ public class CustomerListImpl implements CustomerList {
 	public ArrayList<Customer> getAll(){
 		// 새로 만든 함수
 		return customerList;
+	}
+	public Customer getById(String id) {
+		// 새로 만든 함수
+		int index = indexOf(id);
+		if(index != -1) return customerList.get(index);
+		return null;
+	}
+	public Customer getBySsn(String ssn) {
+		// 새로 만든 함수
+		for(Customer customer : customerList) {
+			if(customer.getSsn().equals(ssn)) return customer;
+		}
+		return null;
 	}
 
 	public boolean delete(String customerID){
@@ -67,7 +73,6 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return result;
 	}
-
 
 	public ArrayList<Customer> get(Date today){
 		return null;
@@ -109,5 +114,12 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return result;
 	}
-
+	@Override
+	public String toString() {
+		// 새로 만든 함수
+		String temp = "";
+		for(Customer customer : customerList) 
+			temp += customer + "\n";
+		return temp;
+	}
 }

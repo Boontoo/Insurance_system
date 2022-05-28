@@ -78,7 +78,7 @@ public class Customer {
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -123,5 +123,15 @@ public class Customer {
 		this.accidentId = accidentId;
 	}
 
-	
+	public boolean addInsurance(String insuranceName) {
+		// 새로 만든 함수
+		return subscribedInsurance.add(insuranceName);
+	}
+
+	@Override
+	public String toString() {
+		// 새로 만든 함수
+		return id + " " + age + " " + birthDate + " " + name + 
+				" " + phoneNum + " " + ssn;
+	}
 }

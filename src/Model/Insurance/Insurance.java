@@ -18,11 +18,16 @@ public class Insurance {
 	private int monthlyPaymentAmount;
 	private int target;
 	private int term;
+	private int reInsuranceFee; // 새로 만든 변수(재보험요금)
+	private boolean isRenew; // 새로 만든 변수(갱신여부)
+	
 	private enum type{};
 	public CompensationCondition m_CompensationCondition;
 
 	public Insurance(String InsuranceName){
 		this.InsuranceName = InsuranceName;
+		this.reInsuranceFee = 10000;
+		this.isRenew = false;
 	}
 
 	public void finalize() throws Throwable {
@@ -82,6 +87,18 @@ public class Insurance {
 	}
 	public void setM_CompensationCondition(CompensationCondition m_CompensationCondition) {
 		this.m_CompensationCondition = m_CompensationCondition;
+	}
+	public int getReInsuranceFee() {
+		return reInsuranceFee;
+	}
+	public void setReInsuranceFee(int reInsuranceFee) {
+		this.reInsuranceFee = reInsuranceFee;
+	}
+	public boolean isRenew() {
+		return isRenew;
+	}
+	public void setRenew(boolean isRenew) {
+		this.isRenew = isRenew;
 	}
 	public void compensate(){
 
