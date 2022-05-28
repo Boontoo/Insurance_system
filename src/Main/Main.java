@@ -320,7 +320,6 @@ public class Main {
 		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기 
 		// 민우
 		
-		MainFrame frame = new MainFrame();
 		
 		System.out.println("----------------------------");
 		System.out.println("사고 처리를 시작합니다.");
@@ -371,11 +370,141 @@ public class Main {
 	}
 
 	private void designInsuranceProduct(Scanner scanner) {
-		this.requestAuthorization(scanner);
+		while(true) {
+			System.out.println("1.보험 상품 설계");
+			System.out.println("2.보험 상품 관리");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 1:
+					//보험 상품 설계
+					//시스템
+//					보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을  출력한다
+					System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
+					
+//					보험상품시장정보를 보고 통계율을 따져서 새로운 보험상품을 기획한다
+//					기획한 내용을 바탕으로 기획서를 작성한 후 저장버튼(엔터)을 누른다
+//					choice = scanner.nextInt();
+					//시스템
+//					"저장완료"라는 메시지를 출력한다 
+//					System.out.println("저장완료");
+//					보험상품 설계 입력 양식(보장·판매대상, 요율, 시산작업내역, 예상손익분석 가격, 기초서류)및 저장버튼을 출력한다
+					// 변경 (폼 다 띄우고 답 받기 -> 폼 하나 띄우고 답변 받는 식(질문1, 답변1, 질문2, 답변2...))
+					ArrayList<String> designContents = new ArrayList<String>();
+					ArrayList<String> designForm = controller.enqireInsuranceProductDesignForm();
+					for(String content : designForm) {
+						System.out.println(content);
+						designContents.add(scanner.next());
+					}
+					boolean bSave = true;
+					while(bSave) {
+						System.out.println("저장하시겠습니다?");
+						System.out.println("1.Yes");
+						System.out.println("2.No");
+						choice = scanner.nextInt();
+						switch(choice) {
+							case 1:
+								boolean isSaved = controller.saveInsuranceDesignContent(designContents);
+								if(isSaved) {
+									System.out.println("저장완료");
+									this.requestAuthorization(scanner);
+								}
+	//							bSave = false;
+	//							break;
+							case 2:
+								bSave = false;
+	//							break;
+							default:
+								break;
+						}
+					}
+//					choice = scanner.nextInt();
+					//대답
+					
+//					designForm = controller.enqireInsuranceProductDesignForm();
+//					System.out.println(controller.euqireInsuranceProductDesignForm());
+					
+//					controller.saveInsuranceDesignContent(designContents);
+//					"저장완료"라는 메시지를 출력한다 
+					
+					
+//					보험설계(보장·판매대상 결정, 요율 수집 및 시산작업, 예상손익분석 가격결정, 기초서류 작성, 요율검증의뢰)를 하고 해당 내용을 작성 후, 저장버튼(엔터)을 누른다.
+					
+					//시스템
+//					"저장완료"메시지와 "상품 인가품의 버튼"을 출력한다
+//					유스케이스 '보험상품을 인가한다'를 따른다
+					return;
+				case 2:
+					//보험 상품 관리
+					//시스템
+					System.out.println(controller.enquireInsuranceList());
+					choice = scanner.nextInt();
+					controller.enquireInsuranceProductDetails(choice);
+//					System.out.println(controller);
+//					A1. 해당 보험 상품 관련 정보(판매 실적 및 속성, 손익)을 출력한다
+					
+//					판매 실적 및 속성, 손익을 보고 해당 보험의 문제점을 파악한다
+					return;
+				default:
+					break;
+			}
+			this.requestAuthorization(scanner);
+		}
 	}
 
 	private void requestAuthorization(Scanner scanner) {
-
+		while(true) {
+			System.out.println("보험상품을 인가품의하겠습니까?");
+			System.out.println("1.Yes");
+			System.out.println("2.No");
+			int choice = scanner.nextInt();
+			switch(choice) {
+			case 1:
+				System.out.println("상품 인가품의 완료");
+				// 상품 확정 후 상품을 등록시킨다.
+				controller.requestAuthorizationOfCompany();
+				//상품 확정 질문 필요?
+				System.out.println("상품을 확정시키겠습니까?");
+				System.out.println("1.Yes");
+				System.out.println("2.No");
+				// 필요하다면 대답 부분 구현해야 함
+				System.out.println("상품이 확정되었습니다.");
+				// 상품 확정 코드를 어떻게...? 모델 부분도 없네?
+				
+				boolean bRequestAuthorizationOfFSS = true;
+				while(bRequestAuthorizationOfFSS) {
+					System.out.println("금융감독원 상품인가 품의하겠습니까?");
+					System.out.println("1.Yes");
+					System.out.println("2.No");
+					choice = scanner.nextInt();
+					switch(choice) {
+					case 1:
+						System.out.println("상품 인가품의 완료");
+						controller.requestAuthorizationOfFSS();
+						ArrayList<String> productSalesSupportDetails = controller.enquireProductSalesSupportDetails();
+						ArrayList<String> productSalesSupportDetailsContents = new ArrayList<String>();
+						for(String content : productSalesSupportDetails) {
+							System.out.println(content);
+							productSalesSupportDetailsContents.add(scanner.next());
+						}
+//						controller.
+						// 공유를 저장으로 해야하는지?
+						controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents);
+						// 보험 추가 부분 없음
+//						controller.addInsurance();
+					case 2:
+						bRequestAuthorizationOfFSS = false;
+					default:
+						break;
+					}
+				}
+				controller.requestAuthorizationOfFSS();
+			case 2:
+				return;
+			default:
+				break;
+			}
+		}
+		
 	}
 
 	public static void main(String[] args) {
