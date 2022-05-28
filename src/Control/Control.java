@@ -379,6 +379,13 @@ public class Control {
 		return customer.getName().equals(name) && customer.getSsn().equals(sSN);
 	}
 	
+	public boolean checkInContractList(String choice) {
+		// 새로 만든 함수 - 선택 번호가 계약 리스트에 있는지 확인
+		if(!checkNumFormat(choice)) return false;
+		return Integer.parseInt(choice) > 0 && 
+				Integer.parseInt(choice) <= m_ContractListImpl.getSize();
+	}
+	
 	public String enquireDetailAccidentInfo(String accidentId) {
 		// 새로 만든 함수 - 사고 접수자의 이름, 나이, 사고 위치, 사고 유형, 상품명으로 바꿀 것
 		String result = "";
@@ -423,6 +430,27 @@ public class Control {
 			index++;
 		}
 		return result;
+	}
+	public boolean compareBeforeDate(String date, String choice) {
+		// 새로 만든 함수 - 입력 날짜가 기존 만기일 이후인지 확인 - 만기계약 관리하기
+		return compareDate(date, m_ContractListImpl.get(Integer.parseInt(choice)-1).getExpirationDate());
+	}
+
+	private boolean compareDate(String date, String currentDate) {
+		// 새로 만든 함수 - 입력 날짜 비교
+		int newYear = Integer.parseInt(date.substring(0, 4));
+		int currentYear = Integer.parseInt(currentDate.substring(0, 4));
+		if(newYear < currentYear) return false;
+		else if(newYear > currentYear) return true;
+		int newMonth = Integer.parseInt(date.substring(5, 7));
+		int currentMonth = Integer.parseInt(currentDate.substring(5, 7));
+		if(newMonth < currentMonth) return false;
+		else if(newMonth > currentMonth) return true;
+		int newDay = Integer.parseInt(date.substring(8, 10));
+		int currentDay = Integer.parseInt(currentDate.substring(8, 10));
+		if(newDay < currentDay) return false;
+		else if(newDay > currentDay) return true;
+		return true;
 	}
 	
 	/**
@@ -522,10 +550,17 @@ public class Control {
 		return null;
 	}
 	public String enquireExpirationContractInformation(){
-		// 만기 계약정보를 조회한다
-		return "";
+		// 만기 계약정보를 조회한다 - 만기 계약 관리하기
+		String result = "";
+		int idx = 0;
+		for(Contract contract : m_ContractListImpl.getAll()) 
+			result += ++idx + "         " + 
+						getCustNameFromContID(contract.getCustomerID()) + "   " + 
+						getInsNameFromContID(contract.getInsuranceID()) + "    " + 
+						contract.getExpirationDate() + "\n";
+		return result;
 	}
-
+	
 	public String enquireInformationAboutApplicationForMembership(){
 		 // 가입 신청 정보를 조회한다 - 인수심사 진행하기
 		return m_ApplicationForMembershipListImpl.toString();
@@ -820,9 +855,11 @@ public class Control {
 	 * @param newExpirationDate
 	 * @param id
 	 */
-	public String renewExpirationDate(String newExpirationDate, String id){
-		// 만기일을 갱신한다
-		return "";
+	public String renewExpirationDate(String newExpirationDate, String choice){
+		// 만기일을 갱신한다 - 만기계약 관리하기
+		// 파라미터 변경 (id -> choice)
+		m_ContractListImpl.get(Integer.parseInt(choice)-1).setExpirationDate(newExpirationDate);
+		return "만기일이 연장되었습니다(만기일 : " + newExpirationDate + ")";
 	}
 
 	public void requestAuthorizationOfCompany(){

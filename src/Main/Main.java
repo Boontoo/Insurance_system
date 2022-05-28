@@ -615,6 +615,54 @@ public class Main {
 
 	private void manageExpirationContract(Scanner scanner) {
 		// 만기계약 관리
+		scanner.nextLine();
+		boolean isContinue = false;
+		System.out.print("만기 계약 관리를 진행하겠습니까?\n(1.진행   그이외.뒤로가기) : ");
+		if(!scanner.nextLine().equals("1")) return;
+		String choice = "";
+		while(!isContinue) {
+			String contractList;
+			System.out.println("[만기 계약 정보 관리]");
+			System.out.println("선택번호    이름    가입 보험    만기일");
+			contractList = control.enquireExpirationContractInformation();
+			if(contractList.length() == 0) return;
+			System.out.println(contractList);
+			System.out.print("관리할 정보를 선택하세요(0.뒤로가기) : ");
+			choice = scanner.nextLine();
+			if(choice.equals("0")) return;
+			if(control.checkInContractList(choice)) isContinue = true;
+			else System.out.println("알맞는 번호를 선택해 주세요");
+		}
+		isContinue = false;
+		String inputCase = "";
+		while(!isContinue) {
+			System.out.print("1.계약 연장\n그이외.계약 해지\n입력 : ");
+			inputCase = scanner.nextLine();
+			if(!inputCase.equals("1")) {
+				System.out.println("해당 고객은 만기일 이후 계약이 해지됩니다.");
+				System.out.println("=========================");
+				return;
+			}
+			if(inputCase.length() != 0) isContinue = true;
+			else System.out.println("진행 동작을 입력해 주세요");
+		}
+		isContinue = false;
+		String newExpirationDate = "";	
+		while(!isContinue) {
+			System.out.print("만기일 입력 : ");
+			newExpirationDate = scanner.nextLine();
+			if(!control.checkInputDateFormat(newExpirationDate)) {
+				System.out.println("날짜 형식에 맞춰 다시 입력해 주세요(YYYY-MM-DD)");
+				continue;
+			}
+			if(!control.compareBeforeDate(newExpirationDate, choice)) {
+				System.out.println("기존 만기일 이후 날짜를 입력해 주세요");
+				continue;
+			}
+			isContinue = true;
+		}
+		System.out.println(control.renewExpirationDate(newExpirationDate, choice));
+		System.out.println("=========================");
 	}
 
 	private void managePaymentInformation(Scanner scanner) {
