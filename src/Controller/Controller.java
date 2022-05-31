@@ -2,7 +2,6 @@ package Controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,11 +44,15 @@ public class Controller {
 	private InsuranceDesignListImpl m_InsuranceDesignListImpl;
 	private InsuranceProductDevelopmentInformationListImpl m_InsuranceProductDevelopmentInformationListImpl;
 	
-	private ArrayList<ApplicationForMembership> passedCustomerList; // 새로 만든 속성
-	private ArrayList<Insurance> submitInsList; // 새로 만든 속성
-	private Insurance selectedIns; // 새로 만든 속성
+//	private ArrayList<ApplicationForMembership> passedCustomerList; 
+	// 새로 만든 속성 -> 삭제(22-05-31)
+//	private ArrayList<Insurance> submitInsList; 
+	// 새로 만든 속성 -> 삭제(22.06.01)
+//	private Insurance selectedIns; 
+	// 새로 만든 속성 -> 삭제(22.06.01)
 	// Impl들 모두 private으로 바꿀 것
-	private ArrayList<Contract> extOneMonthList;
+//	private ArrayList<Contract> extOneMonthList;
+	// 삭제(22.06.01)
 
 	public Controller(){
 		this.m_CustomerListImpl = new CustomerListImpl();
@@ -60,11 +63,17 @@ public class Controller {
 		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
 		
 		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
+		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize()-1).setInsuranceID(m_InsuranceListImpl.getSize()+"");
 		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
+		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize()-1).setInsuranceID(m_InsuranceListImpl.getSize()+"");
 		this.m_InsuranceListImpl.add(new Insurance("일반 화재 보험"));
+		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize()-1).setInsuranceID(m_InsuranceListImpl.getSize()+"");
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유민재", "010-3737-2855", "990713-1058827"));
+		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323"));
+		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827"));
+		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "황혜경", "대학생", "701205-2058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유철민", "대학생", "730128-1055323"));
@@ -172,7 +181,6 @@ public class Controller {
 			return false;
 		}
 	}
-
 	/**
 	 * 
 	 * @param insurance
@@ -243,7 +251,6 @@ public class Controller {
 			return false;
 		return true;
 	}
-
 	public boolean checkNumFormat(String input) {
 		// 새로 만든 함수 - 숫자 확인
 		if(input.length() > 1 && input.charAt(0) == '0') return false;
@@ -267,13 +274,25 @@ public class Controller {
 		if(!checkNumFormat(input.substring(8, 10))) return false;
 		return true;
 	}
-	
-	public boolean checkInSelectSize(String input) {
-		// 새로 만든 함수 - 선택 번호 내 입력 확인 - 보험료 납입하기
-		return Integer.parseInt(input) > 0 && 
-				Integer.parseInt(input) <= m_ContractListImpl.getSize();
+	public boolean checkInputDateBeforeToday(String date, String today) throws ParseException {
+		// 새로 만든 함수 - 입력 날짜가 오늘 날짜 이후인지 확인
+		return checkDateDiff(date, today) <= 0;
 	}
-	
+	private long checkDateDiff(String expirationDate, String currentDate) throws ParseException {
+		// 새로 만든 함수 - 입력 계약 만료일이 1달 이내 남은 계약인지 확인
+		Date format1 = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate);
+		Date format2 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+		return (format1.getTime() - format2.getTime()) / 1000 / (24*60*60);
+	}
+	public boolean checkInputDateBefore(String expDate, String selectedId) {
+		// 새로 만든 함수 - 기존 날짜와 입력 날짜 비교 -> 기존 날짜보다 이전 날짜라면 false
+		return compareDate(expDate, m_ContractListImpl.get(selectedId).getExpirationDate());
+	}
+//	public boolean checkInSelectSize(String input) {
+//		// 새로 만든 함수 - 선택 번호 내 입력 확인 - 보험료 납입하기
+//		// 삭제(22.05.31)
+//		return false;
+//	}
 	public int countInsuranceFeeNotPaid(){
 		// 보험료 미납입 고객을 센다 - 납입 정보 관리하기
 		int count = 0;
@@ -282,7 +301,6 @@ public class Controller {
 		}
 		return count;
 	}
-	
 	public boolean checkInCustList(String name) {
 		// 새로 만든 함수 - 입력 이름이 Customer리스트에 있는지 확인
 		for(Customer customer : m_CustomerListImpl.getAll()) {
@@ -305,11 +323,11 @@ public class Controller {
 				selectInput.equals("1") || 
 				selectInput.equals("2");
 	}
-	public boolean checkInMenuIni(String selectInput) {
-		// 새로 만든 함수 - 선택 메뉴내 번호 입력 확인(초기화시)- 납입 정보 관리
-		return selectInput.equals("1") || 
-				selectInput.equals("2");
-	}
+//	public boolean checkInMenuIni(String selectInput) {
+//		// 새로 만든 함수 - 선택 메뉴내 번호 입력 확인(초기화시)- 납입 정보 관리
+//		// 삭제(22.06.01)
+//		return false;
+//	}
 
 	public String deleteCustomerInformation(int index, String id) {
 		// 고객 정보를 삭제한다
@@ -327,11 +345,6 @@ public class Controller {
 		
 		return "고객ID와 일치하지 않습니다. 다시 입력해주세요.";
 	}
-
-	public String enquireApplicationForMembership(String id) {
-		// 새로 만든 함수
-		return m_ApplicationForMembershipListImpl.get(id).toString();
-	}
 	// 사고 접수 시나리오 다시 구성해야 함
 	public boolean checkCustContracted(String name, String phoneNum) {
 		// 새로 만든 함수 - 해당 고객이 보험에 가입했는지 확인 - 사고 접수
@@ -343,22 +356,20 @@ public class Controller {
 		}
 		return false;
 	}
-	public String enquireCustomerContracted(String name) {
+	public ArrayList<Contract> enquireCustomerContracted(String name) {
 		// 새로 만든 함수 - 고객이 가입한 보험 가입 정보 출력, 선택 번호내 입력하게 하기 - 사고 접수
-		String result = "";
+		// 반환형 변경(22.06.01) String->ArrayList
+		ArrayList<Contract> contractList = new ArrayList<Contract>();
 		for(Contract contract : m_ContractListImpl.getAll()) {
-			if(getCustNameFromContID(contract.getCustomerID()).equals(name)) 
-				result += contract.getId() + ".  " + 
-							getInsNameFromContID(contract.getInsuranceID()) + "   " + 
-							contract.getExpirationDate() + "\n";
+			if(getCustByCont(contract).getName().equals(name)) contractList.add(contract);
 		}
-		return result;
+		return contractList;
 	}
 	public boolean checkIdInContract(String id, String name) {
 		// 새로 만든 함수 - 입력 아이디가 계약 리스트에 포함되었는지 확인
 		// 파라미터 변경 (String -> String String)
 		for(Contract contract : m_ContractListImpl.getAll()) {
-			if(getCustNameFromContID(contract.getCustomerID()).equals(name) && 
+			if(getCustByCont(contract).getName().equals(name) && 
 					contract.getId().equals(id)) return true;
 		}
 		
@@ -375,28 +386,13 @@ public class Controller {
 	 * @param customerName
 	 * @param phoneNum 
 	 */
-	public String enquireAccidentInformation(){
-		// 사고접수 정보를 조회한다 - 사고 접수
-		// 파라미터 삭제
-		AccidentReception accidentReception = m_AccidentReceptionListImpl.getLast();
-		String insId = m_ContractListImpl.get(accidentReception.getContractID()).getInsuranceID();
-		return "적용 보험 이름 : " + getInsNameFromContID(insId) + "\n" + 
-				"잔여 무료 렉카 서비스 횟수 : " + accidentReception.getRemainingNumberOfTowTruckCalls();
-	}
-
-	public String enquireAccidentList(){
-		// 사고 목록 조회하기(고객 이름, 주민번호, 사건번호) - 보험급 지급
-		String result = "";
-		String payedMoneyStr = "";
-		for(AccidentReception accidentReception : m_AccidentReceptionListImpl.getAll()) {
-			payedMoneyStr = accidentReception.isPayedMoney()? "예" : "아니오";
-			Customer customer = m_CustomerListImpl.getById(
-					m_ContractListImpl.get(accidentReception.getContractID()).getCustomerID());
-			result += customer.getName() + "      " + customer.getSsn() + "     " + 
-						accidentReception.getAccidentID() + "           " + payedMoneyStr + "\n";
-		}
-		return result;
-	}
+//	public AccidentReception enquireAccidentInformation(){
+//		// 사고접수 정보를 조회한다 - 사고 접수
+//		// 파라미터 삭제
+//		// 반환형 변경(22.06.01) String->AccidentReception
+		// 삭제(22.06.01)
+//		return m_AccidentReceptionListImpl.getLast();
+//	}
 	
 	public boolean checkInAccidentList(String name, String sSN, String accidentId) {
 		// 새로 만든 함수 - 입력 사고 정보가 리스트에 있는지 확인 - 보험금 지급
@@ -414,18 +410,10 @@ public class Controller {
 				Integer.parseInt(choice) <= m_ContractListImpl.getSize();
 	}
 	
-	public String enquireDetailAccidentInfo(String accidentId) {
+	public AccidentReception enquireDetailAccidentInfo(String accidentId) {
 		// 새로 만든 함수 - 사고 접수자의 이름, 나이, 사고 위치, 사고 유형, 상품명으로 바꿀 것
-		String result = "";
-		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(accidentId);
-		Contract contract = m_ContractListImpl.get(accidentReception.getContractID());
-		Customer customer = m_CustomerListImpl.getById(contract.getCustomerID());
-		result += "이름 : " + customer.getName() + "\n" + 
-					"나이 : " + customer.getAge() + "\n" + 
-					"사고 위치 : " + accidentReception.getAccidentLocation() + "\n" + 
-					"사고 유형 : " + accidentReception.getAccidentType() + "\n" + 
-					"상품명 : " + m_InsuranceListImpl.get(contract.getInsuranceID()).getInsuranceName();
-		return result;
+		// 반환형 변경(22.06.01) String->AccidentReception
+		return m_AccidentReceptionListImpl.get(accidentId);
 	}
 
 	/**
@@ -478,7 +466,7 @@ public class Controller {
 		int currentDay = Integer.parseInt(currentDate.substring(8, 10));
 		if(newDay < currentDay) return false;
 		else if(newDay > currentDay) return true;
-		return true;
+		return false;
 	}
 	
 	/**
@@ -510,13 +498,8 @@ public class Controller {
 	
 	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
 		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
-		String genderStr = (passedCustomerList.get(choice-1).isGender())? "남자":"여자";
-		String result = "이름 : " + passedCustomerList.get(choice-1).getName() + 
-						"\n주민번호 : " + passedCustomerList.get(choice-1).getSSN() + 
-						"\n전화번호 : " + passedCustomerList.get(choice-1).getPhoneNum() + 
-						"\n성별 : " + genderStr + 
-						"\n가입 요청 보험명 : " + passedCustomerList.get(choice-1).getInsuranceName();
-		return result;
+		// 삭제(22.05.31) - 얘도 필요 없을듯해
+		return null;
 	}
 
 	public String checkCustomerInformation(int index, int choice, String newInformation) {
@@ -560,10 +543,10 @@ public class Controller {
 	 * 
 	 * @param choice
 	 */
-	public String enquireEmergencyCustomerList(int choice){
-		// 긴급 고객 목록 조회하기
-		return "";
-	}
+//	public String enquireEmergencyCustomerList(int choice){
+//		// 긴급 고객 목록 조회하기
+//		return "";
+//	}
 
 	/**
 	 * 
@@ -572,70 +555,101 @@ public class Controller {
 	 * @param accidentType
 	 */
 	
-	public String enquireEmployeeCallStatusInformation(String id, String accidentLocation, String accidentType){
-		// 직원콜 정보를 출력한다 - 이거 필요 없음
-		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
-		return null;
-	}
-	public String enquireExpirationContractInformation(){
+//	public String enquireEmployeeCallStatusInformation(String id, String accidentLocation, String accidentType){
+//		// 직원콜 정보를 출력한다 - 이거 필요 없음
+//		AccidentReception accidentReception = m_AccidentReceptionListImpl.get(id);
+//		return null;
+//	}
+	public ArrayList<Contract> enquireExpirationContractList(){
 		// 만기 계약정보를 조회한다 - 만기 계약 관리하기
-		String result = "";
-		int idx = 0;
-		for(Contract contract : m_ContractListImpl.getAll()) 
-			result += ++idx + "         " + 
-						getCustNameFromContID(contract.getCustomerID()) + "   " + 
-						getInsNameFromContID(contract.getInsuranceID()) + "    " + 
-						contract.getExpirationDate() + "\n";
-		return result;
+		// 반환형 변경(22.06.01) String->ArrayList
+		// 이름 변경(22.06.01) enquireExpirationContractInformation->enquireExpirationContractList
+		return m_ContractListImpl.getAll();
 	}
 	
-	public String enquireInformationAboutApplicationForMembership(){
+	public ArrayList<ApplicationForMembership> enquireApplicationForMembershipList(){
 		 // 가입 신청 정보를 조회한다 - 인수심사 진행하기
-		return m_ApplicationForMembershipListImpl.toString();
+		// 파라미터 변경(22.05.31) - String->ArrayList
+		// 이름 변경(22.06.01) enquireInformationAboutApplicationForMembership->enquireApplicationForMembershipList
+		return m_ApplicationForMembershipListImpl.getAll();
 	}
-
-	public String enquireInsuranceFeePaymentStatus(){
+	public ArrayList<Contract> enquireContractList(){
 		// 보험료 납입 정보를 조회한다 - 보험금 납입하기
-		String result = "";
-		for(int i = 0; i < m_ContractListImpl.getSize(); i++) {
-			result += i+1 + ". " + 
-					getCustNameFromContID(m_ContractListImpl.get(i).getCustomerID()) + "    " +
-					getInsNameFromContID(m_ContractListImpl.get(i).getInsuranceID()) + "    " + 
-					m_ContractListImpl.get(i).getPaymentAmount() + "    " + 
-					enquirePaymentStatus(i) + "\n";
-		}
-		return result;
+		// 반환형 변경(22.05.31) String->ArrayList
+		// 이름 변경(22.06.01) enquireInsuranceFeePaymentStatus->enquireContractList
+		return m_ContractListImpl.getAll();
 	}
-	private String enquirePaymentStatus(int i) {
+//	public ArrayList<Contract> enquireContractedInsList() {
+//		// 새로 만든 함수 - 보험 가입자 보험 상품 가입 현황 조회 - 납입 정보 관리
+//		// 반환형 변경(22.06.01) String->ArrayList
+		// 삭제(22.06.01)
+//		return m_ContractListImpl.getAll();
+//	}
+	public ArrayList<AccidentReception> enquireAccidentList(){
+		// 사고 목록 조회하기(고객 이름, 주민번호, 사건번호) - 보험급 지급
+		// 반환형 변경(22.06.01) String->ArrayList
+		return m_AccidentReceptionListImpl.getAll();
+	}
+//	private String enquirePaymentStatus(int i) {
+//		// 새로 만든 함수
+//		// 삭제(22.05.31)
+//		return null;
+//	}
+//	public String enquirePaymentResult(int choice) {
+//		// 삭제(22.06.01)
+//		return null;
+//	}
+	public Customer getCustByCont(Contract contract) {
+		// 새로 만든 함수(22.06.01)
+		return m_CustomerListImpl.getById(contract.getCustomerID());
+	}
+	public Customer getCustBySsn(String sSN) {
+		// 새로 만든 함수(22.06.01)
+		return m_CustomerListImpl.getBySsn(sSN);
+	}
+	public Insurance getInsByCont(Contract contract) {
+		// 새로 만든 함수(22.06.01)
+		return m_InsuranceListImpl.get(contract.getInsuranceID());
+	}
+	public Contract getContByAccident(AccidentReception accidentReception) {
+		// 새로 만든 함수(22.06.01)
+		return getContById(accidentReception.getContractID());
+	}
+	public Contract getContById(String selectedId) {
+		// 반환형 변경(22.06.01) String->Contract
+		// 이름 변경(22.06.01) enquireDetailExtCont->getContById
+		return m_ContractListImpl.get(selectedId);
+	}
+	public Contract getContByCustInsId(String insuranceID, String custId) {
+		// 새로 만든 함수(22.06.01)
+		return m_ContractListImpl.getById(insuranceID, custId);
+	}
+	public ApplicationForMembership enquireApplicationForMembership(String id) {
 		// 새로 만든 함수
-		return m_ContractListImpl.get(i).isPaymentStatus()? "예" : "아니오";
+		// 반환형 변경(2022-05-31)(String -> ArrayList)
+		return m_ApplicationForMembershipListImpl.get(id);
 	}
-	public String enquirePaymentResult(int choice) {
-		return "가입 보험 상품 이름 : " + getInsNameFromContID(m_ContractListImpl.get(choice-1).getInsuranceID()) + 
-				"\n납입 금액 : " + m_ContractListImpl.get(choice-1).getPaymentAmount() + 
-				"\n총 납입 금액 : " + m_ContractListImpl.get(choice-1).getTotalPaymentAmount();
+	public void payInsuranceMoney(String accidentId){
+		// 보험금 지급하기
+		// 파라미터 추가 - String
+		// 반환형 변경(22.06.01) String->void
+		m_AccidentReceptionListImpl.get(accidentId).setPayedMoney(true);
 	}
-	public String enquireContractedInsList() {
-		// 새로 만든 함수 - 보험 가입자 보험 상품 가입 현황 조회 - 납입 정보 관리
-		String isPay = "";
-		String result = "";
-		for(Contract contract : m_ContractListImpl.getAll()) {
-			isPay = contract.isPaymentStatus()? "예" : "아니오";
-			result += getCustNameFromContID(contract.getCustomerID()) + "    " + 
-					m_CustomerListImpl.getById(contract.getCustomerID()).getPhoneNum() + "    " + 
-					getInsNameFromContID(contract.getInsuranceID()) + "    " + 
-					contract.getPaymentAmount() + "    " + isPay + "\n";
-		}
-		return result;
+	public Contract enquireNewContractInformation(){
+		// 신규 계약정보를 출력한다 - 보험 가입하기(고객 세부정보 조회과정 포함)
+		// 반환형 변경(22-05-31) - String->Contract
+		return m_ContractListImpl.get(m_ContractListImpl.getSize()-1);
 	}
-	private String getCustNameFromContID(String id) {
-		// 새로 만든 함수 - 계약리스트 고객 아이디로부터 이름 반환
-		return m_CustomerListImpl.getById(id).getName();
-	}
-	private String getInsNameFromContID(String id) {
-		// 새로 만든 함수 - 계약리스트 보험 아이디로부터 이름 반환
-		return m_InsuranceListImpl.get(id).getInsuranceName();
-	}
+//	public String getCustNameFromContID(String id) {
+//		// 새로 만든 함수 - 계약리스트 고객 아이디로부터 이름 반환
+//		// 스코프 변경(22.05.31) private -> public
+//		return m_CustomerListImpl.getById(id).getName();
+//	}
+//	public String getInsNameFromContID(String id) {
+//		// 새로 만든 함수 - 계약리스트 보험 아이디로부터 이름 반환
+//		// 스코프 변경(22.05.31) private -> public
+//		return m_InsuranceListImpl.get(id).getInsuranceName();
+//	}
 	public String enquireInsuranceList(){
 		// 보험 리스트 조회하기
 		ArrayList<Insurance> insuranceList = this.m_InsuranceListImpl.getAll();
@@ -655,7 +669,6 @@ public class Controller {
 	public String enquireInsuranceProductDetails(int choice) {
 		// 보험 상품 세부 정보 조회하기
 		// choice 예외 처리 필요
-		
 		return "";
 	}
 
@@ -673,35 +686,20 @@ public class Controller {
 		return result;
 	}
 
-	public String enquireNewContractInformation(){
-		// 신규 계약정보를 출력한다 - 보험 가입하기(고객 세부정보 조회과정 포함)
-		return m_ContractListImpl.get(m_ContractListImpl.getSize()-1).toString();
-	}
-
-
-	public String enquirePassedCustomerInUW(){
+	public ArrayList<ApplicationForMembership> enquirePassedCustomerInUW(){
 		// 인수심사 합격 고객을 출력한다 - 보험 가입하기
-		String temp = "";
-		int choice = 0;
-		passedCustomerList = new ArrayList<ApplicationForMembership>();
+		// 반환형 변경(22-05-31) - String->ArrayList
+		ArrayList<ApplicationForMembership> passedCustomerList = new ArrayList<ApplicationForMembership>();
 		for(int i = 0; i < m_ApplicationForMembershipListImpl.getSize(); i++) {
-			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) {
+			if(m_ApplicationForMembershipListImpl.get(i).isUWResult()) 
 				passedCustomerList.add(m_ApplicationForMembershipListImpl.get(i));
-				temp += ++choice + " " + 
-						m_ApplicationForMembershipListImpl.get(i).getName() + " " + 
-						m_ApplicationForMembershipListImpl.get(i).getPhoneNum() + " " + 
-						m_ApplicationForMembershipListImpl.get(i).getInsuranceName()+ "\n";
-			}
 		}
-		return temp;
+		return passedCustomerList;
 	}
-	public boolean checkInputDateBeforeToday(String date, String today) throws ParseException {
-		// 새로 만든 함수 - 입력 날짜가 오늘 날짜 이후인지 확인
-		return checkDateDiff(date, today) <= 0;
-	}
-	public boolean checkInIDUW(int choice) {
-		return (choice > 0 && choice <= passedCustomerList.size());
-	}
+//	public boolean checkInIDUW(int choice) {
+//		// 삭제(22-05-31) - 민우형 얘는 지워줘
+//		return false;
+//	}
 	
 	public ArrayList<String> enquireProductSalesSupportDetails(){
 		// 제품 판매 지원 세부정보 지원하기..?
@@ -720,20 +718,16 @@ public class Controller {
 	 * @param specialExaminationResult
 	 * @param generalExaminationResult
 	 */
-	public String enquireUWResult(String id, boolean automaticExaminationResult, boolean diagnosticExaminationResult, 
+	public boolean enquireUWResult(String id, boolean automaticExaminationResult, boolean diagnosticExaminationResult, 
 			boolean imageExaminationResult, boolean specialExaminationResult, boolean generalExaminationResult){
 		// 인수심사 결과를 확인한다 - 인수심사 진행하기
 		// 인수심사 실행 여부 수정, 심사 결과 수정 포함 - 이후 문구 출력
 		// 파라미터 추가(String id)
-		String result = "인수심사에 불합격하였습니다\n사유 : ";
+		// 반환형 변경(22.06.01) String->boolean
 		m_ApplicationForMembershipListImpl.get(id).setUWExecutionStatus(true);
-		if(!automaticExaminationResult) return result += "자동심사";
-		if(!diagnosticExaminationResult) return result += "진단심사";
-		if(!imageExaminationResult) return result += "이미지심사";
-		if(!specialExaminationResult) return result += "특인심사";
-		if(!generalExaminationResult) return result += "일반심사";
-		m_ApplicationForMembershipListImpl.get(id).setUWResult(true);
-		result = "인수심사에 합격하였습니다";
+		boolean result = automaticExaminationResult && diagnosticExaminationResult && imageExaminationResult &&
+				specialExaminationResult && generalExaminationResult;
+		if(result) m_ApplicationForMembershipListImpl.get(id).setUWResult(true);
 		return result;
 	}
 
@@ -747,21 +741,20 @@ public class Controller {
 		return form;
 	}
 	
-	public String enquireCustInsurances(String name, String sSN) {
+	public ArrayList<Insurance> enquireCustInsurances(String name, String sSN) {
 		// 새로 만든 함수 - 해당 고객이 가입한 보험 리스트 출력(재보험)
-		String result = "=====================\n"+name+" 고객의 보험 가입 정보\n===================\n";
-		submitInsList = new ArrayList<Insurance>();
-		ArrayList<String> insNames = null;
-		int index = 0;
+		// 반환형 변경(22.06.01) String->ArrayList
+		ArrayList<Insurance> submitInsList = new ArrayList<Insurance>();
+		String selCustId = "";
 		for(Customer customer : m_CustomerListImpl.getAll()) {
 			if(customer.getName().equals(name) && customer.getSsn().equals(sSN)) 
-				insNames = customer.getSubscribedInsurance();
+				selCustId = customer.getId();
 		}
-		for(String insName : insNames) {
-			submitInsList.add(m_InsuranceListImpl.get(m_InsuranceListImpl.getIdFromName(insName)));
-			result += ++index + ". " + insName + "\n";
+		for(Contract contract : m_ContractListImpl.getAll()) {
+			if(contract.getCustomerID().equals(selCustId)) 
+				submitInsList.add(getInsByCont(contract));
 		}
-		return result;
+		return submitInsList;
 	}
 	
 	public boolean checkValidCustomer(String name, String sSN) {
@@ -772,111 +765,62 @@ public class Controller {
 		}
 		return false;
 	}
-	public String enquireReinsInfo() {
-		String result = "";
-		for(Insurance insurance : submitInsList)
-			result = "기입된 보험명 : " + insurance.getInsuranceName() + 
-						", 재보험료 : " + insurance.getReInsuranceFee();
-		return result;
-	}
-	public boolean checkValidReInsName(String selectInsNum) {
-		// 새로 만든 함수 - 입력 번호가 가입 보험 번호 내 있는지 확인(재보험)
-		String inputFormat;
-		for(int i = 0; i < submitInsList.size(); i++) {
-			inputFormat = i+1 + "";
-			if(inputFormat.equals(selectInsNum)) return true;
-			else continue;
-		}
-		return false;
-	}
-	public String enquireSpecificReinsInfo(String name, String sSN, String selectInsNum) {
-		// 새로 만든 함수 - 입력 번호 해당 재보험 정보 출력(재보험)
-		selectedIns = submitInsList.get(Integer.parseInt(selectInsNum)-1);
-		Customer selectCust = m_CustomerListImpl.getBySsn(sSN);
-		Contract selectCont = m_ContractListImpl.getById(selectedIns.getInsuranceID(), selectCust.getId());
-		String isRenewStr = selectedIns.isRenew()? "예":"아니오";
-		return "고객명 : " + name + 
-				"\n주민번호 : " + sSN + 
-				"\n보험명 : " + selectedIns.getInsuranceName() + 
-				"\n만기일 : " + selectCont.getExpirationDate() + 
-				"\n재등록 보험 요금 : " + selectedIns.getReInsuranceFee() + 
-				"\n갱신 여부 : " + isRenewStr;
-	}
-	public String reinsCommit(String name, String sSN) {
-		String result = "고객명 : " + name + 
-				"\n주민번호 : " + sSN + 
-				"\n보험명 : " + selectedIns.getInsuranceName() + 
-				"\n재등록 보험 요금 : " + selectedIns.getReInsuranceFee();
-		// DB 보상처리 테이블 이거 뭔소리임 도저히 모르것다
-		return result;
-	}
-	public String enquireSpecificPayInfo(String name, String sSN, String selectInsNum) {
-		// 새로 만든 함수 - 정산된 보험명 출력(재보험)
-		return submitInsList.get(Integer.parseInt(selectInsNum)-1).getInsuranceName();
-	}
-	public String enquireExpOneMonthList(String today) throws ParseException {
+//	public String enquireReinsInfo() {
+//		// 삭제(22.06.01)
+//		return null;
+//	}
+//	public boolean checkValidReInsName(String selectInsNum) {
+//		// 새로 만든 함수 - 입력 번호가 가입 보험 번호 내 있는지 확인(재보험)
+//		// 삭제(22.06.01)
+//		return false;
+//	}
+//	public String enquireSpecificReinsInfo(String name, String sSN, String selectInsNum) {
+//		// 새로 만든 함수 - 입력 번호 해당 재보험 정보 출력(재보험)
+//		// 삭제(22.06.01)
+//		return null;
+//	}
+//	public String reinsCommit(String name, String sSN) {
+//		// DB 보상처리 테이블 이거 뭔소리임 도저히 모르것다
+//		// 삭제(22.06.01)
+//		return null;
+//	}
+//	public String enquireSpecificPayInfo(String name, String sSN, String selectInsNum) {
+//		// 새로 만든 함수 - 정산된 보험명 출력(재보험)
+//		// 삭제(22.06.01)
+//		return null;
+//	}
+	public ArrayList<Contract> enquireExpOneMonthList(String today) throws ParseException {
 		// 새로 만든 함수 - 만료일 1달 남은 고객 조회 - 계약 유지 관리
-		extOneMonthList = new ArrayList<Contract>();
-		String result = "";
-		String renewConsultStr = "";
+		// 반환형 변경(22.06.01) String->ArrayList
+		ArrayList<Contract> extOneMonthList = new ArrayList<Contract>();
 		for(Contract contract : m_ContractListImpl.getAll()) {
-			if(checkDateDiff(contract.getExpirationDate(), today) <= 30) {
-				extOneMonthList.add(contract);
-				renewConsultStr = contract.isRenewConsult()? "예" : "아니오";
-				result += contract.getId() + "   " + 
-						getCustNameFromContID(contract.getCustomerID()) + "   " + 
-						contract.getExpirationDate() + "   " + 
-						renewConsultStr + "\n";
-			}
+			if(checkDateDiff(contract.getExpirationDate(), today) <= 30) extOneMonthList.add(contract);
 		}
-		return result;
+		return extOneMonthList;
 	}
-	private long checkDateDiff(String expirationDate, String currentDate) throws ParseException {
-		// 새로 만든 함수 - 입력 계약 만료일이 1달 이내 남은 계약인지 확인
-		Date format1 = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate);
-		Date format2 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
-		return (format1.getTime() - format2.getTime()) / 1000 / (24*60*60);
-	}
-	public boolean checkInputDateBefore(String expDate, String selectedId) {
-		// 새로 만든 함수 - 기존 날짜와 입력 날짜 비교 -> 기존 날짜보다 이전 날짜라면 false
-		return compareDate(expDate, m_ContractListImpl.get(selectedId).getExpirationDate());
-	}
-	public boolean checkInIdExtList(String selectedId) {
-		// 새로 만든 함수 - 입력 아이디가 extList에 있는지 확인
-		for(Contract contract : extOneMonthList) {
-			if(contract.getId().equals(selectedId)) return true;
-		}
-		return false;
-	}
-	public boolean checkContAlreadyConsult(String selectedId) {
-		// 새로 만든 함수 - 선택 아이디가 상담 완료했는지 확인
-		return m_ContractListImpl.get(selectedId).isRenewConsult();
-	}
-	public String enquireDetailExtCont(String selectedId) {
-		String isRenewConsultStr = m_ContractListImpl.get(selectedId).isRenewConsult()? "예":"아니오";
-		return "고객 이름 : " + getCustNameFromContID(m_ContractListImpl.get(selectedId).getCustomerID()) + "\n" + 
-				"전화번호 : " + m_CustomerListImpl.getById(
-								m_ContractListImpl.get(selectedId).getCustomerID()).getPhoneNum() + "\n" + 
-				"가입 보험 : " + getInsNameFromContID(m_ContractListImpl.get(selectedId).getInsuranceID()) + "\n" + 
-				"만료일 : " + m_ContractListImpl.get(selectedId).getExpirationDate() + "\n" + 
-				"갱신상담 여부 : " + isRenewConsultStr;
-	}
-	
-
+//	public boolean checkInIdExtList(String selectedId) {
+//		// 새로 만든 함수 - 입력 아이디가 extList에 있는지 확인
+//		// 삭제(22.06.01)
+//		return false;
+//	}
+//	public boolean checkContAlreadyConsult(String selectedId) {
+//		// 새로 만든 함수 - 선택 아이디가 상담 완료했는지 확인
+//		// 삭제(22.06.01)
+//		return false;
+//	}
 	/**
 	 * 
 	 * @param extendedExpirationDate
 	 */
-	public String extendContract(String extendedExpirationDate){
-		// 계약 연장하기 - 이거 필요 없을 듯
-		return "";
-	}
+//	public String extendContract(String extendedExpirationDate){
+//		// 계약 연장하기 - 이거 필요 없을 듯
+//		return "";
+//	}
 
-	public String initializeInsuranceFeePaymentStatus(){
+	public void initializeInsuranceFeePaymentStatus(){
 		// 보험료 납입여부를 초기화한다 - 납입 정보 관리하기
-		for(Contract contract : m_ContractListImpl.getAll())
-			contract.setPaymentStatus(false);
-		return "\n납입 여부 초기화가 완료되었습니다";
+		// 반환형 변경(22.06.01) String->void
+		for(Contract contract : m_ContractListImpl.getAll()) contract.setPaymentStatus(false);
 	}
 
 	public void makeDecisionInsuranceProduct(boolean bConfirm){
@@ -889,10 +833,10 @@ public class Controller {
 	 * 
 	 * @param id
 	 */
-	public boolean makeInsuranceContract(int choice, String expirationDate){
+	public boolean makeInsuranceContract(ApplicationForMembership passedCustomer, String expirationDate){
 		// 보험 계약을 한다(파라미터 변경 id->choice)
-		String[] ids = getIdsFromImpl(choice);
-		System.out.println(ids[0] + "  " + ids[1]);
+		// 파라미터 변경(2022-05-31)(choice -> passedCustomer) - 미안해 민우형 이거도 다시 바꾸자
+		String[] ids = getIdsFromImpl(passedCustomer);
 		if(ids[0] == null || ids[1] == null) return false;
 		boolean result = m_ContractListImpl.add(new Contract(ids[0], expirationDate, ids[1]));
 		
@@ -906,17 +850,18 @@ public class Controller {
 			if(customer.getId().equals(ids[0])) 
 				customer.addInsurance(insuranceName);
 		}
-		m_ApplicationForMembershipListImpl.delete(passedCustomerList.remove(choice-1).getId());
+		m_ApplicationForMembershipListImpl.delete(passedCustomer.getId());
 		return result;
 	}
 
-	private String[] getIdsFromImpl(int choice) {
+	private String[] getIdsFromImpl(ApplicationForMembership passedCustomer) {
 		// 새로 만든 함수
+		// 파라미터 변경(2022-05-31)(choice -> passedCustomer) - 미안해 민우형 이거도 다시 바꾸자
 		String ids[] = new String[] {null, null};
-		ApplicationForMembership passedCustomer = passedCustomerList.get(choice-1);
 		for(Customer customer : m_CustomerListImpl.getAll()) {
 			if(passedCustomer.getName().equals(customer.getName()) &&
-					passedCustomer.getSSN().equals(customer.getSsn())) ids[0] = customer.getId();
+					passedCustomer.getSSN().equals(customer.getSsn())) 
+				ids[0] = customer.getId();
 		}
 		for(Insurance insurance : m_InsuranceListImpl.getAll()) {
 			if(passedCustomer.getInsuranceName().equals(insurance.getInsuranceName()))
@@ -944,36 +889,27 @@ public class Controller {
 //		this.customerList.get(index).set
 		return "저장되었습니다!";
 	}
-	public boolean checkMoneyPayed(String accidentId) {
-		// 새로 만든 함수 - 보험금 지급 완료되었는지 확인
-		return m_AccidentReceptionListImpl.get(accidentId).isPayedMoney();
-	}
-	public String payInsuranceMoney(String accidentId){
-		// 보험금 지급하기
-		// 파라미터 추가 - String
-		m_AccidentReceptionListImpl.get(accidentId).setPayedMoney(true);
-		return "약물 치료비 : 12000원\n"
-				+ "입원비 : 21000원\n"
-				+ "수술비 : 17000원\n"
-				+ "재산보상비 : 15000원";
-	}
-
-
+//	public boolean checkMoneyPayed(String accidentId) {
+//		// 새로 만든 함수 - 보험금 지급 완료되었는지 확인
+		// 삭제(22.06.01)
+//		return m_AccidentReceptionListImpl.get(accidentId).isPayedMoney();
+//	}
 	/**
 	 * 
 	 * @param newExpirationDate
 	 * @param id
 	 */
-	public String renewExpirationDate(String newExpirationDate, String choice){
+	public void renewExpirationDate(String newExpirationDate, String choice){
 		// 만기일을 갱신한다 - 만기계약 관리하기, 계약 유지 활동을 진행하기
 		// 파라미터 변경 (id -> choice)
+		// 반환형 변경(22.06.01) String->void
 		m_ContractListImpl.get(Integer.parseInt(choice)-1).setExpirationDate(newExpirationDate);
-		return "만기일이 연장되었습니다(만기일 : " + newExpirationDate + ")";
 	}
-	public String renewExpirationDateById(String newExpirationDate, String id) {
+	public void renewExpirationDateById(String newExpirationDate, String id) {
 		// 새로 만든 함수
 		// 만기일 갱신 - 계약 유지
-		return renewExpirationDate(newExpirationDate, m_ContractListImpl.indexOf(id)+1+"");
+		// 반환형 변경(22.06.01) String->void
+		renewExpirationDate(newExpirationDate, m_ContractListImpl.indexOf(id)+1+"");
 	}
 	public void changeRenewConsult(String id) {
 		// 새로 만든 함수
@@ -996,16 +932,12 @@ public class Controller {
 	 * @param choice
 	 * @param amountOfInsuranceFee
 	 */
-	public String saveAmountOfInsuranceFee(int choice, int amountOfInsuranceFee){
+	public void saveAmountOfInsuranceFee(int choice, int amountOfInsuranceFee){
 		// 입력 보험금액 저장하기 - 보험료 납입하기
 		// 납입 정보 표시까지 포함	
 		// 파라미터 변경 (String id -> int choice)
+		// 반환형 변경(22.06.01) String->void
 		m_ContractListImpl.addPayment(choice, amountOfInsuranceFee);
-		String result = "[영업 활동 부서에 보낼 납입 정보]\n"+
-				"보험 가입자 이름 : " + getCustNameFromContID(m_ContractListImpl.get(choice-1).getCustomerID()) + "\n" +
-				"보험 상품 이름 : " + getInsNameFromContID(m_ContractListImpl.get(choice-1).getInsuranceID()) + "\n" + 
-				"납입 금액 : " + amountOfInsuranceFee;
-		return result;
 	}
 
 	/**
@@ -1155,7 +1087,6 @@ public class Controller {
 			return 2;
 		return 3;
 	}
-
 //	public boolean checkProductSalesSupportDetailsContents() {
 //		if(m_InsuranceDesign.getSubscriptionDesign() != null 
 //				|| m_InsuranceDesign.getSubscription() != null 

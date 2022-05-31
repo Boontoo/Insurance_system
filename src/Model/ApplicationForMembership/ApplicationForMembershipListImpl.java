@@ -71,6 +71,9 @@ public class ApplicationForMembershipListImpl implements ApplicationForMembershi
 	public int getSize() {
 		return applicationForMembershipList.size();
 	}
+	public ArrayList<ApplicationForMembership> getAll() {
+		return applicationForMembershipList;
+	}
 	@Override
 	public ApplicationForMembership get(int index) {
 		if(index >= 0 && index < applicationForMembershipList.size()) 
