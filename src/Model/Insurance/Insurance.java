@@ -14,7 +14,7 @@ public class Insurance {
 	private String insuranceID;
 	private String InsuranceName;
 	// 타입 변경 int->String
-	private int insurancePremium;
+	private int insurancePremium; // 요율
 	private int monthlyPaymentAmount;
 	private int target;
 	private int term;

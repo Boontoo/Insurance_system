@@ -1,7 +1,10 @@
 package Controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Model.AccidentReception.AccidentReception;
 import Model.AccidentReception.AccidentReceptionListImpl;
@@ -35,6 +38,7 @@ public class Controller {
 	private ArrayList<Insurance> submitInsList; // 새로 만든 속성
 	private Insurance selectedIns; // 새로 만든 속성
 	// Impl들 모두 private으로 바꿀 것
+	private ArrayList<Contract> extOneMonthList;
 
 	public Controller(){
 		this.m_CustomerListImpl = new CustomerListImpl();
@@ -238,6 +242,18 @@ public class Controller {
 				&& !input.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]+.*")) 
 			return true;
 		return false;
+	}
+	
+	public boolean checkDateStrFormat(String input) {
+		// 새로 만든 함수
+		if(input.length() != 10) return false;
+		if(input.charAt(0) == '0' || input.charAt(5) == '0' || 
+				input.charAt(8) == '0') return false;
+		if(input.charAt(4) != '-' || input.charAt(7) != '-') return false;
+		if(!checkNumFormat(input.substring(0, 4))) return false;
+		if(!checkNumFormat(input.substring(5, 7))) return false;
+		if(!checkNumFormat(input.substring(8, 10))) return false;
+		return true;
 	}
 	
 	public boolean checkInSelectSize(String input) {
@@ -659,6 +675,10 @@ public class Controller {
 		}
 		return temp;
 	}
+	public boolean checkInputDateBeforeToday(String date, String today) throws ParseException {
+		// 새로 만든 함수 - 입력 날짜가 오늘 날짜 이후인지 확인
+		return checkDateDiff(date, today) <= 0;
+	}
 	public boolean checkInIDUW(int choice) {
 		return (choice > 0 && choice <= passedCustomerList.size());
 	}
@@ -769,12 +789,61 @@ public class Controller {
 		// 새로 만든 함수 - 정산된 보험명 출력(재보험)
 		return submitInsList.get(Integer.parseInt(selectInsNum)-1).getInsuranceName();
 	}
+	public String enquireExpOneMonthList(String today) throws ParseException {
+		// 새로 만든 함수 - 만료일 1달 남은 고객 조회 - 계약 유지 관리
+		extOneMonthList = new ArrayList<Contract>();
+		String result = "";
+		String renewConsultStr = "";
+		for(Contract contract : m_ContractListImpl.getAll()) {
+			if(checkDateDiff(contract.getExpirationDate(), today) <= 30) {
+				extOneMonthList.add(contract);
+				renewConsultStr = contract.isRenewConsult()? "예" : "아니오";
+				result += contract.getId() + "   " + 
+						getCustNameFromContID(contract.getCustomerID()) + "   " + 
+						contract.getExpirationDate() + "   " + 
+						renewConsultStr + "\n";
+			}
+		}
+		return result;
+	}
+	private long checkDateDiff(String expirationDate, String currentDate) throws ParseException {
+		// 새로 만든 함수 - 입력 계약 만료일이 1달 이내 남은 계약인지 확인
+		Date format1 = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDate);
+		Date format2 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+		return (format1.getTime() - format2.getTime()) / 1000 / (24*60*60);
+	}
+	public boolean checkInputDateBefore(String expDate, String selectedId) {
+		// 새로 만든 함수 - 기존 날짜와 입력 날짜 비교 -> 기존 날짜보다 이전 날짜라면 false
+		return compareDate(expDate, m_ContractListImpl.get(selectedId).getExpirationDate());
+	}
+	public boolean checkInIdExtList(String selectedId) {
+		// 새로 만든 함수 - 입력 아이디가 extList에 있는지 확인
+		for(Contract contract : extOneMonthList) {
+			if(contract.getId().equals(selectedId)) return true;
+		}
+		return false;
+	}
+	public boolean checkContAlreadyConsult(String selectedId) {
+		// 새로 만든 함수 - 선택 아이디가 상담 완료했는지 확인
+		return m_ContractListImpl.get(selectedId).isRenewConsult();
+	}
+	public String enquireDetailExtCont(String selectedId) {
+		String isRenewConsultStr = m_ContractListImpl.get(selectedId).isRenewConsult()? "예":"아니오";
+		return "고객 이름 : " + getCustNameFromContID(m_ContractListImpl.get(selectedId).getCustomerID()) + "\n" + 
+				"전화번호 : " + m_CustomerListImpl.getById(
+								m_ContractListImpl.get(selectedId).getCustomerID()).getPhoneNum() + "\n" + 
+				"가입 보험 : " + getInsNameFromContID(m_ContractListImpl.get(selectedId).getInsuranceID()) + "\n" + 
+				"만료일 : " + m_ContractListImpl.get(selectedId).getExpirationDate() + "\n" + 
+				"갱신상담 여부 : " + isRenewConsultStr;
+	}
+	
+
 	/**
 	 * 
 	 * @param extendedExpirationDate
 	 */
 	public String extendContract(String extendedExpirationDate){
-		// 계약 연장하기
+		// 계약 연장하기 - 이거 필요 없을 듯
 		return "";
 	}
 
@@ -870,10 +939,19 @@ public class Controller {
 	 * @param id
 	 */
 	public String renewExpirationDate(String newExpirationDate, String choice){
-		// 만기일을 갱신한다 - 만기계약 관리하기
+		// 만기일을 갱신한다 - 만기계약 관리하기, 계약 유지 활동을 진행하기
 		// 파라미터 변경 (id -> choice)
 		m_ContractListImpl.get(Integer.parseInt(choice)-1).setExpirationDate(newExpirationDate);
 		return "만기일이 연장되었습니다(만기일 : " + newExpirationDate + ")";
+	}
+	public String renewExpirationDateById(String newExpirationDate, String id) {
+		// 새로 만든 함수
+		// 만기일 갱신 - 계약 유지
+		return renewExpirationDate(newExpirationDate, m_ContractListImpl.indexOf(id)+1+"");
+	}
+	public void changeRenewConsult(String id) {
+		// 새로 만든 함수
+		m_ContractListImpl.get(id).setRenewConsult(true);
 	}
 
 	public void requestAuthorizationOfCompany(){

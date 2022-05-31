@@ -68,6 +68,12 @@ public class ContractListImpl implements ContractList {
 		// 새로 만든 함수
 		return contractList;
 	}
+	public int indexOf(String id) {
+		for(int i = 0; i < contractList.size(); i++) {
+			if(contractList.get(i).getId().equals(id)) return i;
+		}
+		return -1;
+	}
 	@Override
 	public Contract get(int index) {
 		// 새로 만든 함수 

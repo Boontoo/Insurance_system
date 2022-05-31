@@ -14,6 +14,7 @@ public class Contract {
 	private int totalPaymentAmount; // 새로 만든 속성
 	private int paymentAmount;
 	private boolean PaymentStatus;
+	private boolean renewConsult; // 새로 만든 속성 - 갱신상담 여부
 	
 	public Contract(){
 		
@@ -27,6 +28,7 @@ public class Contract {
 		this.paymentAmount = 10000; // 임시 지정
 		this.totalPaymentAmount = 0;
 		this.PaymentStatus = false;
+		this.renewConsult = false;
 	}
 
 	public void finalize() throws Throwable {
@@ -73,6 +75,12 @@ public class Contract {
 	}
 	public void setTotalPaymentAmount(int totalPaymentAmount) {
 		this.totalPaymentAmount = totalPaymentAmount;
+	}
+	public boolean isRenewConsult() {
+		return renewConsult;
+	}
+	public void setRenewConsult(boolean isRenewConsult) {
+		this.renewConsult = isRenewConsult;
 	}
 	public void addPayment(int amountOfInsuranceFee) {
 		// 새로 만든 함수 - 납입 보험금 추가 - 보험금 납입
