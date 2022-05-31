@@ -773,70 +773,51 @@ public class Main {
 		}
 	}
 
-	private void designInsuranceProduct(Scanner scanner) {
+	private void designInsuranceProductMenu(Scanner scanner) {
 		while(true) {
 			System.out.println("1.보험 상품 설계");
 			System.out.println("2.보험 상품 관리");
 			int choice = scanner.nextInt();
 			switch(choice) {
 				case 1:
-					//보험 상품 설계
-					//시스템
-//					보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을  출력한다
-					System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
-					
-//					보험상품시장정보를 보고 통계율을 따져서 새로운 보험상품을 기획한다
-//					기획한 내용을 바탕으로 기획서를 작성한 후 저장버튼(엔터)을 누른다
-//					choice = scanner.nextInt();
-					//시스템
-//					"저장완료"라는 메시지를 출력한다 
-//					System.out.println("저장완료");
-//					보험상품 설계 입력 양식(보장·판매대상, 요율, 시산작업내역, 예상손익분석 가격, 기초서류)및 저장버튼을 출력한다
-					// 변경 (폼 다 띄우고 답 받기 -> 폼 하나 띄우고 답변 받는 식(질문1, 답변1, 질문2, 답변2...))
-					ArrayList<String> designContents = new ArrayList<String>();
-					ArrayList<String> designForm = controller.enqireInsuranceProductDesignForm();
-					for(String content : designForm) {
-						System.out.println(content);
-						designContents.add(scanner.next());
-					}
-					boolean bSave = true;
-					while(bSave) {
-						System.out.println("저장하시겠습니다?");
-						System.out.println("1.Yes");
-						System.out.println("2.No");
+					boolean bStartDesign = true;
+					while(bStartDesign) {
+						System.out.println("1.새로 설계하기");
+						System.out.println("2.이어서 설계하기");
 						choice = scanner.nextInt();
 						switch(choice) {
 							case 1:
-								boolean isSaved = controller.saveInsuranceDesignContent(designContents);
-								if(isSaved) {
-									System.out.println("저장완료");
-									this.requestAuthorization(scanner);
-								}
-	//							bSave = false;
-	//							break;
+								this.controller.designNewInsuranceProduct();
+								this.designInsuranceProduct(scanner);
+								bStartDesign = false;
+								break;
 							case 2:
-								bSave = false;
-	//							break;
+								System.out.println("설계중인 보험이름을 입력하세요.");
+								int point = this.controller.checkInsuranceUnderDesign(scanner.next());
+								switch(point) {
+									case 0:
+										System.out.println("해당 이름의 설계중인 보험 상품이 없습니다.");
+										System.out.println("보험 상품 설계하기 메뉴로 돌아갑니다.");
+										bStartDesign = false;
+										break;
+									case 1:
+										this.designInsuranceProduct(scanner);
+										bStartDesign = false;
+										break;
+									case 2:
+										System.out.println("해당 이름은 설계가 완료된 상품입니다.");
+										System.out.println("보험 상품 설계하기 메뉴로 돌아갑니다.");
+										bStartDesign = false;
+										break;
+								}
+//								if(point == 0)
+//									break;
+//								this.continueToDesign(point);
 							default:
 								break;
 						}
 					}
-//					choice = scanner.nextInt();
-					//대답
-					
-//					designForm = controller.enqireInsuranceProductDesignForm();
-//					System.out.println(controller.euqireInsuranceProductDesignForm());
-					
-//					controller.saveInsuranceDesignContent(designContents);
-//					"저장완료"라는 메시지를 출력한다 
-					
-					
-//					보험설계(보장·판매대상 결정, 요율 수집 및 시산작업, 예상손익분석 가격결정, 기초서류 작성, 요율검증의뢰)를 하고 해당 내용을 작성 후, 저장버튼(엔터)을 누른다.
-					
-					//시스템
-//					"저장완료"메시지와 "상품 인가품의 버튼"을 출력한다
-//					유스케이스 '보험상품을 인가한다'를 따른다
-					return;
+					break;
 				case 2:
 					//보험 상품 관리
 					//시스템
@@ -851,64 +832,259 @@ public class Main {
 				default:
 					break;
 			}
+		}
+	}
+	
+//	private void continueToDesign(int point) {
+//		switch(point) {
+//			
+//		}
+//	}
+	
+	private void designInsuranceProduct(Scanner scanner) {
+//		while(true) {
+//			System.out.println("1.보험 상품 설계");
+//			System.out.println("2.보험 상품 관리");
+//			int choice = scanner.nextInt();
+//			switch(choice) {
+//				case 1:
+//					boolean bStartDesign = true;
+//					while(bStartDesign) {
+//						System.out.println("1.새로 설계하기");
+//						System.out.println("2.이어서 설계하기");
+//						choice = scanner.nextInt();
+//						switch(choice) {
+//							case 1:
+//							case 2:
+//							default:
+//						}
+//					}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//					this.controller.checkInsuranceUnderDesign();
+					//보험 상품 설계
+					//시스템
+//					보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을  출력한다
+//					System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
+					//보험상품기획서 작성
+//					ArrayList<String> planningForm = controller.enquireInsuranceProductPlanningForm();
+//					ArrayList<String> planningContents = new ArrayList<String>();
+//					for(String planningContent : planningForm) {
+//						System.out.println(planningContent);
+//						planningContents.add(scanner.next());
+//					}
+		boolean bPlanningContents = this.controller.checkPlanningContents();
+		if(bPlanningContents) {
+			this.insuranceDesignForm(scanner);
+			return;
+		}
+		
+		boolean bSavePlanningPart = true;
+		while(bSavePlanningPart) {
+			//						보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을  출력한다
+			System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
+			//보험상품기획서 작성
+			ArrayList<String> planningForm = controller.enquireInsuranceProductPlanningForm();
+			ArrayList<String> planningContents = new ArrayList<String>();
+			for(String planningContent : planningForm) {
+				System.out.println(planningContent);
+				planningContents.add(scanner.next());
+			}
+			System.out.println("저장하시겠습니까?");
+			System.out.println("1.Yes");
+			System.out.println("2.No");
+			System.out.println("3.뒤로가기");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 3:
+					bSavePlanningPart = false;
+					break;
+				case 1:
+					if(this.controller.savePlannedContents(planningContents)) {
+						System.out.println("저장완료");
+						//보험 상품 설계 입력 양식
+						this.insuranceDesignForm(scanner);
+						bSavePlanningPart = false;
+						break;
+						//									return;
+					}
+					else {
+						System.out.println("모든 항목을 입력해주세요.");
+						break;
+					}
+				case 2:
+					System.out.println("재작성");
+				default:
+					break;
+			}
+		}
+//				case 2:
+//					//보험 상품 관리
+//					//시스템
+//					System.out.println(controller.enquireInsuranceList());
+//					choice = scanner.nextInt();
+//					controller.enquireInsuranceProductDetails(choice);
+////					System.out.println(controller);
+////					A1. 해당 보험 상품 관련 정보(판매 실적 및 속성, 손익)을 출력한다
+//					
+////					판매 실적 및 속성, 손익을 보고 해당 보험의 문제점을 파악한다
+//					return;
+//				default:
+//					break;
+//			}
+//			this.requestAuthorization(scanner);
+	}
+	
+	private void insuranceDesignForm(Scanner scanner) {
+		// 새로 만든 함수
+		boolean bDesignContents = this.controller.checkDesignContents();
+		if(bDesignContents) {
 			this.requestAuthorization(scanner);
+			return;
+		}
+		while(true) {
+			ArrayList<String> designForm = controller.enqireInsuranceProductDesignForm();
+			ArrayList<String> designContents = new ArrayList<String>();
+			for(String content : designForm) {
+				System.out.println(content);
+				designContents.add(scanner.next());
+			}
+			System.out.println("저장하시겠습니까?");
+			System.out.println("1.Yes");
+			System.out.println("2.No");
+			System.out.println("3.뒤로가기");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 3:
+					return;
+				case 1:
+					boolean isSaved = controller.saveInsuranceDesignContent(designContents);
+					if(isSaved) {
+						System.out.println("저장완료");
+						//인가품의받기
+						this.requestAuthorization(scanner);
+						return;
+					}
+					else {
+						System.out.println("모든 항목을 입력해주세요.");
+						break;
+					}
+				case 2:
+					System.out.println("재작성");
+				default:
+					break;
+			}
 		}
 	}
 
 	private void requestAuthorization(Scanner scanner) {
-		while(true) {
+		boolean bRequestAuthorizationOfCompany = true;
+		boolean bRequestAuthorizationOfFSS = false;
+		int type = 0;
+		
+		int point = this.controller.checkAuthorization();
+		switch(point) {
+			case 0:
+				break;
+			case 1:
+				this.confirmProduct(scanner);
+				return;
+			case 2:
+				bRequestAuthorizationOfCompany = false;
+				bRequestAuthorizationOfFSS = true;
+				type = 1;
+			case 3:
+				return;
+		}
+//		if(bDesignContents) {
+//			this.requestAuthorization(scanner);
+//			return;
+//		}
+//		boolean bRequestAuthorizationOfCompany = false;
+//		boolean bRequestAuthorizationOfFSS = false;
+		//회사 인가품의
+		while(bRequestAuthorizationOfCompany) {
 			System.out.println("보험상품을 인가품의하겠습니까?");
+			System.out.println("1.Yes");
+			System.out.println("2.No");
+			System.out.println("3.뒤로가기");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 1:
+					System.out.println("상품 인가품의 완료");
+					// 상품 확정 후 상품을 등록시킨다.
+					controller.requestAuthorizationOfCompany(true);
+					//상품 확정 질문 필요?
+					if(this.confirmProduct(scanner)) {
+						bRequestAuthorizationOfCompany = false;
+						bRequestAuthorizationOfFSS = true;
+						break;
+					}
+					else {
+						return;
+					}
+				case 2:
+					controller.requestAuthorizationOfCompany(false);
+					return;
+				default:
+					break;
+			}
+		}
+		
+		//금융감독원 인가품의
+		while(bRequestAuthorizationOfFSS) {
+			System.out.println("금융감독원 상품인가 품의하겠습니까?");
+			System.out.println("1.Yes");
+			System.out.println("2.No");
+			System.out.println("3.뒤로가기");
+			int choice = scanner.nextInt();
+			switch(choice) {
+				case 1:
+					System.out.println("상품 인가품의 완료");
+					controller.requestAuthorizationOfFSS(true);
+					this.writeProductSalesSupportDetailsContents(scanner, type);
+				case 3:
+					return;
+				case 2:
+					controller.requestAuthorizationOfFSS(false);
+//					bRequestAuthorizationOfFSS = false;
+					return;
+				default:
+					break;
+				}
+		}
+		
+	}
+
+	private boolean confirmProduct(Scanner scanner) {
+		while(true) {
+			System.out.println("상품을 확정시키겠습니까?");
 			System.out.println("1.Yes");
 			System.out.println("2.No");
 			int choice = scanner.nextInt();
 			switch(choice) {
-			case 1:
-				System.out.println("상품 인가품의 완료");
-				// 상품 확정 후 상품을 등록시킨다.
-				controller.requestAuthorizationOfCompany();
-				//상품 확정 질문 필요?
-				System.out.println("상품을 확정시키겠습니까?");
-				System.out.println("1.Yes");
-				System.out.println("2.No");
-				// 필요하다면 대답 부분 구현해야 함
-				System.out.println("상품이 확정되었습니다.");
-				// 상품 확정 코드를 어떻게...? 모델 부분도 없네?
-				
-				boolean bRequestAuthorizationOfFSS = true;
-				while(bRequestAuthorizationOfFSS) {
-					System.out.println("금융감독원 상품인가 품의하겠습니까?");
-					System.out.println("1.Yes");
-					System.out.println("2.No");
-					choice = scanner.nextInt();
-					switch(choice) {
-					case 1:
-						System.out.println("상품 인가품의 완료");
-						controller.requestAuthorizationOfFSS();
-						ArrayList<String> productSalesSupportDetails = controller.enquireProductSalesSupportDetails();
-						ArrayList<String> productSalesSupportDetailsContents = new ArrayList<String>();
-						for(String content : productSalesSupportDetails) {
-							System.out.println(content);
-							productSalesSupportDetailsContents.add(scanner.next());
-						}
-//						controller.
-						// 공유를 저장으로 해야하는지?
-						controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents);
-						// 보험 추가 부분 없음
-//						controller.addInsurance();
-					case 2:
-						bRequestAuthorizationOfFSS = false;
-					default:
-						break;
-					}
-				}
-				controller.requestAuthorizationOfFSS();
-			case 2:
-				return;
-			default:
-				break;
+				case 1:
+					System.out.println("상품이 확정되었습니다.");
+					// 상품 확정 코드
+					controller.makeDecisionInsuranceProduct(true);
+					return true;
+				case 2:
+					return false;
+				default:
+					break;
 			}
 		}
-		
+	}
+	
+	private void writeProductSalesSupportDetailsContents(Scanner scanner, int type) {
+		ArrayList<String> productSalesSupportDetails = controller.enquireProductSalesSupportDetails();
+		ArrayList<String> productSalesSupportDetailsContents = new ArrayList<String>();
+		for(String content : productSalesSupportDetails) {
+			System.out.println(content);
+			productSalesSupportDetailsContents.add(scanner.next());
+		}
+		if(controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents) && type == 0) {
+			controller.addInsurance();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -994,7 +1170,7 @@ public class Main {
 					break;
 				case 13:
 					// 인배 20220521
-					main.designInsuranceProduct(scanner);
+					main.designInsuranceProductMenu(scanner);
 					break;
 				default :
 					System.out.println("입력정보가 잘못되었습니다. 다시 메뉴를 선택해주세요.");
