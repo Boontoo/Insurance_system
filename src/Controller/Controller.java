@@ -14,6 +14,13 @@ import Model.Customer.Customer;
 import Model.Customer.CustomerListImpl;
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceListImpl;
+import Model.InsuranceDesign.InsuranceDesign;
+import Model.InsuranceDesign.InsuranceDesignListImpl;
+import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformation;
+import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformationListImpl;
+import enumeration.EDesignForm;
+import enumeration.EPlanningForm;
+import enumeration.EProductSalesSupportDetails;
 
 /**
  * @author dlsqo
@@ -31,6 +38,10 @@ public class Controller {
 	public CompensationManagementListImpl m_CompensationManagementListImpl;
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
+	private InsuranceDesign m_InsuranceDesign;
+	private InsuranceDesignListImpl m_InsuranceDesignListImpl;
+	private InsuranceProductDevelopmentInformationListImpl m_InsuranceProductDevelopmentInformationListImpl;
+	
 	private ArrayList<ApplicationForMembership> passedCustomerList; // 새로 만든 속성
 	private ArrayList<Insurance> submitInsList; // 새로 만든 속성
 	private Insurance selectedIns; // 새로 만든 속성
@@ -42,6 +53,7 @@ public class Controller {
 		this.m_ContractListImpl = new ContractListImpl();
 		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
 		this.m_InsuranceListImpl = new InsuranceListImpl();
+		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
 		
 		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
 		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
@@ -624,17 +636,25 @@ public class Controller {
 	 * 
 	 * @param choice
 	 */
-	public String enquireInsuranceProductDetails(int choice){
+	public String enquireInsuranceProductDetails(int choice) {
 		// 보험 상품 세부 정보 조회하기
 		// choice 예외 처리 필요
 		
 		return "";
 	}
 
-	public String enquireInsuranceProductDevelopmentInformation(){
+	public String enquireInsuranceProductDevelopmentInformation() {
 		// 보험 상품 개발 정보 조회하기
 //		보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을  반환한다
-		return "";
+		InsuranceProductDevelopmentInformation information = this.m_InsuranceProductDevelopmentInformationListImpl.get("0");
+		String result = "";
+		result += "고객니즈분석 설문조사 결과\n";
+		result += information.getCustomerNeedAnalysisSurveyResults() + "\n";
+		result += "\n최근 보험가입 빈도\n";
+		result += information.getFrequencyOfRecentInsurancePurchases() + "\n";
+		result += "\n경쟁사의 동향 정보\n";
+		result += information.getCompetitorTrendInformation() + "\n";
+		return result;
 	}
 
 	public String enquireNewContractInformation(){
@@ -665,8 +685,11 @@ public class Controller {
 	
 	public ArrayList<String> enquireProductSalesSupportDetails(){
 		// 제품 판매 지원 세부정보 지원하기..?
-		ArrayList<String> productSalesSupportDetails = new ArrayList<String>();
-		return productSalesSupportDetails;
+		ArrayList<String> form = new ArrayList<String>();
+		for(EProductSalesSupportDetails value : EProductSalesSupportDetails.values()) {
+			form.add(value.getText());
+		}
+		return form;
 	}
 
 	/**
@@ -697,9 +720,11 @@ public class Controller {
 
 	public ArrayList<String> enqireInsuranceProductDesignForm(){
 		// 보험 상품 설계 양식 조회하기
-		ArrayList<String> designForm = new ArrayList<String>();
-		// 어떤 데이터베이스???
-		return designForm;
+		ArrayList<String> form = new ArrayList<String>();
+		for(EDesignForm value : EDesignForm.values()) {
+			form.add(value.getText());
+		}
+		return form;
 	}
 	
 	public String enquireCustInsurances(String name, String sSN) {
@@ -785,8 +810,9 @@ public class Controller {
 		return "\n납입 여부 초기화가 완료되었습니다";
 	}
 
-	public void makeDecisionInsuranceProduct(){
-		// 보험 상품 결정...?
+	public void makeDecisionInsuranceProduct(boolean bConfirm){
+		// 보험 상품 확정...?
+		this.m_InsuranceDesign.setConfirm(bConfirm);
 	}
 
 
@@ -876,13 +902,14 @@ public class Controller {
 		return "만기일이 연장되었습니다(만기일 : " + newExpirationDate + ")";
 	}
 
-	public void requestAuthorizationOfCompany(){
+	public void requestAuthorizationOfCompany(boolean bCompany){
 		// 회사 승인 요청 받기
-
+		this.m_InsuranceDesign.setCompany(bCompany);
 	}
 
-	public void requestAuthorizationOfFSS(){
+	public void requestAuthorizationOfFSS(boolean bFSS){
 		// FSS(금융감독원)에 관한 부여를 요청하기...?
+		this.m_InsuranceDesign.setFSS(bFSS);
 	}
 
 
@@ -917,18 +944,148 @@ public class Controller {
 
 	public boolean saveInsuranceDesignContent(ArrayList<String> designContents){
 		// 보험 설계 내용 저장하기
-		return false;
+//		this.m_InsuranceDesignListImpl.
+		for(String content : designContents) {
+			if(content == null) {
+				return false;
+			}
+		}
+		this.m_InsuranceDesign.setTarget(designContents.get(0));
+		this.m_InsuranceDesign.setPremiumRate(designContents.get(1));
+		this.m_InsuranceDesign.setTrialWorkHistory(designContents.get(2));
+		this.m_InsuranceDesign.setExpectedProfitAndLossAnalysisPrice(designContents.get(3));
+		this.m_InsuranceDesign.setBasicDocuments(designContents.get(4));
+		return true;
 	}
 	/**
 	 * 
 	 * @param plannedContents
 	 */
-	public String savePlannedContents(String plannedContents){
+	public boolean savePlannedContents(ArrayList<String> planningContents){
 		// 계획 내용 저장하기
-		return "";
+		for(String content : planningContents) {
+			if(content == null) {
+				return false;
+			}
+		}
+		this.m_InsuranceDesign.setDesignID(String.valueOf(this.m_InsuranceDesignListImpl.getAll().size()));
+		this.m_InsuranceDesign.setInsuranceName(planningContents.get(0));
+		this.m_InsuranceDesign.setInsuranceContent(planningContents.get(1));
+		this.m_InsuranceDesign.setPlanningPurpose(planningContents.get(2));
+		
+		//나머지 null처리
+		this.m_InsuranceDesign.setTarget(null);
+		this.m_InsuranceDesign.setPremiumRate(null);
+		this.m_InsuranceDesign.setTrialWorkHistory(null);
+		this.m_InsuranceDesign.setExpectedProfitAndLossAnalysisPrice(null);
+		this.m_InsuranceDesign.setBasicDocuments(null);
+		this.m_InsuranceDesign.setCompany(false);
+		this.m_InsuranceDesign.setConfirm(false);
+		this.m_InsuranceDesign.setFSS(false);
+		this.m_InsuranceDesign.setSubscriptionDesign(null);
+		this.m_InsuranceDesign.setSubscription(null);
+		this.m_InsuranceDesign.setContractManagementRelatedSystem(null);
+		this.m_InsuranceDesign.setSalesDepartmentData(null);
+		this.m_InsuranceDesign.setProductEducationContent(null);
+		this.m_InsuranceDesign.setGuideline(null);
+		
+		this.m_InsuranceDesignListImpl.add(m_InsuranceDesign);
+		
+		return true;
 	}
 
-	public void saveProductSalesSupportDetails(ArrayList<String> productSalesSupportDetailsContents){
+	public boolean saveProductSalesSupportDetails(ArrayList<String> productSalesSupportDetailsContents){
 		// 제품 판매 지원 세부 정보 저장하기
+		for(String content : productSalesSupportDetailsContents) {
+			if(content == null) {
+				return false;
+			}
+		}
+		this.m_InsuranceDesign.setSubscriptionDesign(productSalesSupportDetailsContents.get(0));
+		this.m_InsuranceDesign.setSubscription(productSalesSupportDetailsContents.get(1));
+		this.m_InsuranceDesign.setContractManagementRelatedSystem(productSalesSupportDetailsContents.get(2));
+		this.m_InsuranceDesign.setSalesDepartmentData(productSalesSupportDetailsContents.get(3));
+		this.m_InsuranceDesign.setProductEducationContent(productSalesSupportDetailsContents.get(4));
+		this.m_InsuranceDesign.setGuideline(productSalesSupportDetailsContents.get(5));
+		return true;
 	}
+
+	public ArrayList<String> enquireInsuranceProductPlanningForm() {
+		// 새로 만든 메소드
+		// 보험 상품 기획양식 조회
+		ArrayList<String> form = new ArrayList<String>();
+		for(EPlanningForm value : EPlanningForm.values()) {
+			form.add(value.getText());
+		}
+		return form;
+	}
+
+	public void addInsurance() {
+		// 새로 만든 메소드
+		this.m_InsuranceDesignListImpl.add(this.m_InsuranceDesign);
+	}
+
+	public int checkInsuranceUnderDesign(String insuranceDesignName) {
+		// 새로 만든 메소드
+		this.m_InsuranceDesign = this.m_InsuranceDesignListImpl.get(insuranceDesignName, 2);
+		if(m_InsuranceDesign == null) {
+			return 0;
+		}
+		if(m_InsuranceDesign.getSubscriptionDesign() == null) {
+			return 1;
+		}
+		
+//		if(insuranceDesign.getTarget() == null) {
+//			return 1;
+//		}
+//		if(insuranceDesign.isCompany() == false || insuranceDesign.isConfirm() == false || insuranceDesign.isFSS() == false) {
+//			return 2;
+//		}
+//		if(insuranceDesign.getSubscriptionDesign() == null) {
+//			return 3;
+//		}
+		return 2;
+	}
+
+	public boolean checkPlanningContents() {
+		if(m_InsuranceDesign.getInsuranceName() != null || m_InsuranceDesign.getInsuranceContent() != null || m_InsuranceDesign.getPlanningPurpose() != null)
+			return true;
+		return false;
+	}
+
+	public void designNewInsuranceProduct() {
+		// TODO Auto-generated method stub
+		this.m_InsuranceDesign = new InsuranceDesign();
+	}
+
+	public boolean checkDesignContents() {
+		if(m_InsuranceDesign.getTarget() != null 
+				|| m_InsuranceDesign.getPremiumRate() != null 
+				|| m_InsuranceDesign.getTrialWorkHistory() != null 
+				|| m_InsuranceDesign.getExpectedProfitAndLossAnalysisPrice() != null
+				|| m_InsuranceDesign.getBasicDocuments() != null)
+			return true;
+		return false;
+	}
+
+	public int checkAuthorization() {
+		if(m_InsuranceDesign.isCompany() == false)
+			return 0;
+		if(m_InsuranceDesign.isConfirm() == false)
+			return 1;
+		if(m_InsuranceDesign.isFSS() == false)
+			return 2;
+		return 3;
+	}
+
+//	public boolean checkProductSalesSupportDetailsContents() {
+//		if(m_InsuranceDesign.getSubscriptionDesign() != null 
+//				|| m_InsuranceDesign.getSubscription() != null 
+//				|| m_InsuranceDesign.getContractManagementRelatedSystem() != null 
+//				|| m_InsuranceDesign.getSalesDepartmentData() != null
+//				|| m_InsuranceDesign.getProductEducationContent() != null
+//				|| m_InsuranceDesign.getGuideline() != null)
+//			return true;
+//		return false;
+//	}
 }

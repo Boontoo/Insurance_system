@@ -31,7 +31,7 @@ public class InsuranceListImpl implements InsuranceList {
 				return false;
 		}
 		boolean result = insuranceList.add(insurance);
-		insuranceList.get(insuranceList.size()-1).setInsuranceID(insuranceList.size() + "");
+//		insuranceList.get(insuranceList.size()-1).setInsuranceID(insuranceList.size() + "");
 		return result;
 	}
 

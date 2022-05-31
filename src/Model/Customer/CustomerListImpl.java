@@ -23,7 +23,7 @@ public class CustomerListImpl implements CustomerList {
 
 	public boolean add(Customer customer){
 		boolean result = customerList.add(customer);
-		customerList.get(customerList.size()-1).setId(customerList.size() + "");
+//		customerList.get(customerList.size()-1).setId(customerList.size() + "");
 		return result;
 	}
 	public int indexOf(String id) {
