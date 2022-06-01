@@ -35,10 +35,10 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 		switch(type) {
 			case 1:
 				for(InsuranceDesign insuranceDesign : this.insuranceDesignList)
-					if(insuranceDesign.getDesignID() == data) return insuranceDesign;
+					if(insuranceDesign.getDesignID().equals(data)) return insuranceDesign;
 			case 2:
 				for(InsuranceDesign insuranceDesign : this.insuranceDesignList)
-					if(insuranceDesign.getInsuranceName() == data) return insuranceDesign;
+					if(insuranceDesign.getInsuranceName().equals(data)) return insuranceDesign;
 			default:
 				return null;
 		}

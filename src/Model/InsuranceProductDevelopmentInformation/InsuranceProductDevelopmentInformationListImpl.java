@@ -17,7 +17,12 @@ public class InsuranceProductDevelopmentInformationListImpl implements Insurance
 	@Override
 	public boolean add(InsuranceProductDevelopmentInformation insuranceProductDevelopmentInformation) {
 		// TODO Auto-generated method stub
-		return false;
+		for(InsuranceProductDevelopmentInformation exInsuranceProductDevelopmentInformation : insuranceProductDevelopmentInformationList) {
+			if(exInsuranceProductDevelopmentInformation.getInformationID().equals(insuranceProductDevelopmentInformation.getInformationID()))
+				return false;
+		}
+		boolean result = insuranceProductDevelopmentInformationList.add(insuranceProductDevelopmentInformation);
+		return result;
 	}
 
 	@Override

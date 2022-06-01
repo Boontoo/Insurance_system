@@ -58,6 +58,7 @@ public class Controller {
 		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
 		this.m_InsuranceListImpl = new InsuranceListImpl();
 		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
+		this.m_InsuranceProductDevelopmentInformationListImpl = new InsuranceProductDevelopmentInformationListImpl();
 		
 		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
 		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
@@ -1101,6 +1102,12 @@ public class Controller {
 	public void addInsurance() {
 		// 새로 만든 메소드
 		this.m_InsuranceDesignListImpl.add(this.m_InsuranceDesign);
+		Insurance insurance = new Insurance();
+		// compensation
+		insurance.setContent(this.m_InsuranceDesign.getInsuranceContent());
+		insurance.setInsuranceID(this.m_InsuranceListImpl.getSize()+"");
+		
+//		this.m_InsuranceListImpl.add(this.)
 	}
 
 	public int checkInsuranceUnderDesign(String insuranceDesignName) {
@@ -1147,13 +1154,52 @@ public class Controller {
 	}
 
 	public int checkAuthorization() {
-		if(m_InsuranceDesign.isCompany() == false)
+		if(m_InsuranceDesign.isCompany() == false) {
+			System.out.println("1."+m_InsuranceDesign.isCompany());
 			return 0;
-		if(m_InsuranceDesign.isConfirm() == false)
+		}
+		if(m_InsuranceDesign.isConfirm() == false) {
+			System.out.println("2."+m_InsuranceDesign.isConfirm());
 			return 1;
-		if(m_InsuranceDesign.isFSS() == false)
+		}
+		if(m_InsuranceDesign.isFSS() == false) {
+			System.out.println("3."+m_InsuranceDesign.isFSS());
 			return 2;
+		}
+		System.out.println("All pass");
 		return 3;
+	}
+
+	public void setData() {
+		InsuranceProductDevelopmentInformation information = new InsuranceProductDevelopmentInformation();
+		information.setInformationID("0");
+		information.setCustomerNeedAnalysisSurveyResults("iiii");
+		information.setFrequencyOfRecentInsurancePurchases("jjjj");
+		information.setCompetitorTrendInformation("kkkk");
+		this.m_InsuranceProductDevelopmentInformationListImpl.add(information);
+		
+		InsuranceDesign insuranceDesign = new InsuranceDesign();
+		insuranceDesign.setDesignID(String.valueOf(this.m_InsuranceDesignListImpl.getAll().size()));
+		insuranceDesign.setInsuranceName("aaaa");
+		insuranceDesign.setInsuranceContent("bbbb");
+		insuranceDesign.setPlanningPurpose("cccc");
+		
+		//나머지 null처리
+		insuranceDesign.setTarget("dddd");
+		insuranceDesign.setPremiumRate("eeee");
+		insuranceDesign.setTrialWorkHistory("ffff");
+		insuranceDesign.setExpectedProfitAndLossAnalysisPrice("gggg");
+		insuranceDesign.setBasicDocuments("hhhh");
+		insuranceDesign.setCompany(true);
+		insuranceDesign.setConfirm(true);
+		insuranceDesign.setFSS(false);
+		insuranceDesign.setSubscriptionDesign(null);
+		insuranceDesign.setSubscription(null);
+		insuranceDesign.setContractManagementRelatedSystem(null);
+		insuranceDesign.setSalesDepartmentData(null);
+		insuranceDesign.setProductEducationContent(null);
+		insuranceDesign.setGuideline(null);
+		this.m_InsuranceDesignListImpl.add(insuranceDesign);
 	}
 
 //	public boolean checkProductSalesSupportDetailsContents() {

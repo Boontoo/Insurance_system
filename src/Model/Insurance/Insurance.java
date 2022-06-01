@@ -10,7 +10,8 @@ package Model.Insurance;
 public class Insurance {
 
 	private CompensationCondition compensation;
-	private int content;
+	// int -> String
+	private String content;
 	private String insuranceID;
 	private String InsuranceName;
 	// 타입 변경 int->String
@@ -24,6 +25,10 @@ public class Insurance {
 	private enum type{};
 	public CompensationCondition m_CompensationCondition;
 
+	public Insurance() {
+		
+	}
+	
 	public Insurance(String InsuranceName){
 		this.InsuranceName = InsuranceName;
 		this.reInsuranceFee = 10000;
@@ -39,10 +44,12 @@ public class Insurance {
 	public void setCompensation(CompensationCondition compensation) {
 		this.compensation = compensation;
 	}
-	public int getContent() {
+	// int -> String
+	public String getContent() {
 		return content;
 	}
-	public void setContent(int content) {
+	public void setContent(String content) {
+		// int -> String
 		this.content = content;
 	}
 

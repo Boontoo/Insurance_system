@@ -775,6 +775,7 @@ public class Main {
 
 	private void designInsuranceProductMenu(Scanner scanner) {
 		while(true) {
+			controller.setData();
 			System.out.println("1.보험 상품 설계");
 			System.out.println("2.보험 상품 관리");
 			int choice = scanner.nextInt();
@@ -801,6 +802,7 @@ public class Main {
 										bStartDesign = false;
 										break;
 									case 1:
+										System.out.println("진행중인 작업이 있습니다.");
 										this.designInsuranceProduct(scanner);
 										bStartDesign = false;
 										break;
@@ -872,8 +874,10 @@ public class Main {
 //						System.out.println(planningContent);
 //						planningContents.add(scanner.next());
 //					}
+		
 		boolean bPlanningContents = this.controller.checkPlanningContents();
 		if(bPlanningContents) {
+//			System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
 			this.insuranceDesignForm(scanner);
 			return;
 		}
@@ -938,6 +942,7 @@ public class Main {
 		// 새로 만든 함수
 		boolean bDesignContents = this.controller.checkDesignContents();
 		if(bDesignContents) {
+//			System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
 			this.requestAuthorization(scanner);
 			return;
 		}
@@ -987,11 +992,14 @@ public class Main {
 				break;
 			case 1:
 				this.confirmProduct(scanner);
-				return;
+				bRequestAuthorizationOfCompany = false;
+				bRequestAuthorizationOfFSS = true;
+				break;
 			case 2:
 				bRequestAuthorizationOfCompany = false;
 				bRequestAuthorizationOfFSS = true;
 				type = 1;
+				break;
 			case 3:
 				return;
 		}
@@ -1082,6 +1090,8 @@ public class Main {
 			System.out.println(content);
 			productSalesSupportDetailsContents.add(scanner.next());
 		}
+		//보험 설계가 완료되었습니다.
+		System.out.println("보험 설계가 완료되었습니다.");
 		if(controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents) && type == 0) {
 			controller.addInsurance();
 		}
@@ -1090,8 +1100,8 @@ public class Main {
 	public static void main(String[] args) {
 		Main main = new Main();
 		
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.initialize();
+//		MainFrame mainFrame = new MainFrame();
+//		mainFrame.initialize();
 		
 		Scanner scanner = new Scanner(System.in);
 		boolean bOnLoop = true;
