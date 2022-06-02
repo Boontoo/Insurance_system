@@ -11,6 +11,7 @@ import Model.ApplicationForMembership.ApplicationForMembership;
 import Model.Contract.Contract;
 import Model.Customer.Customer;
 import Model.Insurance.Insurance;
+import Model.SubmitUser.SubmitUser;
 
 /**
  * @author dlsqo
@@ -207,6 +208,7 @@ public class Main {
 
 	private void payInsuranceFee(Scanner scanner) {
 		// 민재 - 월 보험료 납입하기
+		// 로그인한 고객의 보험 정보만 보험금 납입이 ㄱㄴ하게 바꿀 것 - 여거 낼 하자
 		while(true) {
 			ArrayList<Contract> contList = controller.enquireContractList();
 			boolean isInputValid = false;
@@ -1213,14 +1215,8 @@ public class Main {
 		}
 	}
 
-	private boolean login(Scanner scanner) {
-		// 새로 만든 함수 - 로그인 기능 구현
-		boolean isUser = true;
-		return isUser;
-	}
-	
-	private void mainForEmployee(Scanner scanner) {
-		// 새로 만든 함수 - 직원 전용 메뉴 표시
+	private void mainForEmployee(Scanner scanner, SubmitUser submitUser) {
+		// 새로 만든 함수 - 직원 전용 메뉴 표시(22.06.03)
 		boolean bOnLoop = true;
 		while(bOnLoop) {
 			String choice = "";
@@ -1301,10 +1297,9 @@ public class Main {
 					break;
 			}
 		}
-		scanner.close();
 	}
-	private void mainForCustomer(Scanner scanner) {
-		// 새로 만든 함수 - 고객 전용 메뉴 표시
+	private void mainForCustomer(Scanner scanner, SubmitUser submitUser) {
+		// 새로 만든 함수 - 고객 전용 메뉴 표시(22.06.03)
 //		scanner.nextLine();
 		boolean bOnLoop = true;
 		while(bOnLoop) {
@@ -1333,13 +1328,49 @@ public class Main {
 					break;
 			}
 		}
-		scanner.close();
+	}
+	private void login(Scanner scanner) {
+		// 새로 만든 함수 - 로그인 기능 구현(22.06.03)
+		boolean isContinue = false;
+		String userId = "";
+		String userPw = "";
+		SubmitUser submitUser = null;
+		while(!isContinue) {
+			System.out.print("아이디 : ");
+			userId = scanner.nextLine();
+			System.out.print("비밀번호 : ");
+			userPw = scanner.nextLine();
+			String inputCase = "";
+			submitUser = controller.getSubmitUser(userId, userPw);
+			if(submitUser != null) 
+				System.out.print("해당 고객 및 직원을 찾았습니다. 계속 진행하겠습니까?(1.예 그이외.아니오) : ");
+			else System.out.print("해당 고객 및 직원을 찾지 못했습니다. 계속 진행하겠습니까?(1.예 그이외.아니오) : ");
+			if(!scanner.nextLine().equals("1")) return;
+			if(submitUser != null) isContinue  = true;
+			else System.out.println("아이디 및 비밀번호를 다시 입력해 주세요");
+		}
+		String userTypeStr = submitUser.isUserType()? "직원":"고객";
+		System.out.println("\n<접속 고객 정보>\n" +
+							"이름 : " + submitUser.getUserName() + "\n" + 
+							"아이디 : " + submitUser.getUserId() + "\n" + 
+							"접속 구분 : " + userTypeStr + "\n");
+		if(submitUser.isUserType()) mainForEmployee(scanner, submitUser);
+		else mainForCustomer(scanner, submitUser); 
 	}
 	public static void main(String[] args) {
 		Main main = new Main();
 		Scanner scanner = new Scanner(System.in);
-		if(main.login(scanner)) main.mainForEmployee(scanner);
-		else main.mainForCustomer(scanner);
+		boolean isContinue = false;
+		while(true) {
+			System.out.print("1. 로그인 \n그이외.뒤로 가기\n입력 : ");
+			if(!scanner.nextLine().equals("1")) break;
+			main.login(scanner);
+			System.out.println();
+			// 로그인 사용자가 고객일 때 보험 상품 납입 정보들 중에 로그인한 고객에게 보일 수 있게 해야 함
+			// 얘를 하려면 고객 속성에 아이디 비번도 있어야 댐 - 이래야지 로그인 정보랑 고객 정보의 아이디 비번 비교가 ㄱㄴ함
+			// 월 보험료 납입하기 - 납입 정보가 로그인한 고객의 가입 보험으로만 보여져야 함
+		}
+		scanner.close();
 	}
 	
 //	public static void main(String[] args) {

@@ -20,6 +20,8 @@ import Model.InsuranceDesign.InsuranceDesign;
 import Model.InsuranceDesign.InsuranceDesignListImpl;
 import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformation;
 import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformationListImpl;
+import Model.SubmitUser.SubmitUser;
+import Model.SubmitUser.SubmitUserListImpl;
 import enumeration.EDesignForm;
 import enumeration.EPlanningForm;
 import enumeration.EProductSalesSupportDetails;
@@ -43,6 +45,8 @@ public class Controller {
 	private InsuranceDesign m_InsuranceDesign;
 	private InsuranceDesignListImpl m_InsuranceDesignListImpl;
 	private InsuranceProductDevelopmentInformationListImpl m_InsuranceProductDevelopmentInformationListImpl;
+	private SubmitUserListImpl m_SubmitUserListImpl;
+	// 새로 만든 속성(22.06.03)
 	
 //	private ArrayList<ApplicationForMembership> passedCustomerList; 
 	// 새로 만든 속성 -> 삭제(22-05-31)
@@ -61,6 +65,7 @@ public class Controller {
 		this.m_ApplicationForMembershipListImpl = new ApplicationForMembershipListImpl();
 		this.m_InsuranceListImpl = new InsuranceListImpl();
 		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
+		this.m_SubmitUserListImpl = new SubmitUserListImpl();
 		
 		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
 		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize()-1).setInsuranceID(m_InsuranceListImpl.getSize()+"");
@@ -86,6 +91,17 @@ public class Controller {
 		this.m_ApplicationForMembershipListImpl.get(3).setUWResult(true);
 		this.m_ApplicationForMembershipListImpl.get(4).setUWResult(true);
 		// 가입 신청 및 인수심사 합격 설정 경우 임시 생성
+		this.m_SubmitUserListImpl.add(new SubmitUser("장민우", "alsdn", "6016", true));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		this.m_SubmitUserListImpl.add(new SubmitUser("문인배", "dlsqo", "6020", true));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		this.m_SubmitUserListImpl.add(new SubmitUser("임건영", "rjsdud", "6019", true));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		this.m_SubmitUserListImpl.add(new SubmitUser("유민재", "dbalsend", "Godyell713", false));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		this.m_SubmitUserListImpl.add(new SubmitUser("김정호", "wjdgh", "2011", false));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		// 로그인 시 로그인 테이블 사용자 임시 생성
 	}
 
    public void finalize() throws Throwable {
@@ -623,6 +639,14 @@ public class Controller {
 	public Contract getContByCustInsId(String insuranceID, String custId) {
 		// 새로 만든 함수(22.06.01)
 		return m_ContractListImpl.getById(insuranceID, custId);
+	}
+	public SubmitUser getSubmitUser(String userId, String userPw) {
+		// 새로 만든 함수 - 입력 아이디, 비번에 해당하는 사용자 반환(22.06.03)
+		for(SubmitUser submitUser : m_SubmitUserListImpl.getAll()) {
+			if(submitUser.getUserId().equals(userId) && 
+				submitUser.getUserPw().equals(userPw)) return submitUser;
+		}
+		return null;
 	}
 	public ApplicationForMembership enquireApplicationForMembership(String id) {
 		// 새로 만든 함수
