@@ -54,7 +54,6 @@ public class Main {
 	
 					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
 					break;
-					//		   			bOnLoop = false;
 				case 2:
 					bOnLoop = false;
 					break;
@@ -775,7 +774,9 @@ public class Main {
 
 	private void designInsuranceProductMenu(Scanner scanner) {
 		while(true) {
-			controller.setData();
+			// 없애야 할 것 ////////////////
+			controller.setData();  //////
+			/////////////////////////////
 			System.out.println("1.보험 상품 설계");
 			System.out.println("2.보험 상품 관리");
 			int choice = scanner.nextInt();
@@ -812,10 +813,12 @@ public class Main {
 										bStartDesign = false;
 										break;
 								}
+								break;
 //								if(point == 0)
 //									break;
 //								this.continueToDesign(point);
 							default:
+								System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 								break;
 						}
 					}
@@ -824,14 +827,41 @@ public class Main {
 					//보험 상품 관리
 					//시스템
 					System.out.println(controller.enquireInsuranceList());
-					choice = scanner.nextInt();
-					controller.enquireInsuranceProductDetails(choice);
+					int insuranceChoice = scanner.nextInt();
+					ArrayList<String> productDetails = controller.enquireInsuranceProductDetails(insuranceChoice-1);
+					boolean bInsuranceDetailsPart = true;
+					while(bInsuranceDetailsPart) {
+						for(String content : productDetails) {
+							System.out.println(content);
+						}
+						System.out.println("보험을 유지하시겠습니까?");
+						System.out.println("1.유지");
+						System.out.println("2.중지");
+						choice = scanner.nextInt();
+						switch(choice) {
+							case 1:
+								System.out.println("보험을 유지합니다.");
+								bInsuranceDetailsPart = false;
+								break;
+							case 2:
+								if(this.controller.stopInsurance(insuranceChoice-1))
+									System.out.println("보험을 중지합니다.");
+								else
+									System.out.println("보험 중지에 실패하였습니다.");
+								bInsuranceDetailsPart = false;
+								break;
+							default:
+								System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
+								break;
+						}
+					}
 //					System.out.println(controller);
 //					A1. 해당 보험 상품 관련 정보(판매 실적 및 속성, 손익)을 출력한다
 					
 //					판매 실적 및 속성, 손익을 보고 해당 보험의 문제점을 파악한다
 					return;
 				default:
+					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 					break;
 			}
 		}
@@ -878,7 +908,8 @@ public class Main {
 		boolean bPlanningContents = this.controller.checkPlanningContents();
 		if(bPlanningContents) {
 //			System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-			this.insuranceDesignForm(scanner);
+			int type = 1;
+			this.insuranceDesignForm(scanner, type); // 0이 새로운 설계, 1이 이어서 설계
 			return;
 		}
 		
@@ -906,10 +937,9 @@ public class Main {
 					if(this.controller.savePlannedContents(planningContents)) {
 						System.out.println("저장완료");
 						//보험 상품 설계 입력 양식
-						this.insuranceDesignForm(scanner);
+						this.insuranceDesignForm(scanner, 0); // 0이 새로운 설계, 1이 이어서 설계
 						bSavePlanningPart = false;
 						break;
-						//									return;
 					}
 					else {
 						System.out.println("모든 항목을 입력해주세요.");
@@ -917,33 +947,20 @@ public class Main {
 					}
 				case 2:
 					System.out.println("재작성");
+					break;
 				default:
+					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 					break;
 			}
 		}
-//				case 2:
-//					//보험 상품 관리
-//					//시스템
-//					System.out.println(controller.enquireInsuranceList());
-//					choice = scanner.nextInt();
-//					controller.enquireInsuranceProductDetails(choice);
-////					System.out.println(controller);
-////					A1. 해당 보험 상품 관련 정보(판매 실적 및 속성, 손익)을 출력한다
-//					
-////					판매 실적 및 속성, 손익을 보고 해당 보험의 문제점을 파악한다
-//					return;
-//				default:
-//					break;
-//			}
-//			this.requestAuthorization(scanner);
 	}
 	
-	private void insuranceDesignForm(Scanner scanner) {
+	private void insuranceDesignForm(Scanner scanner, int type) {
 		// 새로 만든 함수
 		boolean bDesignContents = this.controller.checkDesignContents();
 		if(bDesignContents) {
 //			System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-			this.requestAuthorization(scanner);
+			this.requestAuthorization(scanner, type);
 			return;
 		}
 		while(true) {
@@ -966,7 +983,7 @@ public class Main {
 					if(isSaved) {
 						System.out.println("저장완료");
 						//인가품의받기
-						this.requestAuthorization(scanner);
+						this.requestAuthorization(scanner, type);
 						return;
 					}
 					else {
@@ -975,16 +992,17 @@ public class Main {
 					}
 				case 2:
 					System.out.println("재작성");
+					break;
 				default:
+					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 					break;
 			}
 		}
 	}
 
-	private void requestAuthorization(Scanner scanner) {
+	private void requestAuthorization(Scanner scanner, int type) {
 		boolean bRequestAuthorizationOfCompany = true;
 		boolean bRequestAuthorizationOfFSS = false;
-		int type = 0;
 		
 		int point = this.controller.checkAuthorization();
 		switch(point) {
@@ -1034,6 +1052,7 @@ public class Main {
 					controller.requestAuthorizationOfCompany(false);
 					return;
 				default:
+					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 					break;
 			}
 		}
@@ -1057,6 +1076,7 @@ public class Main {
 //					bRequestAuthorizationOfFSS = false;
 					return;
 				default:
+					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 					break;
 				}
 		}
@@ -1078,6 +1098,7 @@ public class Main {
 				case 2:
 					return false;
 				default:
+					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
 					break;
 			}
 		}
@@ -1091,9 +1112,13 @@ public class Main {
 			productSalesSupportDetailsContents.add(scanner.next());
 		}
 		//보험 설계가 완료되었습니다.
-		System.out.println("보험 설계가 완료되었습니다.");
-		if(controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents) && type == 0) {
-			controller.addInsurance();
+//		if(controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents) && type == 0) {
+//			controller.addInsurance();
+//		}
+		if(controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents)) {
+			if(controller.addInsurance(type)) {
+				System.out.println("보험 설계가 완료되었습니다.");
+			}
 		}
 	}
 

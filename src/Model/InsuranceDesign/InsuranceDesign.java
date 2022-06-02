@@ -11,8 +11,8 @@ public class InsuranceDesign {
 	private String planningPurpose;
 	///////////////////////////////////////////////////
 	
-	private String target; //보장,판매대상
-	private String premiumRate; //요율
+	private int target; //보장,판매대상
+	private int premiumRate; //요율
 	private String trialWorkHistory; //시산작업내역
 	private String expectedProfitAndLossAnalysisPrice; //예상손익분석가격
 	private String basicDocuments; //기초서류
@@ -74,19 +74,19 @@ public class InsuranceDesign {
 		this.planningPurpose = planningPurpose;
 	}
 
-	public String getTarget() {
+	public int getTarget() {
 		return target;
 	}
 
-	public void setTarget(String target) {
+	public void setTarget(int target) {
 		this.target = target;
 	}
 
-	public String getPremiumRate() {
+	public int getPremiumRate() {
 		return premiumRate;
 	}
 
-	public void setPremiumRate(String premiumRate) {
+	public void setPremiumRate(int premiumRate) {
 		this.premiumRate = premiumRate;
 	}
 

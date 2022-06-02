@@ -48,4 +48,25 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 		return insuranceDesignList;
 	}
 
+	@Override
+	public boolean update(InsuranceDesign insuranceDesign) {
+		int index = indexOf(insuranceDesign.getDesignID());
+		if(index == -1)
+			return false;
+		this.insuranceDesignList.set(index, insuranceDesign);
+		if(this.insuranceDesignList.get(index).equals(insuranceDesign)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int indexOf(String designID) {
+		for(int i = 0; i < this.insuranceDesignList.size(); i++) {
+			System.out.println("i = "+i);
+			if(this.insuranceDesignList.get(i).getDesignID().equals(designID))
+				return i;
+		}
+		return -1;
+	}
+
 }

@@ -7,4 +7,6 @@ public interface InsuranceDesignList {
 	public boolean delete(String insuranceDesignID);
 
 	public InsuranceDesign get(String data, int type);
+	
+	public boolean update(InsuranceDesign insuranceDesign);
 }

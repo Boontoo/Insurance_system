@@ -15,6 +15,9 @@ import Model.Contract.Contract;
 import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
 import Model.Customer.CustomerListImpl;
+import Model.Insurance.BuildingFireInsurance;
+import Model.Insurance.ForestFireInsurance;
+import Model.Insurance.IndustryFireInsurance;
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceListImpl;
 import Model.InsuranceDesign.InsuranceDesign;
@@ -60,9 +63,9 @@ public class Controller {
 		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
 		this.m_InsuranceProductDevelopmentInformationListImpl = new InsuranceProductDevelopmentInformationListImpl();
 		
-		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
-		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
-		this.m_InsuranceListImpl.add(new Insurance("일반 화재 보험"));
+		this.m_InsuranceListImpl.add(new BuildingFireInsurance(this.m_InsuranceListImpl.getSize()+"", "건물 화재 보험"));
+		this.m_InsuranceListImpl.add(new ForestFireInsurance(this.m_InsuranceListImpl.getSize()+"", "산악 화재 보험"));
+		this.m_InsuranceListImpl.add(new IndustryFireInsurance(this.m_InsuranceListImpl.getSize()+"", "산업 화재 보험"));
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유민재", "010-3737-2855", "990713-1058827"));
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323"));
 		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827"));
@@ -653,11 +656,21 @@ public class Controller {
 	 * 
 	 * @param choice
 	 */
-	public String enquireInsuranceProductDetails(int choice) {
+	public ArrayList<String> enquireInsuranceProductDetails(int choice) {
 		// 보험 상품 세부 정보 조회하기
 		// choice 예외 처리 필요
-		
-		return "";
+		System.out.println("choice : "+choice);
+//		System.out.println(this.m_InsuranceListImpl.get(String.valueOf(choice)).getInsuranceName());
+//		System.out.println("id : "+this.m_InsuranceListImpl.get(String.valueOf(choice)).getInsuranceID());
+		Insurance insurance = this.m_InsuranceListImpl.get(String.valueOf(choice));
+		if(insurance == null) {
+			System.out.println("null");
+		}
+		ArrayList<String> result = new ArrayList<String>();
+		result.add(insurance.getSalesPerformance());
+		result.add(insurance.getAttribute());
+		result.add(insurance.getProfitAndLoss()+"");
+		return result;
 	}
 
 	public String enquireInsuranceProductDevelopmentInformation() {
@@ -1029,8 +1042,8 @@ public class Controller {
 				return false;
 			}
 		}
-		this.m_InsuranceDesign.setTarget(designContents.get(0));
-		this.m_InsuranceDesign.setPremiumRate(designContents.get(1));
+		this.m_InsuranceDesign.setTarget(Integer.parseInt(designContents.get(0)));
+		this.m_InsuranceDesign.setPremiumRate(Integer.parseInt(designContents.get(1)));
 		this.m_InsuranceDesign.setTrialWorkHistory(designContents.get(2));
 		this.m_InsuranceDesign.setExpectedProfitAndLossAnalysisPrice(designContents.get(3));
 		this.m_InsuranceDesign.setBasicDocuments(designContents.get(4));
@@ -1053,8 +1066,8 @@ public class Controller {
 		this.m_InsuranceDesign.setPlanningPurpose(planningContents.get(2));
 		
 		//나머지 null처리
-		this.m_InsuranceDesign.setTarget(null);
-		this.m_InsuranceDesign.setPremiumRate(null);
+		this.m_InsuranceDesign.setTarget(-1);
+		this.m_InsuranceDesign.setPremiumRate(-1);
 		this.m_InsuranceDesign.setTrialWorkHistory(null);
 		this.m_InsuranceDesign.setExpectedProfitAndLossAnalysisPrice(null);
 		this.m_InsuranceDesign.setBasicDocuments(null);
@@ -1099,15 +1112,27 @@ public class Controller {
 		return form;
 	}
 
-	public void addInsurance() {
+	public boolean addInsurance(int type) { // 0이 새로운 설계, 1이 이어서 설계
 		// 새로 만든 메소드
-		this.m_InsuranceDesignListImpl.add(this.m_InsuranceDesign);
+		if(type == 0) {
+			this.m_InsuranceDesignListImpl.add(this.m_InsuranceDesign);
+		}
 		Insurance insurance = new Insurance();
 		// compensation
 		insurance.setContent(this.m_InsuranceDesign.getInsuranceContent());
 		insurance.setInsuranceID(this.m_InsuranceListImpl.getSize()+"");
+		insurance.setInsuranceName(this.m_InsuranceDesign.getInsuranceName());
+		insurance.setInsurancePremium(this.m_InsuranceDesign.getPremiumRate());
+		insurance.setMonthlyPaymentAmount(0);
+		insurance.setTarget(this.m_InsuranceDesign.getTarget());
+		insurance.setTerm(0);
+		insurance.setReInsuranceFee(0);
+		insurance.setRenew(false);
+		insurance.setSalesPerformance("aaaaa");
+		insurance.setAttribute("bbbbbbbbb");
+		insurance.setProfitAndLoss(0);
 		
-//		this.m_InsuranceListImpl.add(this.)
+		return this.m_InsuranceListImpl.add(insurance);
 	}
 
 	public int checkInsuranceUnderDesign(String insuranceDesignName) {
@@ -1144,8 +1169,8 @@ public class Controller {
 	}
 
 	public boolean checkDesignContents() {
-		if(m_InsuranceDesign.getTarget() != null 
-				|| m_InsuranceDesign.getPremiumRate() != null 
+		if(m_InsuranceDesign.getTarget() != -1 
+				|| m_InsuranceDesign.getPremiumRate() != -1 
 				|| m_InsuranceDesign.getTrialWorkHistory() != null 
 				|| m_InsuranceDesign.getExpectedProfitAndLossAnalysisPrice() != null
 				|| m_InsuranceDesign.getBasicDocuments() != null)
@@ -1155,18 +1180,18 @@ public class Controller {
 
 	public int checkAuthorization() {
 		if(m_InsuranceDesign.isCompany() == false) {
-			System.out.println("1."+m_InsuranceDesign.isCompany());
+//			System.out.println("1."+m_InsuranceDesign.isCompany());
 			return 0;
 		}
 		if(m_InsuranceDesign.isConfirm() == false) {
-			System.out.println("2."+m_InsuranceDesign.isConfirm());
+//			System.out.println("2."+m_InsuranceDesign.isConfirm());
 			return 1;
 		}
 		if(m_InsuranceDesign.isFSS() == false) {
-			System.out.println("3."+m_InsuranceDesign.isFSS());
+//			System.out.println("3."+m_InsuranceDesign.isFSS());
 			return 2;
 		}
-		System.out.println("All pass");
+//		System.out.println("All pass");
 		return 3;
 	}
 
@@ -1185,8 +1210,8 @@ public class Controller {
 		insuranceDesign.setPlanningPurpose("cccc");
 		
 		//나머지 null처리
-		insuranceDesign.setTarget("dddd");
-		insuranceDesign.setPremiumRate("eeee");
+		insuranceDesign.setTarget(-1);
+		insuranceDesign.setPremiumRate(-1);
 		insuranceDesign.setTrialWorkHistory("ffff");
 		insuranceDesign.setExpectedProfitAndLossAnalysisPrice("gggg");
 		insuranceDesign.setBasicDocuments("hhhh");
@@ -1200,6 +1225,11 @@ public class Controller {
 		insuranceDesign.setProductEducationContent(null);
 		insuranceDesign.setGuideline(null);
 		this.m_InsuranceDesignListImpl.add(insuranceDesign);
+	}
+
+	public boolean stopInsurance(int insuranceID) {
+		// TODO Auto-generated method stub
+		return this.m_InsuranceListImpl.delete(insuranceID+"");
 	}
 
 //	public boolean checkProductSalesSupportDetailsContents() {
