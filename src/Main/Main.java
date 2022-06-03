@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import Controller.Controller;
 import Model.AccidentReception.AccidentReception;
+import Model.Customer.Customer;
 
 /**
  * @author dlsqo
@@ -46,12 +47,42 @@ public class Main {
 					int type = scanner.nextInt();
 					System.out.println("조회할 고객 정보를 입력하세요.");
 					String key = scanner.next();
-					System.out.println(this.controller.enquireCustomerInformation(type, key));
+//					System.out.println(this.controller.enquireCustomerInformation(type, key));
+					// 변경 후
+					ArrayList<Customer> customerList = this.controller.enquireCustomerInformation(type, key);
+					int index = 1;
+					for (Customer customer : customerList) {
+						System.out.println(index + "." + customer.getName() + customer.getAge() + customer.isGender() + customer.getBirthDate());
+						index++;
+					}
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 					//if null 필요
 					System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
-					int index = scanner.nextInt();
-					System.out.println(this.controller.enquireCustomerDetailInformation(index));
-	
+//					int index = scanner.nextInt();
+					// 변경 후
+					index = scanner.nextInt();
+//					System.out.println(this.controller.enquireCustomerDetailInformation(index));
+					//////////////////////////////////////////////////////////////////////
+					// 변경 후
+//					Customer customer = this.controller.enquireCustomerDetailInformation(index);
+					Customer customer = controller.getCustomer(index);
+					System.out.print("이름: " + customer.getName() + ", ");
+					System.out.print("나이: " + customer.getAge() + ", ");
+					System.out.print("성별: " + customer.isGender() + ", ");
+					System.out.print("주민등록번호: " + customer.getSsn() + ", ");
+					System.out.print("직업: " + ", ");
+					System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
+					System.out.print("가입보험: (");
+					index = 1;
+					for(String subscribedInsurance : customer.getSubscribedInsurance()) {
+						System.out.print(subscribedInsurance);
+						if(index != customer.getSubscribedInsurance().size())
+							System.out.print(", ");
+					}
+					System.out.print("), ");
+					System.out.println("특이사항: " + customer.getUniqueness());
+					//////////////////////////////////////////////////////////////
+					
 					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
 					break;
 				case 2:
@@ -74,53 +105,181 @@ public class Main {
 			switch(choice) {
 				case 1:
 					System.out.println("고객 정보를 수정한다.");
-					while(true) {
+					boolean bModify = true;
+					while(bModify) {
 						System.out.println("어떤 정보를 수정하시겠습니까?");
 						System.out.println("1.이름");
 						System.out.println("2.나이");
 						System.out.println("3.직업");
 						System.out.println("4.전화번호");
+						System.out.println("5.뒤로가기");
 						//	   				System.out.println();
 						int type = scanner.nextInt();
+						if(type == 5) {
+							break;
+						}
 						System.out.println("새로운 정보를 입력해주세요.");
 						String newInformation = scanner.next();
 						if(newInformation != null) {
 							//////////////////////////
-							System.out.println(controller.checkCustomerInformation(index, choice, newInformation));
-							System.out.println("1.저장");
-							System.out.println("2.재작성");
-							choice = scanner.nextInt();
+//							System.out.println(controller.checkCustomerInformation(index, choice, newInformation));
+							// 변경 후
+//							Customer customer = controller.checkCustomerInformation(index, choice, newInformation);
+							Customer customer = controller.getCustomer(index);
+							System.out.print("이름: " + customer.getName() + ", ");
+							System.out.print("나이: " + customer.getAge() + ", ");
+							System.out.print("직업: " + ", ");
+							System.out.print("전화번호: " + customer.getPhoneNum());
+							System.out.print(" -> ");
+							boolean keepGoing = true;
+							switch(type) {
+								case 1:
+									System.out.print("이름: " + newInformation + ", ");
+									System.out.print("나이: " + customer.getAge() + ", ");
+									System.out.print("직업: " + ", ");
+									System.out.println("전화번호: " + customer.getPhoneNum());
+									break;
+								case 2:
+									System.out.print("이름: " + customer.getName() + ", ");
+									System.out.print("나이: " + newInformation + ", ");
+									System.out.print("직업: " + newInformation + ", ");
+									System.out.println("전화번호: " + customer.getPhoneNum());
+									break;
+								case 3:
+									System.out.print("이름: " + customer.getName() + ", ");
+									System.out.print("나이: " + customer.getAge() + ", ");
+									System.out.print("직업: " + ", ");
+									System.out.println("전화번호: " + customer.getPhoneNum());
+									break;
+								case 4:
+									System.out.print("이름: " + customer.getName() + ", ");
+									System.out.print("나이: " + customer.getAge() + ", ");
+									System.out.print("직업: " + ", ");
+									System.out.println("전화번호: " + newInformation);
+									break;
+//								case 5:
+//									bModify = false;
+//									keepGoing = false;
+//									break;
+								default:
+									System.out.println("잘못 선택하셨습니다. 다시 선택해주세요.");
+									keepGoing = false;
+									break;
+							}
+							
+							if(keepGoing) {
+								////////////////////////////////////////////////////////////
+								System.out.println("1.저장");
+								System.out.println("2.재작성");
+								choice = scanner.nextInt();
+								// 변경 후
+								switch(choice) {
+								case 1:
+									if(controller.modifyCustomerInformation(index, type, newInformation)) {
+										System.out.println("저장되었습니다!");
+										customer = controller.getCustomer(index);
+										System.out.print("이름: " + customer.getName() + ", ");
+										System.out.print("나이: " + customer.getAge() + ", ");
+										System.out.print("성별: " + customer.isGender() + ", ");
+										System.out.print("주민등록번호: " + customer.getSsn() + ", ");
+										System.out.print("직업: " + ", ");
+										System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
+										System.out.print("가입보험: (");
+										index = 1;
+										for(String subscribedInsurance : customer.getSubscribedInsurance()) {
+											System.out.print(subscribedInsurance);
+											if(index != customer.getSubscribedInsurance().size())
+												System.out.print(", ");
+										}
+										System.out.print("), ");
+										System.out.println("특이사항: " + customer.getUniqueness());
+										return;
+									} else {
+										System.out.println("저장에 실패하였습니다.");
+										break;
+									}
+								case 2:
+//									bModify = false;
+									break;
+								}
+							}
+							//////////////////////////////////////////////////////////////
+							
 							//							switch(choose)
-							if(choice == 1) {
-								System.out.println(controller.modifyCustomerInformation(index, type, newInformation));
-								System.out.println(this.controller.enquireCustomerDetailInformation(index));
-								return;
-								//								bOnLoop = false;
-							}
-							else if(choice == 2) {
-								break;
-							}
+//							if(choice == 1) {
+//								System.out.println(controller.modifyCustomerInformation(index, type, newInformation));
+//								System.out.println(this.controller.enquireCustomerDetailInformation(index));
+//								return;
+//								//								bOnLoop = false;
+//							}
+//							else if(choice == 2) {
+//								break;
+//							}
 						} else {
 							System.out.println("수정 정보를 다시 입력해주세요.");
 						}
 					}
 					break;
 				case 2:
-					System.out.println(this.controller.enquireCustomerDetailInformation(index));
-					System.out.println("해당 고객을 삭제하겠습니까?");
-					System.out.println("1.삭제");
-					System.out.println("2.뒤로가기");
-					choice = scanner.nextInt();
-					if(choice == 1) {
-						System.out.println("삭제 고객ID를 입력하세요.");
-						String id = scanner.next();
-						System.out.println(controller.deleteCustomerInformation(index, id));
+//					System.out.println(this.controller.enquireCustomerDetailInformation(index));
+					// 변경 후
+					boolean bDelete = true;
+					while(bDelete) {
+						System.out.println("고객 정보를 삭제한다.");
+						Customer customer = controller.getCustomer(index);
+						System.out.print("이름: " + customer.getName() + ", ");
+						System.out.print("나이: " + customer.getAge() + ", ");
+						System.out.print("성별: " + customer.isGender() + ", ");
+						System.out.print("주민등록번호: " + customer.getSsn() + ", ");
+						System.out.print("직업: " + ", ");
+						System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
+						System.out.print("가입보험: (");
+						index = 1;
+						for(String subscribedInsurance : customer.getSubscribedInsurance()) {
+							System.out.print(subscribedInsurance);
+							if(index != customer.getSubscribedInsurance().size())
+								System.out.print(", ");
+						}
+						System.out.print("), ");
+						System.out.println("특이사항: " + customer.getUniqueness());
+						///////////////////////////////////////////////////////////////
+						System.out.println("해당 고객을 삭제하겠습니까?");
+						System.out.println("1.삭제");
+						System.out.println("2.뒤로가기");
+						choice = scanner.nextInt();
+						// 변경 후
+						switch(choice) {
+							case 1:
+								System.out.println("삭제 고객ID를 입력하세요.");
+								String id = scanner.next();
+								if(this.controller.deleteCustomerInformation(index, id)) {
+									System.out.println("고객ID가 확인되었습니다.");
+									System.out.println("고객 정보가 삭제 완료되었습니다.");
+									return;
+								}
+								else {
+									System.out.println("고객ID와 일치하지 않습니다. 다시 입력해주세요.");
+									break;
+								}
+							case 2:
+								bDelete = false;
+								break;
+							default:
+								break;
+						}
+						/////////////////////////////////////////////////////////////////
+//						if(choice == 1) {
+//							System.out.println("삭제 고객ID를 입력하세요.");
+//							String id = scanner.next();
+//							System.out.println(controller.deleteCustomerInformation(index, id));
+//						}
+//						else if(choice == 2) {
+//							break;
+//						}
+//						//수정필요
+//						bOnLoop = false;
+//						break;
 					}
-					else if(choice == 2) {
-						break;
-					}
-					//수정필요
-					bOnLoop = false;
 					break;
 				case 3:
 					return;

@@ -29,10 +29,12 @@ public class Customer {
 					boolean gender,
 					String name,
 					String phoneNum,
-					String ssn){
+					String ssn,
+					String id){
 		this.age = age;
 		this.birthDate = birthDate;
 		this.gender = gender;
+		this.id = id;
 		this.name = name;
 		this.phoneNum = phoneNum;
 		this.ssn = ssn;

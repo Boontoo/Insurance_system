@@ -66,9 +66,9 @@ public class Controller {
 		this.m_InsuranceListImpl.add(new BuildingFireInsurance(this.m_InsuranceListImpl.getSize()+"", "건물 화재 보험"));
 		this.m_InsuranceListImpl.add(new ForestFireInsurance(this.m_InsuranceListImpl.getSize()+"", "산악 화재 보험"));
 		this.m_InsuranceListImpl.add(new IndustryFireInsurance(this.m_InsuranceListImpl.getSize()+"", "산업 화재 보험"));
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유민재", "010-3737-2855", "990713-1058827"));
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323"));
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827"));
+		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유민재", "010-3737-2855", "990713-1058827", "0"));
+		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323", "1"));
+		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827", "2"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "990713-1058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "황혜경", "대학생", "701205-2058827"));
 		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유철민", "대학생", "730128-1055323"));
@@ -315,21 +315,21 @@ public class Controller {
 				selectInput.equals("2");
 	}
 
-	public String deleteCustomerInformation(int index, String id) {
+	public boolean deleteCustomerInformation(int index, String id) {
 		// 고객 정보를 삭제한다
 		boolean bDelete = false;
 		if(this.customerList.get(index-1).getId().equals(id)) {
 			// 고객ID가 확인되었습니다. 메시지 출력 필요
-			String result = "고객ID가 확인되었습니다.";
+//			String result = "고객ID가 확인되었습니다.";
 			bDelete = this.m_CustomerListImpl.delete(id);
 			if(bDelete) {
 				// 삭제완료
-				result = result + "\n" + "삭제완료되었습니다.";
-				return result;
+//				result = result + "\n" + "삭제완료되었습니다.";
+				return true;
 			}
 		}
-		
-		return "고객ID와 일치하지 않습니다. 다시 입력해주세요.";
+		return false;
+//		return "고객ID와 일치하지 않습니다. 다시 입력해주세요.";
 	}
 
 	public String enquireApplicationForMembership(String id) {
@@ -437,7 +437,7 @@ public class Controller {
 	 * @param type
 	 * @param key
 	 */
-	public String enquireCustomerInformation(int type, String key){
+	public ArrayList<Customer> enquireCustomerInformation(int type, String key){
 		// 고객 정보를 조회한다
 		switch(type) {
 			case 1: 
@@ -455,13 +455,14 @@ public class Controller {
 					this.customerList = this.m_CustomerListImpl.get(false);
 				break;
 		}
-		String result = "";
-		int index = 1;
-		for (Customer customer : this.customerList) {
-			result = result + index + "." + customer.getName() + customer.getAge() + customer.isGender() + customer.getBirthDate() + "\n";
-			index++;
-		}
-		return result;
+		return this.customerList;
+//		String result = "";
+//		int index = 1;
+//		for (Customer customer : this.customerList) {
+//			result = result + index + "." + customer.getName() + customer.getAge() + customer.isGender() + customer.getBirthDate() + "\n";
+//			index++;
+//		}
+//		return result;
 	}
 	public boolean compareBeforeDate(String date, String choice) {
 		// 새로 만든 함수 - 입력 날짜가 기존 만기일 이후인지 확인 - 만기계약 관리하기
@@ -489,28 +490,36 @@ public class Controller {
 	 * 
 	 * @param choice
 	 */
-	public String enquireCustomerDetailInformation(int choice) {
-		Customer customer = this.customerList.get(choice-1);
-		String result = "";
-		result = result + "이름: " + customer.getName() + ", ";
-		result = result + "나이: " + customer.getAge() + ", ";
-		result = result + "성별: " + customer.isGender() + ", ";
-		result = result + "주민등록번호: " + customer.getSsn() + ", ";
-		result = result + "직업: " + ", ";
-		result = result + "전화번호: " + customer.getPhoneNum() + ", ";
-		result = result + "가입보험: (";
-		boolean isFirst = false;
-		for(String subscribedInsurance : customer.getSubscribedInsurance()) {
-			if(isFirst) {
-				result = result + ", ";
-				isFirst = true;
-			}
-			result = result + subscribedInsurance;
-		}
-		result = result + "), ";
-		result = result + "특이사항: " + customer.getUniqueness();
-		return result;
+	// 일반화를 위해 새로 만듬
+	public Customer getCustomer(int index) {
+		return this.customerList.get(index-1);
 	}
+	
+	// 필요 없음
+//	public Customer enquireCustomerDetailInformation(int choice) {
+//		//변경 후
+//		return this.customerList.get(choice-1);
+//		Customer customer = this.customerList.get(choice-1);
+//		String result = "";
+//		result = result + "이름: " + customer.getName() + ", ";
+//		result = result + "나이: " + customer.getAge() + ", ";
+//		result = result + "성별: " + customer.isGender() + ", ";
+//		result = result + "주민등록번호: " + customer.getSsn() + ", ";
+//		result = result + "직업: " + ", ";
+//		result = result + "전화번호: " + customer.getPhoneNum() + ", ";
+//		result = result + "가입보험: (";
+//		boolean isFirst = false;
+//		for(String subscribedInsurance : customer.getSubscribedInsurance()) {
+//			if(isFirst) {
+//				result = result + ", ";
+//				isFirst = true;
+//			}
+//			result = result + subscribedInsurance;
+//		}
+//		result = result + "), ";
+//		result = result + "특이사항: " + customer.getUniqueness();
+//		return result;
+//	}
 	
 	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
 		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
@@ -523,42 +532,44 @@ public class Controller {
 		return result;
 	}
 
-	public String checkCustomerInformation(int index, int choice, String newInformation) {
-		Customer customer = this.customerList.get(index-1);
-		String result = "";
-		result = result + "이름: " + customer.getName() + ", ";
-		result = result + "나이: " + customer.getAge() + ", ";
-		result = result + "직업: " + ", ";
-		result = result + "전화번호: " + customer.getPhoneNum();
-		result = result + " -> ";
-		switch(choice) {
-			case 1:
-				result = result + "이름: " + newInformation + ", ";
-				result = result + "나이: " + customer.getAge() + ", ";
-				result = result + "직업: " + ", ";
-				result = result + "전화번호: " + customer.getPhoneNum();
-				break;
-			case 2:
-				result = result + "이름: " + customer.getName() + ", ";
-				result = result + "나이: " + newInformation + ", ";
-				result = result + "직업: " + ", ";
-				result = result + "전화번호: " + customer.getPhoneNum();
-				break;
-			case 3:
-				result = result + "이름: " + customer.getName() + ", ";
-				result = result + "나이: " + customer.getAge() + ", ";
-				result = result + "직업: " + newInformation + ", ";
-				result = result + "전화번호: " + customer.getPhoneNum();
-				break;
-			case 4:
-				result = result + "이름: " + customer.getName() + ", ";
-				result = result + "나이: " + customer.getAge() + ", ";
-				result = result + "직업: " + ", ";
-				result = result + "전화번호: " + newInformation;
-				break;
-		}
-		return result;
-	}
+//	public Customer checkCustomerInformation(int index, int choice, String newInformation) {
+//		return this.customerList.get(index-1);
+		
+//		Customer customer = this.customerList.get(index-1);
+//		String result = "";
+//		result = result + "이름: " + customer.getName() + ", ";
+//		result = result + "나이: " + customer.getAge() + ", ";
+//		result = result + "직업: " + ", ";
+//		result = result + "전화번호: " + customer.getPhoneNum();
+//		result = result + " -> ";
+//		switch(choice) {
+//			case 1:
+//				result = result + "이름: " + newInformation + ", ";
+//				result = result + "나이: " + customer.getAge() + ", ";
+//				result = result + "직업: " + ", ";
+//				result = result + "전화번호: " + customer.getPhoneNum();
+//				break;
+//			case 2:
+//				result = result + "이름: " + customer.getName() + ", ";
+//				result = result + "나이: " + newInformation + ", ";
+//				result = result + "직업: " + ", ";
+//				result = result + "전화번호: " + customer.getPhoneNum();
+//				break;
+//			case 3:
+//				result = result + "이름: " + customer.getName() + ", ";
+//				result = result + "나이: " + customer.getAge() + ", ";
+//				result = result + "직업: " + newInformation + ", ";
+//				result = result + "전화번호: " + customer.getPhoneNum();
+//				break;
+//			case 4:
+//				result = result + "이름: " + customer.getName() + ", ";
+//				result = result + "나이: " + customer.getAge() + ", ";
+//				result = result + "직업: " + ", ";
+//				result = result + "전화번호: " + newInformation;
+//				break;
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * 
@@ -939,7 +950,7 @@ public class Controller {
 		return ids;
 	}
 
-	public String modifyCustomerInformation(int index, int type, String newInformation){
+	public boolean modifyCustomerInformation(int index, int type, String newInformation){
 		// 고객 정보 수정하기
 		switch(type) {
 		case 1:
@@ -956,7 +967,7 @@ public class Controller {
 			break;
 		}
 //		this.customerList.get(index).set
-		return "저장되었습니다!";
+		return true;
 	}
 	public boolean checkMoneyPayed(String accidentId) {
 		// 새로 만든 함수 - 보험금 지급 완료되었는지 확인
