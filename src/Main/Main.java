@@ -1310,6 +1310,7 @@ public class Main {
 			int choice = scanner.nextInt();
 			switch(choice) {
 				case 0:
+					System.out.println("시스템을 종료합니다.");
 					bOnLoop = false;
 					break;
 				case 1:
