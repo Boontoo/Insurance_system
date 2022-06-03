@@ -54,24 +54,24 @@ public class InsuranceListImpl implements InsuranceList {
 	 */
 	public Insurance get(String insuranceID){
 		int index = indexOf(insuranceID);
-		System.out.println(index);
+//		System.out.println(index);
 		if(index != -1) {
-			System.out.println(index);
+//			System.out.println(index);
 			return insuranceList.get(index);
 		}
 		return null;
 	}
-	public String getIdFromName(String name) {
-		// 새로 만든 함수
-		for(Insurance insurance : insuranceList) {
-			if(insurance.getInsuranceName().equals(name))
-				return insurance.getInsuranceID();
-		}
-		return "해당 아이디를 찾지 못했습니다.";
-	}
+//	public String getIdFromName(String name) {
+//		// 새로 만든 함수
+//		for(Insurance insurance : insuranceList) {
+//			if(insurance.getInsuranceName().equals(name))
+//				return insurance.getInsuranceID();
+//		}
+//		return "해당 아이디를 찾지 못했습니다.";
+//	}
 	public int indexOf(String insuranceID) {
 		for(int i = 0; i < insuranceList.size(); i++) {
-			System.out.println("i = "+i);
+//			System.out.println("i = "+i);
 			if(insuranceList.get(i).getInsuranceID().equals(insuranceID))
 				return i;
 		}

@@ -70,13 +70,13 @@ public class Controller {
 		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
 		this.m_SubmitUserListImpl = new SubmitUserListImpl();
 
-		this.m_InsuranceListImpl.add(new Insurance("건물 화재 보험"));
+		this.m_InsuranceListImpl.add(new BuildingFireInsurance("0", "건물 화재 보험"));
 		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize() - 1)
 				.setInsuranceID(m_InsuranceListImpl.getSize() + "");
-		this.m_InsuranceListImpl.add(new Insurance("산악 화재 보험"));
+		this.m_InsuranceListImpl.add(new ForestFireInsurance("1", "산악 화재 보험"));
 		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize() - 1)
 				.setInsuranceID(m_InsuranceListImpl.getSize() + "");
-		this.m_InsuranceListImpl.add(new Insurance("일반 화재 보험"));
+		this.m_InsuranceListImpl.add(new IndustryFireInsurance("2", "일반 화재 보험"));
 		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize() - 1)
 				.setInsuranceID(m_InsuranceListImpl.getSize() + "");
 		this.m_CustomerListImpl.add(
