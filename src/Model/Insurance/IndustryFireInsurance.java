@@ -7,8 +7,8 @@ package Model.Insurance;
  */
 public class IndustryFireInsurance extends Insurance {
 
-	public IndustryFireInsurance(String InsuranceName){
-		super(InsuranceName);
+	public IndustryFireInsurance(String id, String InsuranceName){
+		super(id, InsuranceName);
 	}
 
 	public void finalize() throws Throwable {

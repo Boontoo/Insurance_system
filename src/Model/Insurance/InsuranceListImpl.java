@@ -54,7 +54,11 @@ public class InsuranceListImpl implements InsuranceList {
 	 */
 	public Insurance get(String insuranceID){
 		int index = indexOf(insuranceID);
-		if(index != -1) return insuranceList.get(index);
+		System.out.println(index);
+		if(index != -1) {
+			System.out.println(index);
+			return insuranceList.get(index);
+		}
 		return null;
 	}
 	public String getIdFromName(String name) {
@@ -67,6 +71,7 @@ public class InsuranceListImpl implements InsuranceList {
 	}
 	public int indexOf(String insuranceID) {
 		for(int i = 0; i < insuranceList.size(); i++) {
+			System.out.println("i = "+i);
 			if(insuranceList.get(i).getInsuranceID().equals(insuranceID))
 				return i;
 		}
@@ -78,5 +83,17 @@ public class InsuranceListImpl implements InsuranceList {
 	}
 	public ArrayList<Insurance> getAll() {
 		return insuranceList;
+	}
+
+	@Override
+	public boolean update(Insurance insurance) {
+		int index = indexOf(insurance.getInsuranceID());
+		if(index == -1)
+			return false;
+		this.insuranceList.set(index, insurance);
+		if(this.insuranceList.get(index).equals(insurance)) {
+			return true;
+		}
+		return false;
 	}
 }

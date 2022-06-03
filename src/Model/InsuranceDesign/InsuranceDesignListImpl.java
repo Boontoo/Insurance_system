@@ -35,10 +35,10 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 		switch(type) {
 			case 1:
 				for(InsuranceDesign insuranceDesign : this.insuranceDesignList)
-					if(insuranceDesign.getDesignID() == data) return insuranceDesign;
+					if(insuranceDesign.getDesignID().equals(data)) return insuranceDesign;
 			case 2:
 				for(InsuranceDesign insuranceDesign : this.insuranceDesignList)
-					if(insuranceDesign.getInsuranceName() == data) return insuranceDesign;
+					if(insuranceDesign.getInsuranceName().equals(data)) return insuranceDesign;
 			default:
 				return null;
 		}
@@ -46,6 +46,27 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 	
 	public ArrayList<InsuranceDesign> getAll() {
 		return insuranceDesignList;
+	}
+
+	@Override
+	public boolean update(InsuranceDesign insuranceDesign) {
+		int index = indexOf(insuranceDesign.getDesignID());
+		if(index == -1)
+			return false;
+		this.insuranceDesignList.set(index, insuranceDesign);
+		if(this.insuranceDesignList.get(index).equals(insuranceDesign)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int indexOf(String designID) {
+		for(int i = 0; i < this.insuranceDesignList.size(); i++) {
+			System.out.println("i = "+i);
+			if(this.insuranceDesignList.get(i).getDesignID().equals(designID))
+				return i;
+		}
+		return -1;
 	}
 
 }

@@ -1,4 +1,5 @@
 package Model.Customer;
+
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,10 @@ public class Customer {
 	private int birthDate;
 	private boolean gender; // 0
 	private String id;
-	private enum job{};
+
+	private enum job {
+	};
+
 	private String name; // 0
 	private String phoneNum; // 0
 	private String ssn; // 0
@@ -24,17 +28,17 @@ public class Customer {
 	// 새로 만든 속성(id, pw)
 
 	public Customer() {
-		
+
 	}
-	
+
 	public Customer(int age,
-					int birthDate,
-					boolean gender,
-					String name,
-					String phoneNum,
-					String ssn,
-					String userId,
-					String userPw){
+			int birthDate,
+			boolean gender,
+			String name,
+			String phoneNum,
+			String ssn,
+			String userId,
+			String userPw) {
 		this.age = age;
 		this.birthDate = birthDate;
 		this.gender = gender;
@@ -85,7 +89,7 @@ public class Customer {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -121,7 +125,7 @@ public class Customer {
 	public void setUniqueness(String uniqueness) {
 		this.uniqueness = uniqueness;
 	}
-	
+
 	public ArrayList<String> getAccidentId() {
 		return accidentId;
 	}
@@ -150,11 +154,11 @@ public class Customer {
 		// 새로 만든 함수
 		return subscribedInsurance.add(insuranceName);
 	}
-	
+
 	@Override
 	public String toString() {
 		// 새로 만든 함수
-		return id + " " + age + " " + birthDate + " " + name + 
+		return id + " " + age + " " + birthDate + " " + name +
 				" " + phoneNum + " " + ssn;
 	}
 }

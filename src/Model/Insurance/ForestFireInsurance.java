@@ -8,8 +8,8 @@ package Model.Insurance;
  */
 public class ForestFireInsurance extends Insurance {
 
-	public ForestFireInsurance(String InsuranceName){
-		super(InsuranceName);
+	public ForestFireInsurance(String id, String InsuranceName){
+		super(id, InsuranceName);
 	}
 
 	public void finalize() throws Throwable {
