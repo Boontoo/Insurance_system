@@ -36,10 +36,11 @@ public class ContractListImpl implements ContractList {
 	public boolean delete(String id){
 		return false;
 	}
-	public void addPayment(int choice, int amountOfInsuranceFee) {
+	public void addPayment(Contract selectedContract, int amountOfInsuranceFee) {
 		// 새로 만든 함수 - 납입 보험금 추가 - 보험금 납입
-		contractList.get(choice-1).addPayment(amountOfInsuranceFee);
-		contractList.get(choice-1).setPaymentStatus(true);
+		// 파라미터 변경(22.06.03) (int int) -> (Contract int)
+		selectedContract.addPayment(amountOfInsuranceFee);
+		selectedContract.setPaymentStatus(true);
 	}
 
 	/**

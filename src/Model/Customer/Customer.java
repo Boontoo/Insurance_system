@@ -19,6 +19,9 @@ public class Customer {
 	private ArrayList<String> subscribedInsurance;
 	private String uniqueness;
 	private ArrayList<String> accidentId;
+	private String userId;
+	private String userPw;
+	// 새로 만든 속성(id, pw)
 
 	public Customer() {
 		
@@ -29,13 +32,17 @@ public class Customer {
 					boolean gender,
 					String name,
 					String phoneNum,
-					String ssn){
+					String ssn,
+					String userId,
+					String userPw){
 		this.age = age;
 		this.birthDate = birthDate;
 		this.gender = gender;
 		this.name = name;
 		this.phoneNum = phoneNum;
 		this.ssn = ssn;
+		this.userId = userId;
+		this.userPw = userPw;
 		this.subscribedInsurance = new ArrayList<String>();
 	}
 
@@ -123,11 +130,27 @@ public class Customer {
 		this.accidentId = accidentId;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserPw() {
+		return userPw;
+	}
+
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
+	}
+
 	public boolean addInsurance(String insuranceName) {
 		// 새로 만든 함수
 		return subscribedInsurance.add(insuranceName);
 	}
-
+	
 	@Override
 	public String toString() {
 		// 새로 만든 함수

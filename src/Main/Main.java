@@ -206,14 +206,15 @@ public class Main {
 		}
 	}
 
-	private void payInsuranceFee(Scanner scanner) {
+	private void payInsuranceFee(Scanner scanner, SubmitUser submitUser) {
 		// 민재 - 월 보험료 납입하기
-		// 로그인한 고객의 보험 정보만 보험금 납입이 ㄱㄴ하게 바꿀 것 - 여거 낼 하자
+		// 파라미터 추가(22.06.03)
 		while(true) {
-			ArrayList<Contract> contList = controller.enquireContractList();
-			boolean isInputValid = false;
+//			ArrayList<Contract> contList = controller.enquireContractList();
+			ArrayList<Contract> contList = controller.enquireContractListBySubUser(submitUser);
+			boolean isContinue = false;
 			String selected = null;
-			while(!isInputValid) {
+			while(!isContinue) {
 				String result = "";
 				String payStatus;
 				for(int i = 0; i < contList.size(); i++) {
@@ -231,38 +232,38 @@ public class Main {
 				if(selected.equals("0")) return;
 				if(controller.checkNumFormat(selected) && 
 						Integer.parseInt(selected) > 0 && 
-						Integer.parseInt(selected) <= contList.size()) isInputValid = true;
+						Integer.parseInt(selected) <= contList.size()) isContinue = true;
 				else System.out.println("번호를 다시 입력해 주세요");
 			}
-			isInputValid = false;
+			isContinue = false;
+			Contract selectedContract = contList.get(Integer.parseInt(selected)-1);
 			String inputPay = null;
-			while(!isInputValid) {
+			while(!isContinue) {
 				System.out.print("납입 금액 입력 : ");
 				inputPay = scanner.nextLine();
 				if(inputPay.length() == 0 || !controller.checkNumFormat(inputPay)) {
 					System.out.println("금액을 입력해 주세요");
 					continue;
 				}
-				if(controller.checkAmountOfInsuranceFee(Integer.parseInt(inputPay), 
-						Integer.parseInt(selected))) isInputValid = true;
+				if(Integer.parseInt(inputPay) >= selectedContract.getPaymentAmount()) isContinue = true;
 				else System.out.println("납입 금액 이상 입력해 주세요");
 			}
-			isInputValid = false;
-			String custName = controller.getCustByCont(contList.get(Integer.parseInt(selected)-1)).getName();
-			String insName = controller.getInsByCont(contList.get(Integer.parseInt(selected)-1)).getInsuranceName();
-			if(!controller.checkAlreadyPay(Integer.parseInt(selected))) {
-				controller.saveAmountOfInsuranceFee(Integer.parseInt(selected), Integer.parseInt(inputPay));
+			isContinue = false;
+			String custName = controller.getCustByCont(selectedContract).getName();
+			String insName = controller.getInsByCont(selectedContract).getInsuranceName();
+			if(!selectedContract.isPaymentStatus()) {
+				controller.saveAmountOfInsuranceFee(selectedContract, Integer.parseInt(inputPay));
 				System.out.println("\n" + "[영업 활동 부서에 보낼 납입 정보]\n"+
 						"보험 가입자 이름 : " + custName + "\n" +
 						"보험 상품 이름 : " + insName + "\n" + 
 						"납입 금액 : " + inputPay);
 				System.out.println("\n<월 보험료 납입이 완료되었습니다>");
 				System.out.println("가입 보험 상품 이름 : " + insName + 
-							"\n납입 금액 : " + contList.get(Integer.parseInt(selected)-1).getPaymentAmount() + 
-							"\n총 납입 금액 : " + contList.get(Integer.parseInt(selected)-1).getTotalPaymentAmount());
+							"\n납입 금액 : " + selectedContract.getPaymentAmount() + 
+							"\n총 납입 금액 : " + selectedContract.getTotalPaymentAmount());
 			}else System.out.println("이미 월 납입을 완료하셨습니다");
 			String inputBinCase = null;
-			while(!isInputValid) {
+			while(!isContinue) {
 				System.out.println("\n<다른 보험 상품을 납부하시겠습니까?>");
 				System.out.print("(1. 예, 2. 아니오) : ");
 				inputBinCase = scanner.nextLine();
@@ -270,7 +271,7 @@ public class Main {
 						!(Integer.parseInt(inputBinCase) == 1 || 
 						Integer.parseInt(inputBinCase) == 2)) 
 					System.out.println("1 혹은 2를 입력해 주세요");
-				else isInputValid = true;
+				else isContinue = true;
 			}
 			if(inputBinCase.equals("2")) {
 				System.out.println("===========================");
@@ -1222,8 +1223,8 @@ public class Main {
 			String choice = "";
 			boolean isContinue = false;
 			while(!isContinue) {
-				System.out.println("[분산투자화재 보험 시스템입니다.]");
-				System.out.println("0.시스템 종료하기");
+				System.out.println("[분산투자화재 보험 시스템입니다. 접속 직원 이름 : " + submitUser.getUserName() + "]");
+				System.out.println("0.로그아웃");
 				System.out.println("1.고객정보 관리하기"); // -
 				System.out.println("2.계약유지활동 진행하기");
 				System.out.println("3.가입신청 받기"); // 0
@@ -1297,6 +1298,7 @@ public class Main {
 					break;
 			}
 		}
+		System.out.println();
 	}
 	private void mainForCustomer(Scanner scanner, SubmitUser submitUser) {
 		// 새로 만든 함수 - 고객 전용 메뉴 표시(22.06.03)
@@ -1306,8 +1308,8 @@ public class Main {
 			String choice = "";
 			boolean isContinue = false;
 			while(!isContinue) {
-				System.out.println("[분산투자화재 보험 시스템입니다.]");
-				System.out.println("0.시스템 종료하기");
+				System.out.println("[분산투자화재 보험 시스템입니다. 접속 고객 이름 : " + submitUser.getUserName() + "]");
+				System.out.println("0.로그아웃");
 				System.out.println("1.월보험료 납입하기"); // 0
 				System.out.print("입력 번호 : ");
 				choice = scanner.nextLine();
@@ -1321,15 +1323,16 @@ public class Main {
 					break;
 				case 1:
 					// 민재 20220526완성
-					payInsuranceFee(scanner);
+					payInsuranceFee(scanner, submitUser);
 					break;
 				default :
 					System.out.println("입력정보가 잘못되었습니다. 다시 메뉴를 선택해주세요.\n");
 					break;
 			}
 		}
+		System.out.println();
 	}
-	private void login(Scanner scanner) {
+	private SubmitUser login(Scanner scanner) {
 		// 새로 만든 함수 - 로그인 기능 구현(22.06.03)
 		boolean isContinue = false;
 		String userId = "";
@@ -1340,12 +1343,11 @@ public class Main {
 			userId = scanner.nextLine();
 			System.out.print("비밀번호 : ");
 			userPw = scanner.nextLine();
-			String inputCase = "";
 			submitUser = controller.getSubmitUser(userId, userPw);
 			if(submitUser != null) 
 				System.out.print("해당 고객 및 직원을 찾았습니다. 계속 진행하겠습니까?(1.예 그이외.아니오) : ");
 			else System.out.print("해당 고객 및 직원을 찾지 못했습니다. 계속 진행하겠습니까?(1.예 그이외.아니오) : ");
-			if(!scanner.nextLine().equals("1")) return;
+			if(!scanner.nextLine().equals("1")) return null;
 			if(submitUser != null) isContinue  = true;
 			else System.out.println("아이디 및 비밀번호를 다시 입력해 주세요");
 		}
@@ -1354,18 +1356,18 @@ public class Main {
 							"이름 : " + submitUser.getUserName() + "\n" + 
 							"아이디 : " + submitUser.getUserId() + "\n" + 
 							"접속 구분 : " + userTypeStr + "\n");
-		if(submitUser.isUserType()) mainForEmployee(scanner, submitUser);
-		else mainForCustomer(scanner, submitUser); 
+		return submitUser;
 	}
 	public static void main(String[] args) {
 		Main main = new Main();
 		Scanner scanner = new Scanner(System.in);
-		boolean isContinue = false;
 		while(true) {
 			System.out.print("1. 로그인 \n그이외.뒤로 가기\n입력 : ");
 			if(!scanner.nextLine().equals("1")) break;
-			main.login(scanner);
-			System.out.println();
+			 SubmitUser submitUser = main.login(scanner);
+			 if(submitUser == null) continue;
+			 if(submitUser.isUserType()) main.mainForEmployee(scanner, submitUser);
+			 else main.mainForCustomer(scanner, submitUser);
 			// 로그인 사용자가 고객일 때 보험 상품 납입 정보들 중에 로그인한 고객에게 보일 수 있게 해야 함
 			// 얘를 하려면 고객 속성에 아이디 비번도 있어야 댐 - 이래야지 로그인 정보랑 고객 정보의 아이디 비번 비교가 ㄱㄴ함
 			// 월 보험료 납입하기 - 납입 정보가 로그인한 고객의 가입 보험으로만 보여져야 함

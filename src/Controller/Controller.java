@@ -9,7 +9,6 @@ import Model.AccidentReception.AccidentReception;
 import Model.AccidentReception.AccidentReceptionListImpl;
 import Model.ApplicationForMembership.ApplicationForMembership;
 import Model.ApplicationForMembership.ApplicationForMembershipListImpl;
-import Model.CompensationManagement.CompensationManagementListImpl;
 import Model.Contract.Contract;
 import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
@@ -39,7 +38,8 @@ public class Controller {
 	public CustomerListImpl m_CustomerListImpl;
 	public InsuranceListImpl m_InsuranceListImpl;
 	public AccidentReceptionListImpl m_AccidentReceptionListImpl;
-	public CompensationManagementListImpl m_CompensationManagementListImpl;
+//	public CompensationManagementListImpl m_CompensationManagementListImpl;
+	// 삭제(22.06.03)
 	public ContractListImpl m_ContractListImpl;
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
 	private InsuranceDesign m_InsuranceDesign;
@@ -73,22 +73,24 @@ public class Controller {
 		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize()-1).setInsuranceID(m_InsuranceListImpl.getSize()+"");
 		this.m_InsuranceListImpl.add(new Insurance("일반 화재 보험"));
 		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize()-1).setInsuranceID(m_InsuranceListImpl.getSize()+"");
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유민재", "010-3737-2855", "990713-1058827"));
+		this.m_CustomerListImpl.add(new Customer(24, 112233, true, "유민재", "010-3737-2855", "112233-4556677", "dbalsend", "Godyell713"));
 		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "유철민", "010-3737-2855", "730128-1055323"));
+		this.m_CustomerListImpl.add(new Customer(24, 123456, true, "유철민", "010-3737-2855", "123456-1234567", "cjfals", "Godyell99"));
 		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
-		this.m_CustomerListImpl.add(new Customer(24, 990713, true, "황혜경", "010-3737-2855", "701205-2058827"));
+		this.m_CustomerListImpl.add(new Customer(24, 112234, true, "황혜경", "010-3737-2855", "112234-5677889", "gPrud", "hk9126"));
 		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "990713-1058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "황혜경", "대학생", "701205-2058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유철민", "대학생", "730128-1055323"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "990713-1058827"));
-		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "990713-1058827"));
+		this.m_CustomerListImpl.add(new Customer(24, 135799, true, "김정호", "010-3737-2855", "135799-2468024", "wjdgh", "2011"));
+		this.m_CustomerListImpl.getAll().get(m_CustomerListImpl.getSize()-1).setId(m_CustomerListImpl.getSize()+"");
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("건물 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "112233-4556677"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "황혜경", "대학생", "112234-5677889"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유철민", "대학생", "123456-1234567"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("산악 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "112233-4556677"));
+		this.m_ApplicationForMembershipListImpl.add(new ApplicationForMembership("일반 화재 보험", "010-3737-2855", "24", true, "유민재", "대학생", "112233-4556677"));
 		this.m_ApplicationForMembershipListImpl.get(0).setUWExecutionStatus(true);
-		this.m_ApplicationForMembershipListImpl.get(3).setUWExecutionStatus(true);
+		this.m_ApplicationForMembershipListImpl.get(1).setUWExecutionStatus(true);
 		this.m_ApplicationForMembershipListImpl.get(4).setUWExecutionStatus(true);
 		this.m_ApplicationForMembershipListImpl.get(0).setUWResult(true);
-		this.m_ApplicationForMembershipListImpl.get(3).setUWResult(true);
+		this.m_ApplicationForMembershipListImpl.get(1).setUWResult(true);
 		this.m_ApplicationForMembershipListImpl.get(4).setUWResult(true);
 		// 가입 신청 및 인수심사 합격 설정 경우 임시 생성
 		this.m_SubmitUserListImpl.add(new SubmitUser("장민우", "alsdn", "6016", true));
@@ -100,6 +102,10 @@ public class Controller {
 		this.m_SubmitUserListImpl.add(new SubmitUser("유민재", "dbalsend", "Godyell713", false));
 		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
 		this.m_SubmitUserListImpl.add(new SubmitUser("김정호", "wjdgh", "2011", false));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		this.m_SubmitUserListImpl.add(new SubmitUser("유철민", "cjfals", "Godyell99", false));
+		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
+		this.m_SubmitUserListImpl.add(new SubmitUser("황혜경", "gPrud", "hk9126", false));
 		this.m_SubmitUserListImpl.getAll().get(m_SubmitUserListImpl.getSize()-1).setId(m_SubmitUserListImpl.getSize()+"");
 		// 로그인 시 로그인 테이블 사용자 임시 생성
 	}
@@ -170,16 +176,18 @@ public class Controller {
 	 * 
 	 * @param amountOfInsuranceFee
 	 */
-	public boolean checkAmountOfInsuranceFee(int amountOfInsuranceFee, int choice){
-		// 납입 금액 이상 입력 유무 확인한다 - 보험료 납입하기
-		// 파라미터 변경 int -> int int
-		return amountOfInsuranceFee >= m_ContractListImpl.get(choice-1).getPaymentAmount();
-	}
+//	public boolean checkAmountOfInsuranceFee(int amountOfInsuranceFee, Contract selectedContract){
+//		// 납입 금액 이상 입력 유무 확인한다 - 보험료 납입하기
+//		// 파라미터 변경 int -> int int
+//		// 삭제(22.06.03)
+//		return false;
+//	}
 	
-	public boolean checkAlreadyPay(int choice) {
-		// 새로 만든 함수 - 이미 납입했는지 확인 - 보험료 납입하기
-		return m_ContractListImpl.get(choice-1).isPaymentStatus();
-	}
+//	public boolean checkAlreadyPay(int choice) {
+//		// 새로 만든 함수 - 이미 납입했는지 확인 - 보험료 납입하기
+//		// 삭제(22.06.03)
+//		return false;
+//	}
 
 	/**
 	 * 
@@ -512,11 +520,11 @@ public class Controller {
 		return result;
 	}
 	
-	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
-		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
-		// 삭제(22.05.31) - 얘도 필요 없을듯해
-		return null;
-	}
+//	public String enquireCustDetailInfoFromEnquirePassedList(int choice) {
+//		// 고객 세부정보를 조회한다 - 보험 가입하기(choice : 선택 번호)(새로 만들어진 함수)
+//		// 삭제(22.05.31) - 얘도 필요 없을듯해
+//		return null;
+//	}
 
 	public String checkCustomerInformation(int index, int choice, String newInformation) {
 		Customer customer = this.customerList.get(index-1);
@@ -605,6 +613,17 @@ public class Controller {
 		// 사고 목록 조회하기(고객 이름, 주민번호, 사건번호) - 보험급 지급
 		// 반환형 변경(22.06.01) String->ArrayList
 		return m_AccidentReceptionListImpl.getAll();
+	}
+	public ArrayList<Contract> enquireContractListBySubUser(SubmitUser submitUser) {
+		// 새로 만든 함수(22.06.03) - 로그인한 고객이 가입한 보험 내역 받아옴
+		ArrayList<Contract> subUserContList = new ArrayList<Contract>();
+		for(Contract contract : enquireContractList()) {
+			Customer contractedCust = getCustByCont(contract);
+			if(contractedCust.getUserId().equals(submitUser.getUserId()) && 
+					contractedCust.getUserPw().equals(submitUser.getUserPw()))
+			subUserContList.add(contract);
+		}
+		return subUserContList;
 	}
 //	private String enquirePaymentStatus(int i) {
 //		// 새로 만든 함수
@@ -953,15 +972,16 @@ public class Controller {
 
 	/**
 	 * 
-	 * @param choice
+	 * @param selectedContract
 	 * @param amountOfInsuranceFee
 	 */
-	public void saveAmountOfInsuranceFee(int choice, int amountOfInsuranceFee){
+	public void saveAmountOfInsuranceFee(Contract selectedContract, int amountOfInsuranceFee){
 		// 입력 보험금액 저장하기 - 보험료 납입하기
 		// 납입 정보 표시까지 포함	
 		// 파라미터 변경 (String id -> int choice)
 		// 반환형 변경(22.06.01) String->void
-		m_ContractListImpl.addPayment(choice, amountOfInsuranceFee);
+		// 파라미터 변경(22.06.03) (int -> Contract int)
+		m_ContractListImpl.addPayment(selectedContract, amountOfInsuranceFee);
 	}
 
 	/**
