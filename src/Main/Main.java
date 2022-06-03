@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Controller.Controller;
 import Model.AccidentReception.AccidentReception;
 import Model.Customer.Customer;
+import Model.Insurance.Insurance;
 
 /**
  * @author dlsqo
@@ -985,14 +986,38 @@ public class Main {
 				case 2:
 					//보험 상품 관리
 					//시스템
-					System.out.println(controller.enquireInsuranceList());
+//					System.out.println(controller.enquireInsuranceList());
+					// 변경 후
+					ArrayList<Insurance> insuranceList = this.controller.enquireInsuranceList();
+					int i = 1;
+					for(Insurance insurance : insuranceList) {
+						System.out.println(i + "." + insurance.getInsuranceName());
+						i++;
+					}
+					///////////////////////////////////////////////////////////////////////////
 					int insuranceChoice = scanner.nextInt();
-					ArrayList<String> productDetails = controller.enquireInsuranceProductDetails(insuranceChoice-1);
+					// 변경 후
+					Insurance insurance = controller.enquireInsuranceProductDetails(insuranceChoice-1);
+					////////////////////////////////////////////////////////////////////////////
+//					ArrayList<String> productDetails = controller.enquireInsuranceProductDetails(insuranceChoice-1);
 					boolean bInsuranceDetailsPart = true;
 					while(bInsuranceDetailsPart) {
-						for(String content : productDetails) {
-							System.out.println(content);
-						}
+					// 변경 후
+						System.out.println("판매실적");
+						System.out.println(insurance.getSalesPerformance()+"\n");
+						System.out.println("속성");
+						System.out.println(insurance.getAttribute()+"\n");
+						System.out.println("손익");
+						System.out.println(insurance.getProfitAndLoss()+"");
+						//
+						//
+						//여기부터!!!!
+						//
+						//
+					///////////////////////////////////////////////////////////////////////////
+//						for(String content : productDetails) {
+//							System.out.println(content);
+//						}
 						System.out.println("보험을 유지하시겠습니까?");
 						System.out.println("1.유지");
 						System.out.println("2.중지");

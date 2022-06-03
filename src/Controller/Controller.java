@@ -651,37 +651,43 @@ public class Controller {
 		// 새로 만든 함수 - 계약리스트 보험 아이디로부터 이름 반환
 		return m_InsuranceListImpl.get(id).getInsuranceName();
 	}
-	public String enquireInsuranceList(){
+	public ArrayList<Insurance> enquireInsuranceList(){
 		// 보험 리스트 조회하기
-		ArrayList<Insurance> insuranceList = this.m_InsuranceListImpl.getAll();
-		String result = "";
-		int i = 1;
-		for(Insurance insurance : insuranceList) {
-			result += i + "." + insurance.getInsuranceName() + "\n";
-			i++;
-		}
-		return result;
+		// 변경 후
+		return this.m_InsuranceListImpl.getAll();
+//		ArrayList<Insurance> insuranceList = this.m_InsuranceListImpl.getAll();
+//		String result = "";
+//		int i = 1;
+//		for(Insurance insurance : insuranceList) {
+//			result += i + "." + insurance.getInsuranceName() + "\n";
+//			i++;
+//		}
+//		return result;
 	}
 
 	/**
 	 * 
 	 * @param choice
 	 */
-	public ArrayList<String> enquireInsuranceProductDetails(int choice) {
+	public Insurance enquireInsuranceProductDetails(int choice) {
 		// 보험 상품 세부 정보 조회하기
 		// choice 예외 처리 필요
-		System.out.println("choice : "+choice);
+//		System.out.println("choice : "+choice);
 //		System.out.println(this.m_InsuranceListImpl.get(String.valueOf(choice)).getInsuranceName());
 //		System.out.println("id : "+this.m_InsuranceListImpl.get(String.valueOf(choice)).getInsuranceID());
-		Insurance insurance = this.m_InsuranceListImpl.get(String.valueOf(choice));
-		if(insurance == null) {
-			System.out.println("null");
-		}
-		ArrayList<String> result = new ArrayList<String>();
-		result.add(insurance.getSalesPerformance());
-		result.add(insurance.getAttribute());
-		result.add(insurance.getProfitAndLoss()+"");
-		return result;
+		
+		// 변경 후
+		return this.m_InsuranceListImpl.get(choice+"");
+		/////////////////////////////////////////////////////////////////
+//		Insurance insurance = this.m_InsuranceListImpl.get(String.valueOf(choice));
+//		if(insurance == null) {
+//			System.out.println("null");
+//		}
+//		ArrayList<String> result = new ArrayList<String>();
+//		result.add(insurance.getSalesPerformance());
+//		result.add(insurance.getAttribute());
+//		result.add(insurance.getProfitAndLoss()+"");
+//		return result;
 	}
 
 	public String enquireInsuranceProductDevelopmentInformation() {
