@@ -850,19 +850,22 @@ public class Controller {
 		// return result;
 	}
 
-	public String enquireInsuranceProductDevelopmentInformation() {
+	public InsuranceProductDevelopmentInformation enquireInsuranceProductDevelopmentInformation() {
 		// 보험 상품 개발 정보 조회하기
-		// 보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을 반환한다
-		InsuranceProductDevelopmentInformation information = this.m_InsuranceProductDevelopmentInformationListImpl
-				.get("0");
-		String result = "";
-		result += "고객니즈분석 설문조사 결과\n";
-		result += information.getCustomerNeedAnalysisSurveyResults() + "\n";
-		result += "\n최근 보험가입 빈도\n";
-		result += information.getFrequencyOfRecentInsurancePurchases() + "\n";
-		result += "\n경쟁사의 동향 정보\n";
-		result += information.getCompetitorTrendInformation() + "\n";
-		return result;
+		// 보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보) 및 저장버튼을 반환한다
+		// 보험
+		// 수정 후
+		return this.m_InsuranceProductDevelopmentInformationListImpl.get("0");
+		///////////////////////////////////////////////////////////////////////
+//		InsuranceProductDevelopmentInformation information = this.m_InsuranceProductDevelopmentInformationListImpl.get("0");
+//		String result = "";
+//		result += "고객니즈분석 설문조사 결과\n";
+//		result += information.getCustomerNeedAnalysisSurveyResults() + "\n";
+//		result += "\n최근 보험가입 빈도\n";
+//		result += information.getFrequencyOfRecentInsurancePurchases() + "\n";
+//		result += "\n경쟁사의 동향 정보\n";
+//		result += information.getCompetitorTrendInformation() + "\n";
+//		return result;
 	}
 
 	public ArrayList<ApplicationForMembership> enquirePassedCustomerInUW() {

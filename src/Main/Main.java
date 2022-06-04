@@ -12,6 +12,7 @@ import Model.ApplicationForMembership.ApplicationForMembership;
 import Model.Contract.Contract;
 import Model.Customer.Customer;
 import Model.Insurance.Insurance;
+import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformation;
 import Model.SubmitUser.SubmitUser;
 
 /**
@@ -1291,9 +1292,9 @@ public class Main {
 		// planningContents.add(scanner.next());
 		// }
 
+		
 		boolean bPlanningContents = this.controller.checkPlanningContents();
 		if (bPlanningContents) {
-			// System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
 			int type = 1;
 			this.insuranceDesignForm(scanner, type); // 0이 새로운 설계, 1이 이어서 설계
 			return;
@@ -1302,7 +1303,16 @@ public class Main {
 		boolean bSavePlanningPart = true;
 		while (bSavePlanningPart) {
 			// 보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을 출력한다
-			System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
+//			System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
+			// 변경 후
+			InsuranceProductDevelopmentInformation information = this.controller.enquireInsuranceProductDevelopmentInformation();
+			System.out.println("고객니즈분석 설문조사 결과");
+			System.out.println(information.getCustomerNeedAnalysisSurveyResults());
+			System.out.println("최근 보험가입 빈도");
+			System.out.println(information.getFrequencyOfRecentInsurancePurchases());
+			System.out.println("경쟁사의 동향 정보");
+			System.out.println(information.getCompetitorTrendInformation());
+			////////////////////////////////////////////////////////////////////////////////////
 			// 보험상품기획서 작성
 			ArrayList<String> planningForm = controller.enquireInsuranceProductPlanningForm();
 			ArrayList<String> planningContents = new ArrayList<String>();
@@ -1422,7 +1432,7 @@ public class Main {
 				case 1:
 					System.out.println("상품 인가품의 완료");
 					// 상품 확정 후 상품을 등록시킨다.
-					controller.requestAuthorizationOfCompany(true);
+					this.controller.requestAuthorizationOfCompany(true);
 					// 상품 확정 질문 필요?
 					if (this.confirmProduct(scanner)) {
 						bRequestAuthorizationOfCompany = false;
@@ -1432,7 +1442,7 @@ public class Main {
 						return;
 					}
 				case 2:
-					controller.requestAuthorizationOfCompany(false);
+					this.controller.requestAuthorizationOfCompany(false);
 					return;
 				default:
 					System.out.println("잘못 선택했습니다. 다시 선택해주세요.");
@@ -1450,12 +1460,12 @@ public class Main {
 			switch (choice) {
 				case 1:
 					System.out.println("상품 인가품의 완료");
-					controller.requestAuthorizationOfFSS(true);
+					this.controller.requestAuthorizationOfFSS(true);
 					this.writeProductSalesSupportDetailsContents(scanner, type);
 				case 3:
 					return;
 				case 2:
-					controller.requestAuthorizationOfFSS(false);
+					this.controller.requestAuthorizationOfFSS(false);
 					// bRequestAuthorizationOfFSS = false;
 					return;
 				default:
@@ -1476,7 +1486,7 @@ public class Main {
 				case 1:
 					System.out.println("상품이 확정되었습니다.");
 					// 상품 확정 코드
-					controller.makeDecisionInsuranceProduct(true);
+					this.controller.makeDecisionInsuranceProduct(true);
 					return true;
 				case 2:
 					return false;
@@ -1488,7 +1498,7 @@ public class Main {
 	}
 
 	private void writeProductSalesSupportDetailsContents(Scanner scanner, int type) {
-		ArrayList<String> productSalesSupportDetails = controller.enquireProductSalesSupportDetails();
+		ArrayList<String> productSalesSupportDetails = this.controller.enquireProductSalesSupportDetails();
 		ArrayList<String> productSalesSupportDetailsContents = new ArrayList<String>();
 		for (String content : productSalesSupportDetails) {
 			System.out.println(content);
@@ -1499,8 +1509,8 @@ public class Main {
 		// && type == 0) {
 		// controller.addInsurance();
 		// }
-		if (controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents)) {
-			if (controller.addInsurance(type)) {
+		if (this.controller.saveProductSalesSupportDetails(productSalesSupportDetailsContents)) {
+			if (this.controller.addInsurance(type)) {
 				System.out.println("보험 설계가 완료되었습니다.");
 			}
 		}
