@@ -2,6 +2,9 @@ package Model.customer;
 import java.util.ArrayList;
 import java.util.Date;
 
+import dao.CustomerDao;
+import dao.Dao;
+
 /**
  * @author dlsqo
  * @version 1.0
@@ -14,7 +17,7 @@ public class CustomerListImpl implements CustomerList {
 	public Customer m_Customer;
 
 	public CustomerListImpl(){
-		
+		Dao dao = new CustomerDao();
 	}
 
 	public void finalize() throws Throwable {
