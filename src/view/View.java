@@ -59,7 +59,14 @@ public class View {
 						System.out.println("3.성별");
 						System.out.println("4.생년월일");
 						type = scanner.nextLine();
-						if(controller.checkNumFormat(type)) isContinue = true;
+						if(controller.checkNumFormat(type)) {
+							if(type == "1" || type == "2" || type == "3" || type == "4")
+								isContinue = true;
+							else {
+								System.out.println("잘못입력했습니다.");
+								System.out.println("다시 입력해주세요");
+							}
+						}
 						else System.out.println("숫자를 입력해 주세요");
 					}
 					isContinue = false;
@@ -71,7 +78,7 @@ public class View {
 					int index = 1;
 					for (Customer customer : customerList) {
 						System.out.println(index + "." + customer.getCustomerName() + customer.getAge() + customer.isGender()
-								+ customer.getBirthDate());
+						+ customer.getBirthDate());
 						index++;
 					}
 					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,16 +113,8 @@ public class View {
 					System.out.print("), ");
 					System.out.println("특이사항: " + customer.getUniqueness());
 					//////////////////////////////////////////////////////////////
-
-							this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
-							bSelectType = false;
-							break;
-						}
-						else {
-							System.out.println("잘못입력했습니다.");
-							System.out.println("다시 입력해주세요");
-						}
-					}
+	
+					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
 					break;
 				case 2:
 					bOnLoop = false;
