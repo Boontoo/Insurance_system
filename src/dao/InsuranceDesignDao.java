@@ -1,6 +1,6 @@
 package dao;
 
-import Model.InsuranceDesign.InsuranceDesign;
+import Model.insuranceDesign.InsuranceDesign;
 
 public class InsuranceDesignDao extends Dao {
 	public InsuranceDesignDao() {

@@ -1,6 +1,6 @@
 package dao;
 
-import Model.Application.Application;
+import Model.application.Application;
 
 public class ApplicationDao extends Dao {
 	public ApplicationDao() {
