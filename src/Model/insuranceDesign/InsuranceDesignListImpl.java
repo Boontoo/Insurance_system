@@ -2,11 +2,15 @@ package Model.insuranceDesign;
 
 import java.util.ArrayList;
 
+import dao.Dao;
+import dao.InsuranceDesignDao;
+
 public class InsuranceDesignListImpl implements InsuranceDesignList {
 
 	private ArrayList<InsuranceDesign> insuranceDesignList;
 	
-	public InsuranceDesignListImpl(){
+	public InsuranceDesignListImpl() {
+		Dao dao = new InsuranceDesignDao();
 		insuranceDesignList = new ArrayList<InsuranceDesign>();
 	}
 

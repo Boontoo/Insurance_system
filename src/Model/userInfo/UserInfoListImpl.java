@@ -2,10 +2,14 @@ package Model.userInfo;
 
 import java.util.ArrayList;
 
+import dao.Dao;
+import dao.UserInfoDao;
+
 public class UserInfoListImpl implements UserInfoList {
 	// 새로 만든 클래스(22.06.03)
 	private ArrayList<UserInfo> submitUserList;
 	public UserInfoListImpl() {
+		Dao dao = new UserInfoDao();
 		submitUserList = new ArrayList<UserInfo>();
 	}
 	
