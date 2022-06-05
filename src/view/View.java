@@ -35,97 +35,96 @@ public class View {
 	}
 
 	private void manageCustomerInformation(Scanner scanner) {
-		// 인배
-		boolean bOnLoop = true;
-		while (bOnLoop) {
-			boolean isContinue = false;
-			String choice = "";
-			while(!isContinue) {
-				System.out.println("고객정보관리하기 메뉴입니다.");
-				System.out.println("1.고객정보조회");
-				System.out.println("2.메인페이지로 돌아가기");
-				choice = scanner.nextLine();
-				if(controller.checkNumFormat(choice)) isContinue = true;
-				else System.out.println("숫자를 입력해 주세요");
-			}
-			isContinue = false;
-			switch (Integer.parseInt(choice)) {
-				case 1:
-					String type = "";
-					while(!isContinue) {
-						System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
-						System.out.println("1.이름");
-						System.out.println("2.나이");
-						System.out.println("3.성별");
-						System.out.println("4.생년월일");
-						type = scanner.nextLine();
-						if(controller.checkNumFormat(type)) isContinue = true;
-						else System.out.println("숫자를 입력해 주세요");
-					}
-					isContinue = false;
-					System.out.println("조회할 고객 정보를 입력하세요.");
-					String key = scanner.nextLine();
-					// System.out.println(this.controller.enquireCustomerInformation(type, key));
-					// 변경 후
-					ArrayList<Customer> customerList = this.controller.enquireCustomerInformation(Integer.parseInt(type), key);
-					int index = 1;
-					for (Customer customer : customerList) {
-						System.out.println(index + "." + customer.getCustomerName() + customer.getAge() + customer.isGender()
-								+ customer.getBirthDate());
-						index++;
-					}
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// if null 필요
-					while(!isContinue) {
-						System.out.print("세부정보를 확인할 고객의 번호를 입력하세요. : ");
-						// int index = scanner.nextInt();
-						// 변경 후
-						choice = scanner.nextLine();
-						if(controller.checkNumFormat(choice)) isContinue = true;
-						else System.out.println("숫자를 입력해 주세요");
-					}
-					isContinue = false;
-					// System.out.println(this.controller.enquireCustomerDetailInformation(index));
-					//////////////////////////////////////////////////////////////////////
-					// 변경 후
-					// Customer customer = this.controller.enquireCustomerDetailInformation(index);
-					Customer customer = controller.getCustomer(Integer.parseInt(choice));
-					System.out.print("이름: " + customer.getCustomerName() + ", ");
-					System.out.print("나이: " + customer.getAge() + ", ");
-					System.out.print("성별: " + customer.isGender() + ", ");
-					System.out.print("주민등록번호: " + customer.getSsn() + ", ");
-					System.out.print("직업: " + ", ");
-					System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
-					System.out.print("가입보험: (");
-					index = 1;
-					for (String subscribedInsurance : customer.getSubscribedInsurance()) {
-						System.out.print(subscribedInsurance);
-						if (index != customer.getSubscribedInsurance().size())
-							System.out.print(", ");
-					}
-					System.out.print("), ");
-					System.out.println("특이사항: " + customer.getUniqueness());
-					//////////////////////////////////////////////////////////////
-
-							this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
-							bSelectType = false;
-							break;
-						}
-						else {
-							System.out.println("잘못입력했습니다.");
-							System.out.println("다시 입력해주세요");
-						}
-					}
-					break;
-				case 2:
-					bOnLoop = false;
-					break;
-				default:
-					System.out.println("잘못 선택하셨습니다. 다시 선택해주세요.");
-					break;
-			}
-		}
-	}
+	      // 인배
+	      boolean bOnLoop = true;
+	      while (bOnLoop) {
+	         boolean isContinue = false;
+	         String choice = "";
+	         while(!isContinue) {
+	            System.out.println("고객정보관리하기 메뉴입니다.");
+	            System.out.println("1.고객정보조회");
+	            System.out.println("2.메인페이지로 돌아가기");
+	            choice = scanner.nextLine();
+	            if(controller.checkNumFormat(choice)) isContinue = true;
+	            else System.out.println("숫자를 입력해 주세요");
+	         }
+	         isContinue = false;
+	         switch (Integer.parseInt(choice)) {
+	            case 1:
+	               String type = "";
+	               while(!isContinue) {
+	                  System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
+	                  System.out.println("1.이름");
+	                  System.out.println("2.나이");
+	                  System.out.println("3.성별");
+	                  System.out.println("4.생년월일");
+	                  type = scanner.nextLine();
+	                  if(controller.checkNumFormat(type)) {
+	                     if(type == "1" || type == "2" || type == "3" || type == "4")
+	                        isContinue = true;
+	                     else {
+	                        System.out.println("잘못입력했습니다.");
+	                        System.out.println("다시 입력해주세요");
+	                     }
+	                  }
+	                  else System.out.println("숫자를 입력해 주세요");
+	               }
+	               isContinue = false;
+	               System.out.println("조회할 고객 정보를 입력하세요.");
+	               String key = scanner.nextLine();
+	               // System.out.println(this.controller.enquireCustomerInformation(type, key));
+	               // 변경 후
+	               ArrayList<Customer> customerList = this.controller.enquireCustomerInformation(Integer.parseInt(type), key);
+	               int index = 1;
+	               for (Customer customer : customerList) {
+	                  System.out.println(index + "." + customer.getCustomerName() + customer.getAge() + customer.isGender()
+	                  + customer.getBirthDate());
+	                  index++;
+	               }
+	               /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	               // if null 필요
+	               while(!isContinue) {
+	                  System.out.print("세부정보를 확인할 고객의 번호를 입력하세요. : ");
+	                  // int index = scanner.nextInt();
+	                  // 변경 후
+	                  choice = scanner.nextLine();
+	                  if(controller.checkNumFormat(choice)) isContinue = true;
+	                  else System.out.println("숫자를 입력해 주세요");
+	               }
+	               isContinue = false;
+	               // System.out.println(this.controller.enquireCustomerDetailInformation(index));
+	               //////////////////////////////////////////////////////////////////////
+	               // 변경 후
+	               // Customer customer = this.controller.enquireCustomerDetailInformation(index);
+	               Customer customer = controller.getCustomer(Integer.parseInt(choice));
+	               System.out.print("이름: " + customer.getCustomerName() + ", ");
+	               System.out.print("나이: " + customer.getAge() + ", ");
+	               System.out.print("성별: " + customer.isGender() + ", ");
+	               System.out.print("주민등록번호: " + customer.getSsn() + ", ");
+	               System.out.print("직업: " + ", ");
+	               System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
+	               System.out.print("가입보험: (");
+	               index = 1;
+	               for (String subscribedInsurance : customer.getSubscribedInsurance()) {
+	                  System.out.print(subscribedInsurance);
+	                  if (index != customer.getSubscribedInsurance().size())
+	                     System.out.print(", ");
+	               }
+	               System.out.print("), ");
+	               System.out.println("특이사항: " + customer.getUniqueness());
+	               //////////////////////////////////////////////////////////////
+	   
+	               this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
+	               break;
+	            case 2:
+	               bOnLoop = false;
+	               break;
+	            default:
+	               System.out.println("잘못 선택하셨습니다. 다시 선택해주세요.");
+	               break;
+	         }
+	      }
+	   }
 
 	private void modifyOrDeleteCustomerInformation(Scanner scanner, boolean bOnLoop, int index) {
 		// boolean bOnLoop = true;
@@ -800,7 +799,7 @@ public class View {
 							}
 							isContinue = false;
 							System.out.print("정산하겠습니까?(1. 예, 그이외. 아니오) : ");
-							if (!scanner.next().equals("1")) {
+							if (!scanner.nextLine().equals("1")) {
 								System.out.println("=========================");
 								return;
 							}
@@ -845,7 +844,7 @@ public class View {
 									"\n재등록 보험 요금 : " + selectedIns.getReInsuranceFee() +
 									"\n갱신 여부 : " + isRenewStr);
 							System.out.print("재보험 등록하겠습니까?\n(1. 등록, 그 이외. 뒤로가기) : ");
-							if (!scanner.next().equals("1")) {
+							if (!scanner.nextLine().equals("1")) {
 								System.out.println("=========================");
 								return;
 							}
