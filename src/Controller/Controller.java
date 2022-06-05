@@ -9,6 +9,8 @@ import Model.AccidentReception.AccidentReception;
 import Model.AccidentReception.AccidentReceptionListImpl;
 import Model.ApplicationForMembership.ApplicationForMembership;
 import Model.ApplicationForMembership.ApplicationForMembershipListImpl;
+import Model.BackgroundInformation.BackgroundInformation;
+import Model.BackgroundInformation.BackgroundInformationListImpl;
 import Model.Contract.Contract;
 import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
@@ -20,8 +22,6 @@ import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceListImpl;
 import Model.InsuranceDesign.InsuranceDesign;
 import Model.InsuranceDesign.InsuranceDesignListImpl;
-import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformation;
-import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformationListImpl;
 import Model.SubmitUser.SubmitUser;
 import Model.SubmitUser.SubmitUserListImpl;
 import enumeration.EDesignForm;
@@ -47,7 +47,8 @@ public class Controller {
 	public ApplicationForMembershipListImpl m_ApplicationForMembershipListImpl;
 	private InsuranceDesign m_InsuranceDesign;
 	private InsuranceDesignListImpl m_InsuranceDesignListImpl;
-	private InsuranceProductDevelopmentInformationListImpl m_InsuranceProductDevelopmentInformationListImpl;
+//	private BackgroundInformationListImpl m_InsuranceProductDevelopmentInformationListImpl;
+	private BackgroundInformationListImpl m_BackgroundInformationListImpl;
 	private SubmitUserListImpl m_SubmitUserListImpl;
 	// 새로 만든 속성(22.06.03)
 
@@ -850,19 +851,22 @@ public class Controller {
 		// return result;
 	}
 
-	public String enquireInsuranceProductDevelopmentInformation() {
+	public BackgroundInformation enquireBackgroundInformation() {
 		// 보험 상품 개발 정보 조회하기
-		// 보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을 반환한다
-		InsuranceProductDevelopmentInformation information = this.m_InsuranceProductDevelopmentInformationListImpl
-				.get("0");
-		String result = "";
-		result += "고객니즈분석 설문조사 결과\n";
-		result += information.getCustomerNeedAnalysisSurveyResults() + "\n";
-		result += "\n최근 보험가입 빈도\n";
-		result += information.getFrequencyOfRecentInsurancePurchases() + "\n";
-		result += "\n경쟁사의 동향 정보\n";
-		result += information.getCompetitorTrendInformation() + "\n";
-		return result;
+		// 보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보) 및 저장버튼을 반환한다
+		// 보험
+		// 수정 후
+		return this.m_BackgroundInformationListImpl.get("0");
+		///////////////////////////////////////////////////////////////////////
+//		InsuranceProductDevelopmentInformation information = this.m_InsuranceProductDevelopmentInformationListImpl.get("0");
+//		String result = "";
+//		result += "고객니즈분석 설문조사 결과\n";
+//		result += information.getCustomerNeedAnalysisSurveyResults() + "\n";
+//		result += "\n최근 보험가입 빈도\n";
+//		result += information.getFrequencyOfRecentInsurancePurchases() + "\n";
+//		result += "\n경쟁사의 동향 정보\n";
+//		result += information.getCompetitorTrendInformation() + "\n";
+//		return result;
 	}
 
 	public ArrayList<ApplicationForMembership> enquirePassedCustomerInUW() {
@@ -1306,12 +1310,12 @@ public class Controller {
 	}
 
 	public void setData() {
-		InsuranceProductDevelopmentInformation information = new InsuranceProductDevelopmentInformation();
+		BackgroundInformation information = new BackgroundInformation();
 		information.setInformationID("0");
 		information.setCustomerNeedAnalysisSurveyResults("iiii");
 		information.setFrequencyOfRecentInsurancePurchases("jjjj");
 		information.setCompetitorTrendInformation("kkkk");
-		this.m_InsuranceProductDevelopmentInformationListImpl.add(information);
+		this.m_BackgroundInformationListImpl.add(information);
 
 		InsuranceDesign insuranceDesign = new InsuranceDesign();
 		insuranceDesign.setDesignID(String.valueOf(this.m_InsuranceDesignListImpl.getAll().size()));

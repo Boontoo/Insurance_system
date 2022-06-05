@@ -62,7 +62,6 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 	
 	public int indexOf(String designID) {
 		for(int i = 0; i < this.insuranceDesignList.size(); i++) {
-			System.out.println("i = "+i);
 			if(this.insuranceDesignList.get(i).getDesignID().equals(designID))
 				return i;
 		}
