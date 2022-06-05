@@ -1,6 +1,6 @@
 package dao;
 
-import Model.Accident.Accident;
+import Model.accident.Accident;
 
 public class AccidentDao extends Dao {
 	public AccidentDao() {

@@ -1,6 +1,6 @@
 package dao;
 
-import Model.UserInfo.UserInfo;
+import Model.userInfo.UserInfo;
 
 public class UserInfoDao extends Dao {
 	public UserInfoDao() {

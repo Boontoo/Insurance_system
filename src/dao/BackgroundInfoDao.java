@@ -1,19 +1,19 @@
 package dao;
 
-import Model.BackgroundInformation.BackgroundInformation;
+import Model.backgroundInfo.BackgroundInfo;
 
 public class BackgroundInfoDao extends Dao {
 	public BackgroundInfoDao() {
 		super.connect();
 	}
 	
-	public void create(BackgroundInformation backgroundInformation) {
+	public void create(BackgroundInfo backgroundInfo) {
 		// 쿼리 만들기
 		int accepted = 0; // boolean 값 처리 방법
-		if(backgroundInformation.isAccepted()) accepted = 0;
+		if(backgroundInfo.isAccepted()) accepted = 0;
 		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
-						"'" + backgroundInformation.getName() + "', " +
-						"'" + backgroundInformation.getPhoneNo() + "', " +
+						"'" + backgroundInfo.getName() + "', " +
+						"'" + backgroundInfo.getPhoneNo() + "', " +
 						accepted + "');";
 		System.out.println(query);
 		
@@ -21,11 +21,11 @@ public class BackgroundInfoDao extends Dao {
 		super.create(query);
 	}
 	
-	public void updateByName(BackgroundInformation backgroundInformation) { // 만약에 자주 일어난다면...
+	public void updateByName(BackgroundInfo backgroundInfo) { // 만약에 자주 일어난다면...
 		
 	}
 	
-	public void delete(BackgroundInformation backgroundInformation) {
+	public void delete(BackgroundInfo backgroundInfo) {
 		
 	}
 }
