@@ -1,6 +1,6 @@
 package dao;
 
-import Model.Contract.Contract;
+import Model.contract.Contract;
 
 public class ContractDao extends Dao {
 	public ContractDao() {

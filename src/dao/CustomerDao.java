@@ -1,6 +1,6 @@
 package dao;
 
-import Model.Customer.Customer;
+import Model.customer.Customer;
 
 public class CustomerDao extends Dao {
 	public CustomerDao() {

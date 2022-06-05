@@ -1,6 +1,6 @@
 package dao;
 
-import Model.BackgroundInfo.BackgroundInformation;
+import Model.backgroundInfo.BackgroundInfo;
 
 public class BackgroundInfoDao extends Dao {
 	public BackgroundInfoDao() {
@@ -10,7 +10,7 @@ public class BackgroundInfoDao extends Dao {
 	public void create(BackgroundInfo backgroundInfo) {
 		// 쿼리 만들기
 		int accepted = 0; // boolean 값 처리 방법
-		if(backgroundInformation.isAccepted()) accepted = 0;
+		if(backgroundInfo.isAccepted()) accepted = 0;
 		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
 						"'" + backgroundInfo.getName() + "', " +
 						"'" + backgroundInfo.getPhoneNo() + "', " +
