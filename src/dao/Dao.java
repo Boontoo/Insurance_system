@@ -15,7 +15,7 @@ public class Dao {
         try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost/dev", "root", "1234");
+					"jdbc:mysql://localhost:3306/insurance_system?serverTimezone=UTC&useSSL=false", "root", "1234");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

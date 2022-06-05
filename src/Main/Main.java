@@ -45,52 +45,64 @@ public class Main {
 
 			switch (choice) {
 				case 1:
-					System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
-					System.out.println("1.이름");
-					System.out.println("2.나이");
-					System.out.println("3.성별");
-					System.out.println("4.생년월일");
-					int type = scanner.nextInt();
-					System.out.println("조회할 고객 정보를 입력하세요.");
-					String key = scanner.next();
-					// System.out.println(this.controller.enquireCustomerInformation(type, key));
-					// 변경 후
-					ArrayList<Customer> customerList = this.controller.enquireCustomerInformation(type, key);
-					int index = 1;
-					for (Customer customer : customerList) {
-						System.out.println(index + "." + customer.getName() + customer.getAge() + customer.isGender()
-								+ customer.getBirthDate());
-						index++;
-					}
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// if null 필요
-					System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
-					// int index = scanner.nextInt();
-					// 변경 후
-					index = scanner.nextInt();
-					// System.out.println(this.controller.enquireCustomerDetailInformation(index));
-					//////////////////////////////////////////////////////////////////////
-					// 변경 후
-					// Customer customer = this.controller.enquireCustomerDetailInformation(index);
-					Customer customer = controller.getCustomer(index);
-					System.out.print("이름: " + customer.getName() + ", ");
-					System.out.print("나이: " + customer.getAge() + ", ");
-					System.out.print("성별: " + customer.isGender() + ", ");
-					System.out.print("주민등록번호: " + customer.getSsn() + ", ");
-					System.out.print("직업: " + ", ");
-					System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
-					System.out.print("가입보험: (");
-					index = 1;
-					for (String subscribedInsurance : customer.getSubscribedInsurance()) {
-						System.out.print(subscribedInsurance);
-						if (index != customer.getSubscribedInsurance().size())
-							System.out.print(", ");
-					}
-					System.out.print("), ");
-					System.out.println("특이사항: " + customer.getUniqueness());
-					//////////////////////////////////////////////////////////////
+					boolean bSelectType = true;
+					while(bSelectType) {
+						System.out.println("조회할 고객 정보의 검색 조건을 선택하세요.");
+						System.out.println("1.이름");
+						System.out.println("2.나이");
+						System.out.println("3.성별");
+						System.out.println("4.생년월일");
+						int type = scanner.nextInt();
+						if(type == 1 || type == 2 || type == 3 || type == 4) {
+							System.out.println("조회할 고객 정보를 입력하세요.");
+							String key = scanner.next();
+							// System.out.println(this.controller.enquireCustomerInformation(type, key));
+							// 변경 후
+							
+							ArrayList<Customer> customerList = this.controller.enquireCustomerInformation(type, key);
+							int index = 1;
+							for (Customer customer : customerList) {
+								System.out.println(index + "." + customer.getName() + customer.getAge() + customer.isGender()
+										+ customer.getBirthDate());
+								index++;
+							}
+							/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+							// if null 필요
+							System.out.println("세부정보를 확인할 고객의 번호를 입력하세요.");
+							// int index = scanner.nextInt();
+							// 변경 후
+							index = scanner.nextInt();
+							// System.out.println(this.controller.enquireCustomerDetailInformation(index));
+							//////////////////////////////////////////////////////////////////////
+							// 변경 후
+							// Customer customer = this.controller.enquireCustomerDetailInformation(index);
+							Customer customer = controller.getCustomer(index);
+							System.out.print("이름: " + customer.getName() + ", ");
+							System.out.print("나이: " + customer.getAge() + ", ");
+							System.out.print("성별: " + customer.isGender() + ", ");
+							System.out.print("주민등록번호: " + customer.getSsn() + ", ");
+							System.out.print("직업: " + ", ");
+							System.out.print("전화번호: " + customer.getPhoneNum() + ", ");
+							System.out.print("가입보험: (");
+							index = 1;
+							for (String subscribedInsurance : customer.getSubscribedInsurance()) {
+								System.out.print(subscribedInsurance);
+								if (index != customer.getSubscribedInsurance().size())
+									System.out.print(", ");
+							}
+							System.out.print("), ");
+							System.out.println("특이사항: " + customer.getUniqueness());
+							//////////////////////////////////////////////////////////////
 
-					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
+							this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
+							bSelectType = false;
+							break;
+						}
+						else {
+							System.out.println("잘못입력했습니다.");
+							System.out.println("다시 입력해주세요");
+						}
+					}
 					break;
 				case 2:
 					bOnLoop = false;
