@@ -9,10 +9,10 @@ import java.util.Scanner;
 import Controller.Controller;
 import Model.AccidentReception.AccidentReception;
 import Model.ApplicationForMembership.ApplicationForMembership;
+import Model.BackgroundInformation.BackgroundInformation;
 import Model.Contract.Contract;
 import Model.Customer.Customer;
 import Model.Insurance.Insurance;
-import Model.InsuranceProductDevelopmentInformation.InsuranceProductDevelopmentInformation;
 import Model.SubmitUser.SubmitUser;
 
 /**
@@ -1305,7 +1305,7 @@ public class Main {
 			// 보험상품개발정보(고객니즈분석 설문조사 결과, 최근 보험가입 빈도, 경쟁사의 동향 정보)및 저장버튼을 출력한다
 //			System.out.println(controller.enquireInsuranceProductDevelopmentInformation());
 			// 변경 후
-			InsuranceProductDevelopmentInformation information = this.controller.enquireInsuranceProductDevelopmentInformation();
+			BackgroundInformation information = this.controller.enquireBackgroundInformation();
 			System.out.println("고객니즈분석 설문조사 결과");
 			System.out.println(information.getCustomerNeedAnalysisSurveyResults());
 			System.out.println("최근 보험가입 빈도");

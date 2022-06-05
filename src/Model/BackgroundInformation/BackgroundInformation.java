@@ -1,13 +1,13 @@
-package Model.InsuranceProductDevelopmentInformation;
+package Model.BackgroundInformation;
 
-public class InsuranceProductDevelopmentInformation {
+public class BackgroundInformation {
 
 	private String informationID; //ID
 	private String customerNeedAnalysisSurveyResults; //고객니즈분석 설문조사 결과
 	private String frequencyOfRecentInsurancePurchases; //최근 보험가입 빈도
 	private String competitorTrendInformation; //경쟁사의 동향 정보
 	
-	public InsuranceProductDevelopmentInformation() {
+	public BackgroundInformation() {
 		
 	}
 	
