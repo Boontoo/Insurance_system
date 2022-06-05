@@ -2,11 +2,15 @@ package Model.backgroundInfo;
 
 import java.util.ArrayList;
 
+import dao.BackgroundInfoDao;
+import dao.Dao;
+
 public class BackgroundInfoListImpl implements BackgroundInfoList {
 
 	private ArrayList<BackgroundInfo> backgroundInformationList;
 	
 	public BackgroundInfoListImpl() {
+		Dao dao = new BackgroundInfoDao();
 		backgroundInformationList = new ArrayList<BackgroundInfo>();
 	}
 

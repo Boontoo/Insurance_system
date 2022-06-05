@@ -1,6 +1,9 @@
 package Model.insurance;
 import java.util.ArrayList;
 
+import dao.Dao;
+import dao.InsuranceDao;
+
 /**
  * @author dlsqo
  * @version 1.0
@@ -14,6 +17,7 @@ public class InsuranceListImpl implements InsuranceList {
 	// 새로 만든 속성
 
 	public InsuranceListImpl(){
+		Dao dao = new InsuranceDao();
 		insuranceList = new ArrayList<Insurance>();
 	}
 

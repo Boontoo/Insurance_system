@@ -1,6 +1,9 @@
 package Model.application;
 import java.util.ArrayList;
 
+import dao.ApplicationDao;
+import dao.Dao;
+
 /**
  * @author dlsqo
  * @version 1.0
@@ -11,6 +14,7 @@ public class ApplicationListImpl implements ApplicationList {
 	private ArrayList<Application> applicationForMembershipList;
 	public Application m_ApplicationForMembership;
 	public ApplicationListImpl(){
+		Dao dao = new ApplicationDao();
 		applicationForMembershipList = new ArrayList<Application>();
 	}
 

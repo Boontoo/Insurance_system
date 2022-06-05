@@ -1,6 +1,9 @@
 package Model.contract;
 import java.util.ArrayList;
 
+import dao.ContractDao;
+import dao.Dao;
+
 /**
  * @author dlsqo
  * @version 1.0
@@ -12,7 +15,7 @@ public class ContractListImpl implements ContractList {
 	public Contract m_Contract;
 
 	public ContractListImpl(){
-		
+		Dao dao = new ContractDao();
 	}
 
 	public void finalize() throws Throwable {

@@ -1,6 +1,9 @@
 package Model.accident;
 import java.util.ArrayList;
 
+import dao.AccidentDao;
+import dao.Dao;
+
 /**
  * @author dlsqo
  * @version 1.0
@@ -11,7 +14,9 @@ public class AccidentListImpl implements AccidentList {
 	private ArrayList<Accident> accidentReceptionList = new ArrayList<>();
 	public Accident m_AccidentReception;
 
-	public AccidentListImpl(){}
+	public AccidentListImpl(){
+		Dao dao = new AccidentDao();
+	}
 	public void finalize() throws Throwable {
 		
 	}
