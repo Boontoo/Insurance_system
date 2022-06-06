@@ -7,18 +7,21 @@ public class AccidentDao extends Dao {
 		super.connect();
 	}
 	
-	public void create(Accident accident) {
+	public boolean create(Accident accident) {
 		// 쿼리 만들기
-		int accepted = 0; // boolean 값 처리 방법
-		if(accident.isAccepted()) accepted = 0;
-		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
-						"'" + accident.getName() + "', " +
-						"'" + accident.getPhoneNo() + "', " +
-						accepted + "');";
+		String payed = "X"; // boolean 값 처리 방법
+		if(accident.isPayed()) payed = "O";
+		String query = "insert into insurance (id, towTruckCallNum, location, accidentType, payed, contractID) values (" +
+						"'" + accident.getId() + "', " +
+						"'" + accident.getTowTruckCallNum() + "', " +
+						"'" + accident.getLocation() + "', " +
+						"'" + accident.getAccidentType() + "', " +
+						"'" + payed + "', " +
+						"'" + accident.getContractID() + "');";
 		System.out.println(query);
 		
 		// 쿼리 실행하기
-		super.create(query);
+		return super.create(query);
 	}
 	
 	public void updateByName(Accident accident) { // 만약에 자주 일어난다면...

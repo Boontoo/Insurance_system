@@ -1272,7 +1272,7 @@ public class Controller {
 
 	public void setData() {
 		BackgroundInfo information = new BackgroundInfo();
-		information.setInformationID("0");
+		information.setId("0");
 		information.setSurveyResults("iiii");
 		information.setApplyFrequency("jjjj");
 		information.setTrend("kkkk");

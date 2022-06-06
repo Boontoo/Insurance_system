@@ -15,12 +15,12 @@ public class BackgroundInfo {
 
 	}
 
-	public String getInformationID() {
+	public String getId() {
 		return id;
 	}
 
-	public void setInformationID(String informationID) {
-		this.id = informationID;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getSurveyResults() {

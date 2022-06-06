@@ -15,9 +15,10 @@ public class InsuranceListImpl implements InsuranceList {
 	public Insurance m_Insurance;
 	private int size;
 	// 새로 만든 속성
+	private Dao dao;
 
 	public InsuranceListImpl(){
-		Dao dao = new InsuranceDao();
+		this.dao = new InsuranceDao();
 		insuranceList = new ArrayList<Insurance>();
 	}
 
@@ -34,7 +35,9 @@ public class InsuranceListImpl implements InsuranceList {
 			if(exInsurance.getInsuranceName().equals(insurance.getInsuranceName()))
 				return false;
 		}
-		boolean result = insuranceList.add(insurance);
+		boolean result = false;
+		if(((InsuranceDao) this.dao).create(insurance))
+			result = insuranceList.add(insurance);
 //		insuranceList.get(insuranceList.size()-1).setInsuranceID(insuranceList.size() + "");
 		return result;
 	}

@@ -22,7 +22,7 @@ public class BackgroundInfoListImpl implements BackgroundInfoList {
 	public boolean add(BackgroundInfo backgroundInformation) {
 		// TODO Auto-generated method stub
 		for(BackgroundInfo exInsuranceProductDevelopmentInformation : backgroundInformationList) {
-			if(exInsuranceProductDevelopmentInformation.getInformationID().equals(backgroundInformation.getInformationID()))
+			if(exInsuranceProductDevelopmentInformation.getId().equals(backgroundInformation.getId()))
 				return false;
 		}
 		boolean result = backgroundInformationList.add(backgroundInformation);
@@ -45,7 +45,7 @@ public class BackgroundInfoListImpl implements BackgroundInfoList {
 
 	private int indexOf(String insuranceProductDevelopmentInformationID) {
 		for(int i = 0; i < backgroundInformationList.size(); i++) {
-			if(backgroundInformationList.get(i).getInformationID().equals(insuranceProductDevelopmentInformationID))
+			if(backgroundInformationList.get(i).getId().equals(insuranceProductDevelopmentInformationID))
 				return i;
 		}
 		return -1;

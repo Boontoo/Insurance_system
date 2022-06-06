@@ -7,18 +7,17 @@ public class BackgroundInfoDao extends Dao {
 		super.connect();
 	}
 	
-	public void create(BackgroundInfo backgroundInfo) {
+	public boolean create(BackgroundInfo backgroundInfo) {
 		// 쿼리 만들기
-		int accepted = 0; // boolean 값 처리 방법
-		if(backgroundInfo.isAccepted()) accepted = 0;
-		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
-						"'" + backgroundInfo.getName() + "', " +
-						"'" + backgroundInfo.getPhoneNo() + "', " +
-						accepted + "');";
+		String query = "insert into insurance (id, surveyResults, applyFrequency, trend) values (" +
+						"'" + backgroundInfo.getId() + "', " +
+						"'" + backgroundInfo.getSurveyResults() + "', " +
+						"'" + backgroundInfo.getApplyFrequency() + "', " +
+						"'" + backgroundInfo.getTrend() + "');";
 		System.out.println(query);
 		
 		// 쿼리 실행하기
-		super.create(query);
+		return super.create(query);
 	}
 	
 	public void updateByName(BackgroundInfo backgroundInfo) { // 만약에 자주 일어난다면...

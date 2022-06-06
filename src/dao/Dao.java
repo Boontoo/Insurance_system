@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import Model.insurance.Insurance;
+
 public class Dao {
 	private Connection connect = null;
 	private Statement statement = null;
@@ -23,32 +25,47 @@ public class Dao {
         
 	}
 	
-	public void create(String query) { //원칙적으로는 boolean 값을 가져야함
-//		"insert into insurance (user_name, user_phoneno, isAccepted) values ('test', 'test', 1);"
+	public boolean create(String query) { //원칙적으로는 boolean 값을 가져야함
+		//	"insert into insurance (user_name, user_phoneno, isAccepted) values ('test', 'test', 1);"
 		try {
 			statement = connect.createStatement();
-			if (!statement.execute(query)) System.out.println("insert OK!!!");
+			if (!statement.execute(query)) {
+				System.out.println("insert OK!!!");
+				return true;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
-	public void update(String query) { //원칙적으로는 boolean 값을 가져야함
-	}
-	
-	public void delete(String query) { //원칙적으로는 boolean 값을 가져야함
-	}
-	
-	public ResultSet retrieve(String query) {
-		try {
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery(query);
-			return resultSet;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return resultSet;
-	}
+//	public void create(String query) { //원칙적으로는 boolean 값을 가져야함
+////		"insert into insurance (user_name, user_phoneno, isAccepted) values ('test', 'test', 1);"
+//		try {
+//			statement = connect.createStatement();
+//			if (!statement.execute(query)) System.out.println("insert OK!!!");
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	public void update(String query) { //원칙적으로는 boolean 값을 가져야함
+//	}
+//	
+//	public void delete(String query) { //원칙적으로는 boolean 값을 가져야함
+//	}
+//	
+//	public ResultSet retrieve(String query) {
+//		try {
+//			statement = connect.createStatement();
+//			resultSet = statement.executeQuery(query);
+//			return resultSet;
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return resultSet;
+//	}
 }

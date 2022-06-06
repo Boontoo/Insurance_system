@@ -7,18 +7,25 @@ public class ContractDao extends Dao {
 		super.connect();
 	}
 	
-	public void create(Contract contract) {
+	public boolean create(Contract contract) {
 		// 쿼리 만들기
-		int accepted = 0; // boolean 값 처리 방법
-		if(contract.isAccepted()) accepted = 0;
-		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
-						"'" + contract.getName() + "', " +
-						"'" + contract.getPhoneNo() + "', " +
-						accepted + "');";
+		String payStatus = "X"; // boolean 값 처리 방법
+		String renewConsult = "X";
+		if(contract.isPayStatus()) payStatus = "O";
+		if(contract.isRenewConsult()) renewConsult = "O";
+		String query = "insert into insurance (id, customerId, insuranceId, expirationDate, totalPayAmount, payAmount, payStatus, renewConsult) values (" +
+						"'" + contract.getId() + "', " +
+						"'" + contract.getCustomerID() + "', " +
+						"'" + contract.getInsuranceID() + "', " +
+						"'" + contract.getExpirationDate() + "', " +
+						"'" + contract.getTotalPayAmount() + "', " +
+						"'" + contract.getPayAmount() + "', " +
+						"'" + payStatus + "', " +
+						"'" + renewConsult + "');";
 		System.out.println(query);
 		
 		// 쿼리 실행하기
-		super.create(query);
+		return super.create(query);
 	}
 	
 	public void updateByName(Contract contract) { // 만약에 자주 일어난다면...

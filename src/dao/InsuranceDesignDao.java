@@ -7,18 +7,37 @@ public class InsuranceDesignDao extends Dao {
 		super.connect();
 	}
 	
-	public void create(InsuranceDesign insuranceDesign) {
+	public boolean create(InsuranceDesign insuranceDesign) {
 		// 쿼리 만들기
-		int accepted = 0; // boolean 값 처리 방법
-		if(insuranceDesign.isAccepted()) accepted = 0;
-		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
-						"'" + insuranceDesign.getName() + "', " +
-						"'" + insuranceDesign.getPhoneNo() + "', " +
-						accepted + "');";
+		String company = "X";
+		String confirm = "X";
+		String fss = "X";
+		if(insuranceDesign.isCompany()) company = "O";
+		if(insuranceDesign.isConfirm()) confirm = "O";
+		if(insuranceDesign.isFSS()) fss = "O";
+		String query = "insert into insurance (id, insuranceName, insuranceContent, planningPurpose, target, premiumRate, trialWorkHistory, expectedProfitAndLossAnalysisPrice, basicDocuments, company, confirm, fss, subscriptionDesign, subscription, contractManagementRelatedSystem, salesDepartmentData, productEducationContent, guideline) values (" +
+						"'" + insuranceDesign.getId() + "', " +
+						"'" + insuranceDesign.getInsuranceName() + "', " +
+						"'" + insuranceDesign.getInsuranceContent() + "', " +
+						"'" + insuranceDesign.getPlanningPurpose() + "', " +
+						"'" + insuranceDesign.getTarget() + "', " +
+						"'" + insuranceDesign.getPremiumRate() + "', " +
+						"'" + insuranceDesign.getTrialWorkHistory() + "', " +
+						"'" + insuranceDesign.getExpectedProfitAndLossAnalysisPrice() + "', " +
+						"'" + insuranceDesign.getBasicDocuments() + "', " +
+						"'" + company + "', " +
+						"'" + confirm + "', " +
+						"'" + fss + "', " +
+						"'" + insuranceDesign.getSubscriptionDesign() + "', " +
+						"'" + insuranceDesign.getSubscription() + "', " +
+						"'" + insuranceDesign.getContractManagementRelatedSystem() + "', " +
+						"'" + insuranceDesign.getSalesDepartmentData() + "', " +
+						"'" + insuranceDesign.getProductEducationContent() + "', " +
+						"'" + insuranceDesign.getGuideline() + "');";
 		System.out.println(query);
 		
 		// 쿼리 실행하기
-		super.create(query);
+		return super.create(query);
 	}
 	
 	public void updateByName(InsuranceDesign insuranceDesign) { // 만약에 자주 일어난다면...

@@ -7,18 +7,27 @@ public class CustomerDao extends Dao {
 		super.connect();
 	}
 	
-	public void create(Customer customer) {
+	public boolean create(Customer customer) {
 		// 쿼리 만들기
-		int accepted = 0; // boolean 값 처리 방법
-		if(customer.isAccepted()) accepted = 0;
-		String query = "insert into insurance (user_name, user_phoneno, isAccepted) values (" +
-						"'" + customer.getName() + "', " +
-						"'" + customer.getPhoneNo() + "', " +
-						accepted + "');";
+		String gender = "F";
+		if(customer.isGender()) gender = "M";
+		String query = "insert into insurance (id, age, gender, birthDate, customerName, phoneNum, ssn, subscribedInsurance, uniqueness, accidentId, userId, userPw) values (" +
+						"'" + customer.getId() + "', " +
+						"'" + customer.getAge() + "', " +
+						"'" + gender + "', " +
+						"'" + customer.getBirthDate() + "', " +
+						"'" + customer.getCustomerName() + "', " +
+						"'" + customer.getPhoneNum() + "', " +
+						"'" + customer.getSsn() + "', " +
+						"'" + customer.getSubscribedInsurance() + "', " +
+						"'" + customer.getUniqueness() + "', " +
+						"'" + customer.getAccidentId() + "', " +
+						"'" + customer.getUserId() + "', " +
+						"'" + customer.getUserPw() + "');";
 		System.out.println(query);
 		
 		// 쿼리 실행하기
-		super.create(query);
+		return super.create(query);
 	}
 	
 	public void updateByName(Customer customer) { // 만약에 자주 일어난다면...
