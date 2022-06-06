@@ -1612,11 +1612,14 @@ public class View {
 			if (submitUser != null) isContinue = true;
 			else System.out.println("아이디 및 비밀번호를 다시 입력해 주세요");
 		}
+		////////////
 		String userTypeStr = submitUser.isUserType() ? "직원" : "고객";
-		System.out.println("\n<접속 고객 정보>\n" +
+		String label = submitUser.isUserType() ? "\n<접속 직원 정보>\n" : "\n<접속 고객 정보>\n";
+		System.out.println(label +
 				"이름 : " + submitUser.getUserName() + "\n" +
 				"아이디 : " + submitUser.getUserId() + "\n" +
 				"접속 구분 : " + userTypeStr + "\n");
+		////////////
 		return submitUser;
 	}
 
