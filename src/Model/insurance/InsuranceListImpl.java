@@ -92,7 +92,8 @@ public class InsuranceListImpl implements InsuranceList {
 		return insuranceList.size();
 	}
 	public ArrayList<Insurance> getAll() {
-		return insuranceList;
+		this.insuranceList = ((InsuranceDao) this.dao).retrieveAll();
+		return this.insuranceList;
 	}
 
 	@Override

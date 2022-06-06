@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Model.insurance.Insurance;
 
 public class InsuranceDao extends Dao {
@@ -63,5 +67,39 @@ public class InsuranceDao extends Dao {
 		String query = "delete from insurance where id=" + id;
 		return super.delete(query);
 	}
-
+	
+	public ArrayList<Insurance> retrieveAll() {
+		String query = "select * from insurance";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<Insurance> insuranceList = new ArrayList<Insurance>();
+		try {
+			while(resultSet.next()) {
+				Insurance insurance = new Insurance();
+				insurance.setId(resultSet.getString("id"));
+				insurance.setInsuranceName(query);
+				insurance.setPremiumRate(0);
+				insurance.setMonthlyPayAmount(0);
+				insurance.setTarget(resultSet.getInt("target"));
+				insurance.setTerm(resultSet.getInt("term"));
+				insurance.setReInsuranceFee(resultSet.getInt("reInsuranceFee"));
+				String renew = resultSet.getString("renew");
+				if(renew == "X") insurance.setRenew(false);
+				else if(renew == "O") insurance.setRenew(true);
+				insurance.setId(resultSet.getString("salesPerformance"));
+				insurance.setId(resultSet.getString("attribute"));
+				insurance.setId(resultSet.getString("profitAndLoss"));
+				insuranceList.add(insurance);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return insuranceList;
+	}
+	
+//	public Insurance retrieve(String id) {
+//		String query = "select * from insurance" + id;
+//		ResultSet resultSet = super.retrieve(query);
+//		return null;
+//	}
 }
