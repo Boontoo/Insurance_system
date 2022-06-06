@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Model.insurance.Insurance;
-
 public class Dao {
 	private Connection connect = null;
 	private Statement statement = null;
@@ -55,7 +53,7 @@ public class Dao {
 		try {
 			statement = connect.createStatement();
 			if (!statement.execute(query)) {
-				System.out.println("insert OK!!!");
+				System.out.println("update OK!!!");
 				return true;
 			}
 		} catch (SQLException e) {
@@ -69,7 +67,7 @@ public class Dao {
 		try {
 			statement = connect.createStatement();
 			if (!statement.execute(query)) {
-				System.out.println("insert OK!!!");
+				System.out.println("delete OK!!!");
 				return true;
 			}
 		} catch (SQLException e) {
