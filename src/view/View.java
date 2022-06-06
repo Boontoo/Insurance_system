@@ -72,8 +72,6 @@ public class View {
 					isContinue = false;
 					System.out.println("조회할 고객 정보를 입력하세요.");
 					String key = scanner.nextLine();
-					// System.out.println(this.controller.enquireCustomerInformation(type, key));
-					// 변경 후
 					ArrayList<Customer> customerList = this.controller.enquireCustomerInformation(Integer.parseInt(type), key);
 					int index = 1;
 					for (Customer customer : customerList) {
@@ -81,8 +79,6 @@ public class View {
 						+ customer.getBirthDate());
 						index++;
 					}
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// if null 필요
 					while(!isContinue) {
 						System.out.print("세부정보를 확인할 고객의 번호를 입력하세요. : ");
 						// int index = scanner.nextInt();
@@ -92,10 +88,6 @@ public class View {
 						else System.out.println("숫자를 입력해 주세요");
 					}
 					isContinue = false;
-					// System.out.println(this.controller.enquireCustomerDetailInformation(index));
-					//////////////////////////////////////////////////////////////////////
-					// 변경 후
-					// Customer customer = this.controller.enquireCustomerDetailInformation(index);
 					Customer customer = controller.getCustomer(Integer.parseInt(choice));
 					System.out.print("이름: " + customer.getCustomerName() + ", ");
 					System.out.print("나이: " + customer.getAge() + ", ");
@@ -112,7 +104,6 @@ public class View {
 					}
 					System.out.print("), ");
 					System.out.println("특이사항: " + customer.getUniqueness());
-					//////////////////////////////////////////////////////////////
 	
 					this.modifyOrDeleteCustomerInformation(scanner, bOnLoop, index);
 					break;
@@ -127,7 +118,6 @@ public class View {
 	}
 
 	private void modifyOrDeleteCustomerInformation(Scanner scanner, boolean bOnLoop, int index) {
-		// boolean bOnLoop = true;
 		while (true) {
 			boolean isContinue = false;
 			String choice = "";
@@ -344,7 +334,6 @@ public class View {
 	}
 
 	private void startContractMaintenanceActivities(Scanner scanner) {
-		// 계약 유지 관리 - 기존 만기일보다 이전 날짜 입력시 입력 적용되는 에러 발생 - 이거 해결할 것
 		System.out.print("계약 유지 관리를 진행하겠습니까? (1.진행, 그이외.뒤로가기) : ");
 		if (!scanner.nextLine().equals("1"))
 			return;
@@ -419,10 +408,7 @@ public class View {
 	}
 
 	private void payInsuranceFee(Scanner scanner, UserInfo submitUser) {
-		// 민재 - 월 보험료 납입하기
-		// 파라미터 추가(22.06.03)
 		while (true) {
-			// ArrayList<Contract> contList = controller.enquireContractList();
 			ArrayList<Contract> contList = controller.enquireContractListBySubUser(submitUser);
 			boolean isContinue = false;
 			String selected = null;
@@ -500,7 +486,6 @@ public class View {
 	}
 
 	private void applyForMembership(Scanner scanner) {
-		// 민재 - 가입 신청 받기
 		boolean ageCheck;
 		System.out.print("가입신청을 진행하시겠습니까? (1.진행, 그 이외.뒤로가기) : ");
 		if (!scanner.next().equals("1"))
@@ -536,7 +521,6 @@ public class View {
 				age = scanner.nextLine();
 				if (controller.checkNumFormat(age))
 					ageCheck = true;
-				// 나이나 숫자 입력 시 24를 2 4 이렇게 입력하면 에러 생기던데 시간 나면 해결해 보자
 				else
 					System.out.println("나이를 다시 입력해 주세요");
 			}
@@ -559,7 +543,6 @@ public class View {
 	}
 
 	private void startUW(Scanner scanner) {
-		// 민재 - 인수심사 진행하기
 		while (true) {
 			String selList = "";
 			for (Application afMembership : controller.enquireApplicationList())
@@ -608,7 +591,6 @@ public class View {
 	}
 
 	private boolean startAutomaticJudge(Scanner scanner, String id) throws InputMismatchException {
-		// 새로 만든 함수(자동심사)
 		while (true) {
 			System.out.print("본인 소유의 건물(1.예, 그이외.아니오) : ");
 			boolean isOwnedBuilding = scanner.nextLine().equals("1");
@@ -636,7 +618,6 @@ public class View {
 					checkPointInteger = true;
 				else System.out.println("점수는 숫자로 입력해 주세요");
 			}
-			// 파라미터 길이 줄일 것
 			if (!controller.checkPointInput(Integer.parseInt(buildingAgeScore),
 					Integer.parseInt(fireEquipmentConditionScore),
 					Integer.parseInt(buildingLocationScore),
@@ -644,7 +625,7 @@ public class View {
 				System.out.println("범위에 맞는 점수를 다시 적어주세요");
 				continue;
 			}
-			return controller.automaticJudge(id,
+			return controller.automaticJudge(
 					isOwnedBuilding,
 					isRemodeling,
 					Integer.parseInt(buildingAgeScore),
@@ -656,7 +637,6 @@ public class View {
 	}
 
 	private void joinInsurance(Scanner scanner) {
-		// 민재 - 보험 가입하기
 		while (true) {
 			try {
 				ArrayList<Application> passedCustomerList = controller.enquirePassedCustomerInUW();
@@ -706,7 +686,6 @@ public class View {
 	}
 
 	private String checkDate(Scanner scanner) throws ParseException {
-		// 새로 만든 함수
 		while (true) {
 			System.out.print("지정할 만기일(YYYY-MM-DD) : ");
 			String date = scanner.next();
@@ -724,7 +703,6 @@ public class View {
 	}
 
 	private void reinsurance(Scanner scanner) {
-		// 민재 - 재보험 처리하기
 		String name;
 		String sSN;
 		System.out.print("무엇을 하시겠습니까?\n1. 산출 2. 정산 3. 재보험 등록 (그 이외. 뒤로가기) : ");
@@ -799,7 +777,7 @@ public class View {
 							}
 							isContinue = false;
 							System.out.print("정산하겠습니까?(1. 예, 그이외. 아니오) : ");
-							if (!scanner.next().equals("1")) {
+							if (!scanner.nextLine().equals("1")) {
 								System.out.println("=========================");
 								return;
 							}
@@ -844,7 +822,7 @@ public class View {
 									"\n재등록 보험 요금 : " + selectedIns.getReInsuranceFee() +
 									"\n갱신 여부 : " + isRenewStr);
 							System.out.print("재보험 등록하겠습니까?\n(1. 등록, 그 이외. 뒤로가기) : ");
-							if (!scanner.next().equals("1")) {
+							if (!scanner.nextLine().equals("1")) {
 								System.out.println("=========================");
 								return;
 							}
@@ -866,19 +844,7 @@ public class View {
 		}
 	}
 
-	// private String showInputCustInsurances(Scanner scanner, String name, String
-	// sSN) {
-	// // 새로 만든 함수
-	// // 삭제(22.06.01)
-	// return null;
-	// }
-
-	// private void manageCompensationManagement(Scanner scanner) {
-	// // 보상 운용 관리
-	// }
-
 	private void payInsuranceMoney(Scanner scanner) {
-		// 보험금 지급
 		boolean isContinue = false;
 		String name = "";
 		String sSN = "";
@@ -892,7 +858,7 @@ public class View {
 			payedMoneyStr = accidentReception.isPayed() ? "예" : "아니오";
 			Customer customer = controller.getCustByCont(controller.getContByAccident(accidentReception));
 			result += customer.getCustomerName() + "      " + customer.getSsn() + "     " +
-					accidentReception.getAccidentID() + "           " + payedMoneyStr + "\n";
+					accidentReception.getID() + "           " + payedMoneyStr + "\n";
 		}
 		if (accList.size() == 0) {
 			System.out.println("처리할 정보가 없습니다");
@@ -912,9 +878,6 @@ public class View {
 			else System.out.println("입력 형식이 맞지 않습니다(고객이름, 주민번호, 사건번호)");
 		}
 		isContinue = false;
-		// 사고 접수자 상품명, 납입 기간, 납입 주기 출력 -> 사고 접수자의 이름, 나이, 직업, 사고 위치, 사고 유형, 상품명으로 시나리오
-		// 바꿀 것
-
 		result = "";
 		Accident accidentReception = controller.enquireDetailAccidentInfo(accidentId);
 		Contract contract = controller.getContByAccident(accidentReception);
@@ -947,9 +910,6 @@ public class View {
 	}
 
 	private void reportAccident(Scanner scanner) {
-		// EA 시나리오 사고를 접수하다? -> 사고 처리 하기
-		// 민우(재)
-		// 이거 시나리오 다시 써야 함
 		boolean isContinue = false;
 		String name = "";
 		while (!isContinue) {
@@ -1029,7 +989,6 @@ public class View {
 	}
 
 	private void manageExpirationContract(Scanner scanner) {
-		// 만기계약 관리
 		boolean isContinue = false;
 		System.out.print("만기 계약 관리를 진행하겠습니까?\n(1.진행   그이외.뒤로가기) : ");
 		if (!scanner.nextLine().equals("1")) return;
@@ -1089,8 +1048,6 @@ public class View {
 	}
 
 	private void managePaymentInformation(Scanner scanner) {
-		// 납입 정보 관리
-		// 민재
 		while (true) {
 			String selectInput = null;
 			boolean isContinue = false;
@@ -1165,7 +1122,7 @@ public class View {
 					while (bStartDesign) {
 						System.out.println("1.새로 설계하기");
 						System.out.println("2.이어서 설계하기");
-						choice = scanner.nextInt();
+						choice = scanner.nextInt();	
 						switch (choice) {
 							case 1:
 								this.controller.designNewInsuranceProduct();
@@ -1535,9 +1492,6 @@ public class View {
 	}
 
 	private void mainForEmployee(Scanner scanner, UserInfo submitUser) {
-		// 새로 만든 함수 - 직원 전용 메뉴 표시(22.06.03)
-
-		// Scanner scanner = new Scanner(System.in);
 		boolean bOnLoop = true;
 		while (bOnLoop) {
 			String choice = "";
@@ -1545,17 +1499,17 @@ public class View {
 			while (!isContinue) {
 				System.out.println("[분산투자화재 보험 시스템입니다. 접속 직원 이름 : " + submitUser.getUserName() + "]");
 				System.out.println("0.로그아웃");
-				System.out.println("1.고객정보 관리하기"); // -
+				System.out.println("1.고객정보 관리하기");
 				System.out.println("2.계약유지활동 진행하기");
-				System.out.println("3.가입신청 받기"); // 0
-				System.out.println("4.인수심사 진행하기"); // 0
-				System.out.println("5.보험 가입하기"); // 0
-				System.out.println("6.재보험 처리하기"); // 0
-				System.out.println("7.보험금 지급하기"); // 0
-				System.out.println("8.사고 접수하기"); // 0
-				System.out.println("9.만기계약 관리하기"); // 0
-				System.out.println("10.납입정보 관리하기"); // 0
-				System.out.println("11.보험 상품 설계하기"); // -
+				System.out.println("3.가입신청 받기");
+				System.out.println("4.인수심사 진행하기");
+				System.out.println("5.보험 가입하기");
+				System.out.println("6.재보험 처리하기");
+				System.out.println("7.보험금 지급하기");
+				System.out.println("8.사고 접수하기");
+				System.out.println("9.만기계약 관리하기");
+				System.out.println("10.납입정보 관리하기");
+				System.out.println("11.보험 상품 설계하기");
 				System.out.print("입력 번호 : ");
 				choice = scanner.nextLine();
 				if (controller.checkNumFormat(choice)) isContinue = true;
@@ -1568,50 +1522,36 @@ public class View {
 					bOnLoop = false;
 					break;
 				case 1:
-					// 인배
-					// 20220521 수정필요
 					manageCustomerInformation(scanner);
 					break;
 				case 2:
-					// 민재 20220530완성
 					startContractMaintenanceActivities(scanner);
 					break;
 				case 3:
-					// 민재 20220525완성
 					applyForMembership(scanner);
 					break;
 				case 4:
-					// 민재 20220525완성
 					startUW(scanner);
 					break;
 				case 5:
-					// 민재 20220525완성
 					joinInsurance(scanner);
 					break;
 				case 6:
-					// 민재 20220525완성
 					reinsurance(scanner);
 					break;
 				case 7:
-					// 민재 20220528완성
 					payInsuranceMoney(scanner);
 					break;
 				case 8:
-					// 민우 사고 접수를 하다
-					// 20220521 수정필요
-					// 민재 20220526완성(시나리오 수정)
 					reportAccident(scanner);
 					break;
 				case 9:
-					// 민재 20220528완성
 					manageExpirationContract(scanner);
 					break;
 				case 10:
-					// 민재 20220526완성
 					managePaymentInformation(scanner);
 					break;
 				case 11:
-					// 인배 20220521
 					designInsuranceProductMenu(scanner);
 					break;
 				default:
@@ -1623,8 +1563,6 @@ public class View {
 	}
 
 	private void mainForCustomer(Scanner scanner, UserInfo submitUser) {
-		// 새로 만든 함수 - 고객 전용 메뉴 표시(22.06.03)
-		// scanner.nextLine();
 		boolean bOnLoop = true;
 		while (bOnLoop) {
 			String choice = "";
@@ -1632,7 +1570,7 @@ public class View {
 			while (!isContinue) {
 				System.out.println("[분산투자화재 보험 시스템입니다. 접속 고객 이름 : " + submitUser.getUserName() + "]");
 				System.out.println("0.로그아웃");
-				System.out.println("1.월보험료 납입하기"); // 0
+				System.out.println("1.월보험료 납입하기");
 				System.out.print("입력 번호 : ");
 				choice = scanner.nextLine();
 				if (controller.checkNumFormat(choice))
@@ -1646,7 +1584,6 @@ public class View {
 					bOnLoop = false;
 					break;
 				case 1:
-					// 민재 20220526완성
 					payInsuranceFee(scanner, submitUser);
 					break;
 				default:
@@ -1658,7 +1595,6 @@ public class View {
 	}
 
 	private UserInfo login(Scanner scanner) {
-		// 새로 만든 함수 - 로그인 기능 구현(22.06.03)
 		boolean isContinue = false;
 		String userId = "";
 		String userPw = "";
@@ -1676,11 +1612,14 @@ public class View {
 			if (submitUser != null) isContinue = true;
 			else System.out.println("아이디 및 비밀번호를 다시 입력해 주세요");
 		}
+		////////////
 		String userTypeStr = submitUser.isUserType() ? "직원" : "고객";
-		System.out.println("\n<접속 고객 정보>\n" +
+		String label = submitUser.isUserType() ? "\n<접속 직원 정보>\n" : "\n<접속 고객 정보>\n";
+		System.out.println(label +
 				"이름 : " + submitUser.getUserName() + "\n" +
 				"아이디 : " + submitUser.getUserId() + "\n" +
 				"접속 구분 : " + userTypeStr + "\n");
+		////////////
 		return submitUser;
 	}
 
@@ -1695,98 +1634,7 @@ public class View {
 			if (submitUser.isUserType())
 				main.mainForEmployee(scanner, submitUser);
 			else main.mainForCustomer(scanner, submitUser);
-			// 로그인 사용자가 고객일 때 보험 상품 납입 정보들 중에 로그인한 고객에게 보일 수 있게 해야 함
-			// 얘를 하려면 고객 속성에 아이디 비번도 있어야 댐 - 이래야지 로그인 정보랑 고객 정보의 아이디 비번 비교가 ㄱㄴ함
-			// 월 보험료 납입하기 - 납입 정보가 로그인한 고객의 가입 보험으로만 보여져야 함
 		}
 		scanner.close();
 	}
-
-	// public static void main(String[] args) {
-	// Main main = new Main();
-	//
-	// Scanner scanner = new Scanner(System.in);
-	// boolean bOnLoop = true;
-	// while(bOnLoop) {
-	//
-	// System.out.println("분산투자화재 보험 시스템입니다.");
-	// System.out.println("0.시스템 종료하기");
-	// System.out.println("1.고객정보 관리하기"); // -
-	// System.out.println("2.계약유지활동 진행하기");
-	// System.out.println("3.월보험료 납입하기"); // 0
-	// System.out.println("4.가입신청 받기"); // 0
-	// System.out.println("5.인수심사 진행하기"); // 0
-	// System.out.println("6.보험 가입하기"); // 0
-	// System.out.println("7.재보험 처리하기"); // 0
-	// System.out.println("8.보험금 지급하기"); // 0
-	// System.out.println("9.사고 접수하기"); // 0
-	// System.out.println("10.만기계약 관리하기"); // 0
-	// System.out.println("11.납입정보 관리하기"); // 0
-	// System.out.println("12.보험 상품 설계하기"); // -
-	//
-	// int choice = scanner.nextInt();
-	// switch(choice) {
-	// case 0:
-	// bOnLoop = false;
-	// break;
-	// case 1:
-	// // 인배
-	// // 20220521 수정필요
-	// main.manageCustomerInformation(scanner);
-	// break;
-	// case 2:
-	// // 민재 20220530완성
-	// main.startContractMaintenanceActivities(scanner);
-	// break;
-	// case 3:
-	// // 민재 20220526완성
-	// main.payInsuranceFee(scanner);
-	// break;
-	// case 4:
-	// // 민재 20220525완성
-	// main.applyForMembership(scanner);
-	// break;
-	// case 5:
-	// // 민재 20220525완성
-	// main.startUW(scanner);
-	// break;
-	// case 6:
-	// // 민재 20220525완성
-	// main.joinInsurance(scanner);
-	// break;
-	// case 7:
-	// // 민재 20220525완성
-	// main.reinsurance(scanner);
-	// break;
-	// case 8:
-	// // 민재 20220528완성
-	// main.payInsuranceMoney(scanner);
-	// break;
-	// case 9:
-	// // 민우 사고 접수를 하다
-	// // 20220521 수정필요
-	// // 민재 20220526완성(시나리오 수정)
-	// main.reportAccident(scanner);
-	// break;
-	// case 10:
-	// // 민재 20220528완성
-	// main.manageExpirationContract(scanner);
-	// break;
-	// case 11:
-	// // 민재 20220526완성
-	// main.managePaymentInformation(scanner);
-	// break;
-	// case 12:
-	// // 인배 20220521
-	// main.designInsuranceProductMenu(scanner);
-	// break;
-	// case 13:
-	// break;
-	// default :
-	// System.out.println("입력정보가 잘못되었습니다. 다시 메뉴를 선택해주세요.");
-	// break;
-	// }
-	// }
-	// scanner.close();
-	// }
 }
