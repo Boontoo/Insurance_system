@@ -44,14 +44,18 @@ public class ApplicationListImpl implements ApplicationList {
 	 * @param id
 	 */
 	public boolean delete(String id){
-		for(int i = 0; i < applicationForMembershipList.size(); i++) {
-			if(applicationForMembershipList.get(i).getId() == id) {
-				applicationForMembershipList.remove(i);
-				initializeId();
-				return true;
+		boolean result = false;
+		if(((ApplicationDao) this.dao).delete(id)) {
+			for(int i = 0; i < applicationForMembershipList.size(); i++) {
+				if(applicationForMembershipList.get(i).getId() == id) {
+					applicationForMembershipList.remove(i);
+					initializeId();
+					result =  true;
+					break;
+				}
 			}
 		}
-		return false;
+		return result;
 	}
 	
 	private void initializeId() {

@@ -11,11 +11,12 @@ import dao.Dao;
  */
 public class AccidentListImpl implements AccidentList {
 	
-	private ArrayList<Accident> accidentReceptionList = new ArrayList<>();
+	private ArrayList<Accident> accidentList = new ArrayList<>();
 	public Accident m_AccidentReception;
+	private Dao dao;
 
 	public AccidentListImpl(){
-		Dao dao = new AccidentDao();
+		this.dao = new AccidentDao();
 	}
 	public void finalize() throws Throwable {
 		
@@ -23,38 +24,62 @@ public class AccidentListImpl implements AccidentList {
 	public boolean add(String contractID, String accidentLocation, String accidentType) {
 		// 새로 만든 함수 - 가입 보험 아이디 받음
 		// 파라미터 변경 (String -> String 3개)
-		accidentReceptionList.add(new Accident(15, contractID, accidentLocation, accidentType));
-		accidentReceptionList.get(accidentReceptionList.size()-1).setAccidentID(accidentReceptionList.size() + "");
+		accidentList.add(new Accident(15, contractID, accidentLocation, accidentType));
+		accidentList.get(accidentList.size()-1).setAccidentID(accidentList.size() + "");
 		return false;
 	}
 	public ArrayList<Accident> getAll(){
 		// 새로 만든 함수
-		return accidentReceptionList;
+		return accidentList;
 	}
 	public Accident getLast() {
 		// 새로 만든 함수
-		return accidentReceptionList.get(accidentReceptionList.size()-1);
+		return accidentList.get(accidentList.size()-1);
 	}
 	/**
 	 * 
 	 * @param accidentReception
 	 */
-	public boolean add(Accident accidentReception){
-		return accidentReceptionList.add(accidentReception);
+	public boolean add(Accident accident){
+		for(Accident exAccident : accidentList) {
+			if(exAccident.getAccidentID().equals(accident.getAccidentID()))
+				return false;
+		}
+		boolean result = false;
+		if(((AccidentDao) this.dao).create(accident))
+			result = accidentList.add(accident);
+		return result;
 	}
 	/**
 	 * 
 	 * @param accidentID
 	 */
 	public boolean delete(String accidentID){
-		return false;
+		boolean result = false;
+		if(((AccidentDao) this.dao).delete(accidentID)) {
+			for(int i = 0; i < accidentList.size(); i++) {
+				if(accidentList.get(i).getId() == accidentID) {
+					accidentList.remove(i);
+					initializeId();
+					result =  true;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private void initializeId() {
+		// 새로 만든 함수
+		for(int i = 0; i < accidentList.size(); i++)
+			accidentList.get(i).setId(i+1+"");
 	}
 	/**
 	 * 
 	 * @param accidentID
 	 */
 	public Accident get(String accidentID){
-		for(Accident accidentReception: accidentReceptionList) {
+		for(Accident accidentReception: accidentList) {
 			if(accidentReception.getAccidentID().equals(accidentID))
 			return accidentReception;
 		}

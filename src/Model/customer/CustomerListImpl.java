@@ -66,14 +66,18 @@ public class CustomerListImpl implements CustomerList {
 	}
 
 	public boolean delete(String customerID){
-		for(Customer customer : this.customerList) {
-			if(customer.getId().equals(customerID)) {
-				this.deletedCustomerList.add(customer);
-				this.customerList.remove(customer);
-				return true;
+		boolean result = false;
+		if(((CustomerDao) this.dao).delete(customerID)) {
+			for(Customer customer : this.customerList) {
+				if(customer.getId().equals(customerID)) {
+					this.deletedCustomerList.add(customer);
+					this.customerList.remove(customer);
+					result = true;
+					break;
+				}
 			}
 		}
-		return false;
+		return result;
 	}
 
 	public ArrayList<Customer> get(boolean gender){

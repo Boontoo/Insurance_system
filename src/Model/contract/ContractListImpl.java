@@ -42,8 +42,17 @@ public class ContractListImpl implements ContractList {
 	 * @param id
 	 */
 	public boolean delete(String id){
-		return false;
+		boolean result = false;
+		if(((ContractDao) this.dao).delete(id)) {
+			int index = indexOf(id);
+			if(index != -1) {
+				contractList.remove(index);
+				result = true;
+			}
+		}
+		return result;
 	}
+	
 	public void addPayment(Contract selectedContract, int amountOfInsuranceFee) {
 		// 새로 만든 함수 - 납입 보험금 추가 - 보험금 납입
 		// 파라미터 변경(22.06.03) (int int) -> (Contract int)

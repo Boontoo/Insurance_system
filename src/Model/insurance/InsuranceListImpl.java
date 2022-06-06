@@ -47,12 +47,15 @@ public class InsuranceListImpl implements InsuranceList {
 	 * @param insuranceID
 	 */
 	public boolean delete(String id){
-		int index = indexOf(id);
-		if(index != -1) {
-			insuranceList.remove(index);
-			return true;
+		boolean result = false;
+		if(((InsuranceDao) this.dao).delete(id)) {
+			int index = indexOf(id);
+			if(index != -1) {
+				insuranceList.remove(index);
+				result = true;
+			}
 		}
-		return false;
+		return result;
 	}
 
 	/**

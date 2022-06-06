@@ -43,7 +43,15 @@ public class UserInfoListImpl implements UserInfoList {
 
 	@Override
 	public boolean delete(UserInfo submitUser) {
-		return userInfoList.remove(submitUser);
+		boolean result = false;
+		if(((UserInfoDao) this.dao).delete(submitUser.getId())) {
+			int index = indexOf(submitUser.getId());
+			if(index != -1) {
+				userInfoList.remove(index);
+				result = true;
+			}
+		}
+		return result;
 	}
 	
 	public int indexOf(String id) {

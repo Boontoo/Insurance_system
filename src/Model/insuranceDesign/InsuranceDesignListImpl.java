@@ -33,8 +33,15 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 
 	@Override
 	public boolean delete(String insuranceDesignID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		if(((InsuranceDesignDao) this.dao).delete(insuranceDesignID)) {
+			int index = indexOf(insuranceDesignID);
+			if(index != -1) {
+				insuranceDesignList.remove(index);
+				result = true;
+			}
+		}
+		return result;
 	}
 
 	@Override

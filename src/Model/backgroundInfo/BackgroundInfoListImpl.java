@@ -34,8 +34,15 @@ public class BackgroundInfoListImpl implements BackgroundInfoList {
 
 	@Override
 	public boolean delete(String insuranceProductDevelopmentInformationID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		if(((BackgroundInfoDao) this.dao).delete(insuranceProductDevelopmentInformationID)) {
+			int index = indexOf(insuranceProductDevelopmentInformationID);
+			if(index != -1) {
+				backgroundInformationList.remove(index);
+				result = true;
+			}
+		}
+		return result;
 	}
 
 	@Override
