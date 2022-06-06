@@ -97,13 +97,15 @@ public class InsuranceListImpl implements InsuranceList {
 
 	@Override
 	public boolean update(Insurance insurance) {
-		int index = indexOf(insurance.getId());
-		if(index == -1)
-			return false;
-		this.insuranceList.set(index, insurance);
-		if(this.insuranceList.get(index).equals(insurance)) {
-			return true;
+		boolean result = false;
+		if(((InsuranceDao) this.dao).update(insurance)) {
+			int index = indexOf(insurance.getId());
+			if(index != -1) {
+				this.insuranceList.set(index, insurance);
+				if(this.insuranceList.get(index).equals(insurance))
+					result = true;
+			}
 		}
-		return false;
+		return result;
 	}
 }
