@@ -20,8 +20,17 @@ public class BackgroundInfoDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(BackgroundInfo backgroundInfo) { // 만약에 자주 일어난다면...
+	public boolean update(BackgroundInfo backgroundInfo) {
+		// 쿼리 만들기
+		String query = "update backgroundinfo set " + 
+						"surveyResults='" + backgroundInfo.getSurveyResults() + "', " +
+						"applyFrequency='" + backgroundInfo.getApplyFrequency() + "', " +
+						"trend='" + backgroundInfo.getTrend() + "' " +
+						"where id='" + backgroundInfo.getId() +"';";
+		System.out.println(query);
 		
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {

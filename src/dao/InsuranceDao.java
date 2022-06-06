@@ -37,8 +37,26 @@ public class InsuranceDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(Insurance insurance) { // 만약에 자주 일어난다면...
-		
+	public boolean update(Insurance insurance) {
+		// 쿼리 만들기
+		String renew = "X";
+		if(insurance.isRenew()) renew = "O";
+		String query = "update insurance set " + 
+//						"id='" + insurance.getId() + "', " +
+						"insuranceName='" + insurance.getInsuranceName() + "', " +
+						"premiumRate='" + insurance.getPremiumRate() + "', " +
+						"monthlyPayAmount='" + insurance.getMonthlyPayAmount() + "', " +
+						"target='" + insurance.getTarget() + "', " +
+						"term='" + insurance.getTerm() + "', " +
+						"reInsuranceFee='" + insurance.getReInsuranceFee() + "', " +
+						"renew='" + renew + "', " +
+						"salesPerformance='" + insurance.getSalesPerformance() + "', " +
+						"attribute='" + insurance.getAttribute() + "', " +
+						"profitAndLoss='" + insurance.getProfitAndLoss() + "' " +
+						"where id='" + insurance.getId() +"';";
+		System.out.println(query);
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {

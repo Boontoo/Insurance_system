@@ -40,8 +40,37 @@ public class InsuranceDesignDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(InsuranceDesign insuranceDesign) { // 만약에 자주 일어난다면...
+	public boolean update(InsuranceDesign insuranceDesign) {
+		// 쿼리 만들기
+		String company = "X";
+		String confirm = "X";
+		String fss = "X";
+		if(insuranceDesign.isCompany()) company = "O";
+		if(insuranceDesign.isConfirm()) confirm = "O";
+		if(insuranceDesign.isFSS()) fss = "O";
+		String query = "update insurancedesign set " + 
+						"insuranceName='" + insuranceDesign.getInsuranceName() + "', " +
+						"insuranceContent='" + insuranceDesign.getInsuranceContent() + "', " +
+						"planningPurpose='" + insuranceDesign.getPlanningPurpose() + "', " +
+						"target='" + insuranceDesign.getTarget() + "', " +
+						"premiumRate='" + insuranceDesign.getPremiumRate() + "', " +
+						"trialWorkHistory='" + insuranceDesign.getTrialWorkHistory() + "', " +
+						"expectedProfitAndLossAnalysisPrice='" + insuranceDesign.getExpectedProfitAndLossAnalysisPrice() + "', " +
+						"basicDocuments='" + insuranceDesign.getBasicDocuments() + "', " +
+						"company='" + company + "', " +
+						"confirm='" + confirm + "', " +
+						"fss='" + fss + "', " +
+						"subscriptionDesign='" + insuranceDesign.getSubscriptionDesign() + "', " +
+						"subscription='" + insuranceDesign.getSubscription() + "', " +
+						"contractManagementRelatedSystem='" + insuranceDesign.getContractManagementRelatedSystem() + "', " +
+						"salesDepartmentData='" + insuranceDesign.getSalesDepartmentData() + "', " +
+						"productEducationContent='" + insuranceDesign.getProductEducationContent() + "', " +
+						"guideline='" + insuranceDesign.getGuideline() + "' " +
+						"where id='" + insuranceDesign.getId() +"';";
+		System.out.println(query);
 		
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {

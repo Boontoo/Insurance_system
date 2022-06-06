@@ -24,8 +24,20 @@ public class AccidentDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(Accident accident) { // 만약에 자주 일어난다면...
+	public boolean update(Accident accident) {
+		String payed = "X"; // boolean 값 처리 방법
+		if(accident.isPayed()) payed = "O";
+		String query = "update accident set " + 
+						"towTruckCallNum='" + accident.getTowTruckCallNum() + "', " +
+						"location='" + accident.getLocation() + "', " +
+						"accidentType='" + accident.getAccidentType() + "', " +
+						"payed='" + payed + "', " +
+						"contractID='" + accident.getContractID() + "' " +
+						"where id='" + accident.getId() +"';";
+		System.out.println(query);
 		
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {

@@ -30,8 +30,27 @@ public class CustomerDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(Customer customer) { // 만약에 자주 일어난다면...
-		
+	public boolean update(Customer customer) {
+			// 쿼리 만들기
+		String gender = "F";
+		if(customer.isGender()) gender = "M";
+		String query = "update customer set " + 
+//							"id='" + insurance.getId() + "', " +
+						"age='" + customer.getAge() + "', " +
+						"gender='" + gender + "', " +
+						"birthDate='" + customer.getBirthDate() + "', " +
+						"customerName='" + customer.getCustomerName() + "', " +
+						"phoneNum='" + customer.getPhoneNum() + "', " +
+						"ssn='" + customer.getSsn() + "', " +
+						"subscribedInsurance='" + customer.getSubscribedInsurance() + "', " +
+						"uniqueness='" + customer.getUniqueness() + "', " +
+						"accidentId='" + customer.getAccidentId() + "', " +
+						"userId='" + customer.getUserId() + "', " +
+						"userPw='" + customer.getUserPw() + "' " +
+						"where id='" + customer.getId() +"';";
+		System.out.println(query);
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {

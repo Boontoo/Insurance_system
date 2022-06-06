@@ -28,8 +28,25 @@ public class ContractDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(Contract contract) { // 만약에 자주 일어난다면...
+	public boolean update(Contract contract) { // 만약에 자주 일어난다면...
+		// 쿼리 만들기
+		String payStatus = "X"; // boolean 값 처리 방법
+		String renewConsult = "X";
+		if(contract.isPayStatus()) payStatus = "O";
+		if(contract.isRenewConsult()) renewConsult = "O";
+		String query = "update contract set " + 
+						"customerId='" + contract.getCustomerID() + "', " +
+						"insuranceId='" + contract.getInsuranceID() + "', " +
+						"expirationDate='" + contract.getExpirationDate() + "', " +
+						"totalPayAmount='" + contract.getTotalPayAmount() + "', " +
+						"payAmount='" + contract.getPayAmount() + "', " +
+						"payStatus='" + payStatus + "', " +
+						"renewConsult='" + renewConsult + "' " +
+						"where id='" + contract.getId() +"';";
+		System.out.println(query);
 		
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {

@@ -32,8 +32,29 @@ public class ApplicationDao extends Dao {
 		return super.create(query);
 	}
 	
-	public void updateByName(Application application) { // 만약에 자주 일어난다면...
+	public boolean update(Application application) {
+		// 쿼리 만들기
+		String gender = "F"; // boolean 값 처리 방법
+		String uwProceed = "X";
+		String uwResult = "X";
+		if(application.isGender()) gender = "M";
+		if(application.isUWProceed()) uwProceed = "O";
+		if(application.isUWResult()) uwResult = "O";
+		String query = "update application set " + 
+						"customerName='" + application.getCustomerName() + "', " +
+						"age='" + application.getAge() + "', " +
+						"gender='" + gender + "', " +
+						"job='" + application.getJob() + "', " +
+						"phoneNum='" + application.getPhoneNum() + "', " +
+						"ssn='" + application.getSSN() + "', " +
+						"insuranceName='" + application.getInsuranceName() + "', " +
+						"uwProceed='" + uwProceed + "', " +
+						"uwResult='" + uwResult + "' " +
+						"where id='" + application.getId() +"';";
+		System.out.println(query);
 		
+		// 쿼리 실행하기
+		return super.update(query);
 	}
 	
 	public boolean delete(String id) {
