@@ -105,4 +105,18 @@ public class ContractListImpl implements ContractList {
 			temp += contract + "\n";
 		return temp;
 	}
+
+	@Override
+	public boolean update(Contract contract) {
+		boolean result = false;
+		if(((ContractDao) this.dao).update(contract)) {
+			int index = indexOf(contract.getId());
+			if(index != -1) {
+				this.contractList.set(index, contract);
+				if(this.contractList.get(index).equals(contract))
+					result = true;
+			}
+		}
+		return result;
+	}
 }

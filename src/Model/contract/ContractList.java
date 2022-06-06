@@ -26,4 +26,6 @@ public interface ContractList {
 	public Contract get(String id);
 	public Contract get(int index);
 	// 새로 추가한 함수
+	
+	public boolean update(Contract contract);
 }
