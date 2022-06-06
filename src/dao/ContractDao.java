@@ -13,7 +13,7 @@ public class ContractDao extends Dao {
 		String renewConsult = "X";
 		if(contract.isPayStatus()) payStatus = "O";
 		if(contract.isRenewConsult()) renewConsult = "O";
-		String query = "insert into insurance (id, customerId, insuranceId, expirationDate, totalPayAmount, payAmount, payStatus, renewConsult) values (" +
+		String query = "insert into contract (id, customerId, insuranceId, expirationDate, totalPayAmount, payAmount, payStatus, renewConsult) values (" +
 						"'" + contract.getId() + "', " +
 						"'" + contract.getCustomerID() + "', " +
 						"'" + contract.getInsuranceID() + "', " +

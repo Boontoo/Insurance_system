@@ -9,7 +9,7 @@ public class BackgroundInfoDao extends Dao {
 	
 	public boolean create(BackgroundInfo backgroundInfo) {
 		// 쿼리 만들기
-		String query = "insert into insurance (id, surveyResults, applyFrequency, trend) values (" +
+		String query = "insert into backgroundinfo (id, surveyResults, applyFrequency, trend) values (" +
 						"'" + backgroundInfo.getId() + "', " +
 						"'" + backgroundInfo.getSurveyResults() + "', " +
 						"'" + backgroundInfo.getApplyFrequency() + "', " +

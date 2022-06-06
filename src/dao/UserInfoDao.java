@@ -11,7 +11,7 @@ public class UserInfoDao extends Dao {
 		// 쿼리 만들기
 		String userType = "C"; // boolean 값 처리 방법
 		if(userInfo.isUserType()) userType = "E";
-		String query = "insert into insurance (id, userName, userId, userPw, userType) values (" +
+		String query = "insert into userinfo (id, userName, userId, userPw, userType) values (" +
 						"'" + userInfo.getId() + "', " +
 						"'" + userInfo.getUserName() + "', " +
 						"'" + userInfo.getUserId() + "', " +

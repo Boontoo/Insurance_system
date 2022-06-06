@@ -11,7 +11,7 @@ public class CustomerDao extends Dao {
 		// 쿼리 만들기
 		String gender = "F";
 		if(customer.isGender()) gender = "M";
-		String query = "insert into insurance (id, age, gender, birthDate, customerName, phoneNum, ssn, subscribedInsurance, uniqueness, accidentId, userId, userPw) values (" +
+		String query = "insert into customer (id, age, gender, birthDate, customerName, phoneNum, ssn, subscribedInsurance, uniqueness, accidentId, userId, userPw) values (" +
 						"'" + customer.getId() + "', " +
 						"'" + customer.getAge() + "', " +
 						"'" + gender + "', " +

@@ -15,7 +15,7 @@ public class InsuranceDesignDao extends Dao {
 		if(insuranceDesign.isCompany()) company = "O";
 		if(insuranceDesign.isConfirm()) confirm = "O";
 		if(insuranceDesign.isFSS()) fss = "O";
-		String query = "insert into insurance (id, insuranceName, insuranceContent, planningPurpose, target, premiumRate, trialWorkHistory, expectedProfitAndLossAnalysisPrice, basicDocuments, company, confirm, fss, subscriptionDesign, subscription, contractManagementRelatedSystem, salesDepartmentData, productEducationContent, guideline) values (" +
+		String query = "insert into insurancedesign (id, insuranceName, insuranceContent, planningPurpose, target, premiumRate, trialWorkHistory, expectedProfitAndLossAnalysisPrice, basicDocuments, company, confirm, fss, subscriptionDesign, subscription, contractManagementRelatedSystem, salesDepartmentData, productEducationContent, guideline) values (" +
 						"'" + insuranceDesign.getId() + "', " +
 						"'" + insuranceDesign.getInsuranceName() + "', " +
 						"'" + insuranceDesign.getInsuranceContent() + "', " +

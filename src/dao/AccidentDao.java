@@ -11,7 +11,7 @@ public class AccidentDao extends Dao {
 		// 쿼리 만들기
 		String payed = "X"; // boolean 값 처리 방법
 		if(accident.isPayed()) payed = "O";
-		String query = "insert into insurance (id, towTruckCallNum, location, accidentType, payed, contractID) values (" +
+		String query = "insert into accident (id, towTruckCallNum, location, accidentType, payed, contractID) values (" +
 						"'" + accident.getId() + "', " +
 						"'" + accident.getTowTruckCallNum() + "', " +
 						"'" + accident.getLocation() + "', " +

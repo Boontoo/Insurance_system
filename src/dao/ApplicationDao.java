@@ -15,7 +15,7 @@ public class ApplicationDao extends Dao {
 		if(application.isGender()) gender = "M";
 		if(application.isUWProceed()) uwProceed = "O";
 		if(application.isUWResult()) uwResult = "O";
-		String query = "insert into insurance (id, customerName, age, gender, job, phoneNum, ssn, insuranceName, uwProceed, uwResult) values (" +
+		String query = "insert into application (id, customerName, age, gender, job, phoneNum, ssn, insuranceName, uwProceed, uwResult) values (" +
 						"'" + application.getId() + "', " +
 						"'" + application.getCustomerName() + "', " +
 						"'" + application.getAge() + "', " +
