@@ -8,9 +8,10 @@ import dao.InsuranceDesignDao;
 public class InsuranceDesignListImpl implements InsuranceDesignList {
 
 	private ArrayList<InsuranceDesign> insuranceDesignList;
+	private Dao dao;
 	
 	public InsuranceDesignListImpl() {
-		Dao dao = new InsuranceDesignDao();
+		this.dao = new InsuranceDesignDao();
 		insuranceDesignList = new ArrayList<InsuranceDesign>();
 	}
 
@@ -24,7 +25,9 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 			if(exInsuranceDesign.getInsuranceName().equals(insuranceDesign.getInsuranceName()))
 				return false;
 		}
-		boolean result = insuranceDesignList.add(insuranceDesign);
+		boolean result = false;
+		if(((InsuranceDesignDao) this.dao).create(insuranceDesign))
+			result = insuranceDesignList.add(insuranceDesign);
 		return result;
 	}
 

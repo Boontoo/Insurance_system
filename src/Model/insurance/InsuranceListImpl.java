@@ -13,7 +13,7 @@ public class InsuranceListImpl implements InsuranceList {
 
 	private ArrayList<Insurance> insuranceList;
 	public Insurance m_Insurance;
-	private int size;
+//	private int size;
 	// 새로 만든 속성
 	private Dao dao;
 

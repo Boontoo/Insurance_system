@@ -8,9 +8,10 @@ import dao.Dao;
 public class BackgroundInfoListImpl implements BackgroundInfoList {
 
 	private ArrayList<BackgroundInfo> backgroundInformationList;
+	private Dao dao;
 	
 	public BackgroundInfoListImpl() {
-		Dao dao = new BackgroundInfoDao();
+		this.dao = new BackgroundInfoDao();
 		backgroundInformationList = new ArrayList<BackgroundInfo>();
 	}
 
@@ -25,7 +26,9 @@ public class BackgroundInfoListImpl implements BackgroundInfoList {
 			if(exInsuranceProductDevelopmentInformation.getId().equals(backgroundInformation.getId()))
 				return false;
 		}
-		boolean result = backgroundInformationList.add(backgroundInformation);
+		boolean result = false;
+		if(((BackgroundInfoDao) this.dao).create(backgroundInformation))
+			result = backgroundInformationList.add(backgroundInformation);
 		return result;
 	}
 

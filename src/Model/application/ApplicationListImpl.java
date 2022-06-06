@@ -13,8 +13,10 @@ public class ApplicationListImpl implements ApplicationList {
 
 	private ArrayList<Application> applicationForMembershipList;
 	public Application m_ApplicationForMembership;
+	private Dao dao;
+	
 	public ApplicationListImpl(){
-		Dao dao = new ApplicationDao();
+		this.dao = new ApplicationDao();
 		applicationForMembershipList = new ArrayList<Application>();
 	}
 
@@ -27,9 +29,13 @@ public class ApplicationListImpl implements ApplicationList {
 	 * @param applicationForMembership
 	 */
 	public boolean add(Application applicationForMembership){
-		boolean result = applicationForMembershipList.add(applicationForMembership);
-		applicationForMembershipList.get(applicationForMembershipList.size()-1).
-			setId(applicationForMembershipList.size() + "");
+//		boolean result = applicationForMembershipList.add(applicationForMembership);
+//		applicationForMembershipList.get(applicationForMembershipList.size()-1).
+//			setId(applicationForMembershipList.size() + "");
+		applicationForMembership.setId(applicationForMembershipList.size() + "");
+		boolean result = false;
+		if(((ApplicationDao) this.dao).create(applicationForMembership))
+			result = applicationForMembershipList.add(applicationForMembership);
 		return result;
 	}
 

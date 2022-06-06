@@ -13,9 +13,10 @@ public class ContractListImpl implements ContractList {
 
 	private ArrayList<Contract> contractList = new ArrayList<Contract>();
 	public Contract m_Contract;
+	private Dao dao;
 
 	public ContractListImpl(){
-		Dao dao = new ContractDao();
+		this.dao = new ContractDao();
 	}
 
 	public void finalize() throws Throwable {
@@ -27,8 +28,12 @@ public class ContractListImpl implements ContractList {
 	 * @param contract
 	 */
 	public boolean add(Contract contract){
-		boolean result = contractList.add(contract);
-		contractList.get(contractList.size()-1).setId(contractList.size()+1 + "");
+//		boolean result = contractList.add(contract);
+		contract.setId(contractList.size()+1 + "");
+//		contractList.get(contractList.size()-1).setId(contractList.size()+1 + "");
+		boolean result = false;
+		if(((ContractDao) this.dao).create(contract))
+			result = contractList.add(contract);
 		return result;
 	}
 

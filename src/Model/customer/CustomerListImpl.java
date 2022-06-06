@@ -15,9 +15,10 @@ public class CustomerListImpl implements CustomerList {
 	private ArrayList<Customer> customerList = new ArrayList<Customer>();
 	private ArrayList<Customer> deletedCustomerList = new ArrayList<Customer>();
 	public Customer m_Customer;
+	private Dao dao;
 
 	public CustomerListImpl(){
-		Dao dao = new CustomerDao();
+		this.dao = new CustomerDao();
 	}
 
 	public void finalize() throws Throwable {
@@ -25,10 +26,16 @@ public class CustomerListImpl implements CustomerList {
 	}
 
 	public boolean add(Customer customer){
-		boolean result = customerList.add(customer);
-//		customerList.get(customerList.size()-1).setId(customerList.size() + "");
+		for(Customer exCustomer : this.customerList) {
+			if(exCustomer.getId().equals(customer.getId()))
+				return false;
+		}
+		boolean result = false;
+		if(((CustomerDao) this.dao).create(customer))
+			result = customerList.add(customer);
 		return result;
 	}
+	
 	public int indexOf(String id) {
 		// 새로 만든 함수
 		for(int i = 0; i < customerList.size(); i++) {

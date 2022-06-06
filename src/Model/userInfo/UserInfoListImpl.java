@@ -7,15 +7,17 @@ import dao.UserInfoDao;
 
 public class UserInfoListImpl implements UserInfoList {
 	// 새로 만든 클래스(22.06.03)
-	private ArrayList<UserInfo> submitUserList;
+	private ArrayList<UserInfo> userInfoList;
+	private Dao dao;
+	
 	public UserInfoListImpl() {
-		Dao dao = new UserInfoDao();
-		submitUserList = new ArrayList<UserInfo>();
+		this.dao = new UserInfoDao();
+		userInfoList = new ArrayList<UserInfo>();
 	}
 	
 	@Override
 	public UserInfo get(String id) {
-		for(UserInfo submitUser : submitUserList) {
+		for(UserInfo submitUser : userInfoList) {
 			if(submitUser.getId().equals(id)) return submitUser;
 		}
 		return null;
@@ -23,39 +25,46 @@ public class UserInfoListImpl implements UserInfoList {
 
 	@Override
 	public UserInfo get(int index) {
-		if(!(index >= 0 && index < submitUserList.size())) return null;
-		return submitUserList.get(index);
+		if(!(index >= 0 && index < userInfoList.size())) return null;
+		return userInfoList.get(index);
 	}
 
 	@Override
-	public boolean add(UserInfo submitUser) {
-		return submitUserList.add(submitUser);
+	public boolean add(UserInfo userInfo) {
+		for(UserInfo exUserInfo : this.userInfoList) {
+			if(exUserInfo.getId().equals(userInfo.getId()))
+				return false;
+		}
+		boolean result = false;
+		if(((UserInfoDao) this.dao).create(userInfo))
+			result = userInfoList.add(userInfo);
+		return result;
 	}
 
 	@Override
 	public boolean delete(UserInfo submitUser) {
-		return submitUserList.remove(submitUser);
+		return userInfoList.remove(submitUser);
 	}
 	
 	public int indexOf(String id) {
-		for(int i = 0; i < submitUserList.size(); i++) {
-			if(submitUserList.get(i).getId().equals(id)) return i;
+		for(int i = 0; i < userInfoList.size(); i++) {
+			if(userInfoList.get(i).getId().equals(id)) return i;
 		}
 		return -1;
 	}
 	
 	public ArrayList<UserInfo> getAll(){
-		return submitUserList;
+		return userInfoList;
 	}
 	
 	public int getSize() {
-		return submitUserList.size();
+		return userInfoList.size();
 	}
 
 	@Override
 	public String toString() {
 		String temp = "";
-		for(UserInfo submitUser : submitUserList) {
+		for(UserInfo submitUser : userInfoList) {
 			temp += submitUser + "\n";
 		}
 		return temp;
