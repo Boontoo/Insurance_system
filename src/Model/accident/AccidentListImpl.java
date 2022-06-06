@@ -19,7 +19,7 @@ public class AccidentListImpl implements AccidentList {
 		// 새로 만든 함수 - 가입 보험 아이디 받음
 		// 파라미터 변경 (String -> String 3개)
 		accidentReceptionList.add(new Accident(15, contractID, accidentLocation, accidentType));
-		accidentReceptionList.get(accidentReceptionList.size()-1).setAccidentID(accidentReceptionList.size() + "");
+		accidentReceptionList.get(accidentReceptionList.size()-1).setID(accidentReceptionList.size() + "");
 		return false;
 	}
 	public ArrayList<Accident> getAll(){
@@ -50,7 +50,7 @@ public class AccidentListImpl implements AccidentList {
 	 */
 	public Accident get(String accidentID){
 		for(Accident accidentReception: accidentReceptionList) {
-			if(accidentReception.getAccidentID().equals(accidentID))
+			if(accidentReception.getID().equals(accidentID))
 			return accidentReception;
 		}
 		return null;

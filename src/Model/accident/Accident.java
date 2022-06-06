@@ -6,24 +6,14 @@ package Model.accident;
  * @created 10-5-2022 ���� 9:00:55
  */
 public class Accident {
-	private String accidentID;
-//	private String customerID;
-//	private String customerName;
-	// 고객 아이디, 이름 속성 또한 삭제
-//	private boolean employeeCallStatus;
-	// 직원콜 속성 삭제
+	private String id;
 	private int towTruckCallNum;
-//	private boolean towTruckCallPresent;
-	// 렉카콜 속성 삭제
 	private String location; 
 	private String accidentType;
-	// 새로 추가한 속성 - 사고 위치, 사고 유형
 	private boolean payed;
-	// 새로 추가한 속성 - 보험금 지급 여부
 	private String contractID;
 	
 	public Accident(int towTruckCallNum, String contractID , String accidentLocation, String accidentType) {
-		// 파라미터 변경(int String -> int String 3개)
 		this.towTruckCallNum = towTruckCallNum;
 		this.contractID = contractID;
 		this.location = accidentLocation;
@@ -38,8 +28,8 @@ public class Accident {
 	public String toString(){
 		return "";
 	}
-	public String getAccidentID() {
-		return accidentID;
+	public String getID() {
+		return id;
 	}
 	public int getTowTruckCallNum() {
 		return towTruckCallNum;
@@ -47,8 +37,8 @@ public class Accident {
 	public String getContractID() {
 		return contractID;
 	}
-	public void setAccidentID(String accidentID) {
-		this.accidentID = accidentID;
+	public void setID(String id) {
+		this.id = id;
 	}
 	public void setTowTruckCallNum(int towTruckCallNum) {
 		this.towTruckCallNum = towTruckCallNum;

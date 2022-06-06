@@ -8,10 +8,10 @@ import java.util.ArrayList;
  */
 public class ApplicationListImpl implements ApplicationList {
 
-	private ArrayList<Application> applicationForMembershipList;
+	private ArrayList<Application> applicationList;
 	public Application m_ApplicationForMembership;
 	public ApplicationListImpl(){
-		applicationForMembershipList = new ArrayList<Application>();
+		applicationList = new ArrayList<Application>();
 	}
 
 	public void finalize() throws Throwable {
@@ -23,9 +23,9 @@ public class ApplicationListImpl implements ApplicationList {
 	 * @param applicationForMembership
 	 */
 	public boolean add(Application applicationForMembership){
-		boolean result = applicationForMembershipList.add(applicationForMembership);
-		applicationForMembershipList.get(applicationForMembershipList.size()-1).
-			setId(applicationForMembershipList.size() + "");
+		boolean result = applicationList.add(applicationForMembership);
+		applicationList.get(applicationList.size()-1).
+			setId(applicationList.size()-1 + "");
 		return result;
 	}
 
@@ -34,9 +34,9 @@ public class ApplicationListImpl implements ApplicationList {
 	 * @param id
 	 */
 	public boolean delete(String id){
-		for(int i = 0; i < applicationForMembershipList.size(); i++) {
-			if(applicationForMembershipList.get(i).getId() == id) {
-				applicationForMembershipList.remove(i);
+		for(int i = 0; i < applicationList.size(); i++) {
+			if(applicationList.get(i).getId() == id) {
+				applicationList.remove(i);
 				initializeId();
 				return true;
 			}
@@ -46,12 +46,12 @@ public class ApplicationListImpl implements ApplicationList {
 	
 	private void initializeId() {
 		// 새로 만든 함수
-		for(int i = 0; i < applicationForMembershipList.size(); i++)
-			applicationForMembershipList.get(i).setId(i+1+"");
+		for(int i = 0; i < applicationList.size(); i++)
+			applicationList.get(i).setId(i+1+"");
 	}
 
 	public boolean checkInID(String id) {
-		for(Application applicationForMembership : applicationForMembershipList) {
+		for(Application applicationForMembership : applicationList) {
 			if(applicationForMembership.getId().equals(id)) return true;
 		}
 		return false;
@@ -62,28 +62,28 @@ public class ApplicationListImpl implements ApplicationList {
 	 * @param id
 	 */
 	public Application get(String id){
-		for(int i = 0; i < applicationForMembershipList.size(); i++) {
-			if(applicationForMembershipList.get(i).getId().equals(id)) 
-				return applicationForMembershipList.get(i);
+		for(int i = 0; i < applicationList.size(); i++) {
+			if(applicationList.get(i).getId().equals(id)) 
+				return applicationList.get(i);
 		}
 		return null;
 	}
 	public int getSize() {
-		return applicationForMembershipList.size();
+		return applicationList.size();
 	}
 	public ArrayList<Application> getAll() {
-		return applicationForMembershipList;
+		return applicationList;
 	}
 	@Override
 	public Application get(int index) {
-		if(index >= 0 && index < applicationForMembershipList.size()) 
-			return applicationForMembershipList.get(index);
+		if(index >= 0 && index < applicationList.size()) 
+			return applicationList.get(index);
 		return null;
 	}
 	@Override
 	public String toString() {
 		String tmp = "";
-		for(Application applicationForMembership : applicationForMembershipList)
+		for(Application applicationForMembership : applicationList)
 			tmp += applicationForMembership + "\n";
 		return tmp;
 	}

@@ -32,7 +32,6 @@ public interface CustomerList {
 	 * 
 	 * @param customerID
 	 */
-//	public ArrayList<Customer> get(String customerID);
 
 	/**
 	 * 
@@ -50,7 +49,6 @@ public interface CustomerList {
 	 * @param birthDate
 	 */
 	public ArrayList<Customer> get(int type, String key);
-//	public ArrayList<Customer> get(int age);
 	/**
 	 * 
 	 * @param today
