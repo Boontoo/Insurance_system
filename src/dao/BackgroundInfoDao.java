@@ -24,7 +24,8 @@ public class BackgroundInfoDao extends Dao {
 		
 	}
 	
-	public void delete(BackgroundInfo backgroundInfo) {
-		
+	public boolean delete(String id) {
+		String query = "delete from backgroundinfo where id=" + id;
+		return super.delete(query);
 	}
 }

@@ -32,7 +32,8 @@ public class ContractDao extends Dao {
 		
 	}
 	
-	public void delete(Contract contract) {
-		
+	public boolean delete(String id) {
+		String query = "delete from contract where id=" + id;
+		return super.delete(query);
 	}
 }

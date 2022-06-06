@@ -36,7 +36,8 @@ public class ApplicationDao extends Dao {
 		
 	}
 	
-	public void delete(Application application) {
-		
+	public boolean delete(String id) {
+		String query = "delete from application where id=" + id;
+		return super.delete(query);
 	}
 }

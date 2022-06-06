@@ -34,8 +34,9 @@ public class CustomerDao extends Dao {
 		
 	}
 	
-	public void delete(Customer customer) {
-		
+	public boolean delete(String id) {
+		String query = "delete from customer where id=" + id;
+		return super.delete(query);
 	}
 
 }

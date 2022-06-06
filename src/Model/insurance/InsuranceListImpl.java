@@ -46,8 +46,8 @@ public class InsuranceListImpl implements InsuranceList {
 	 * 
 	 * @param insuranceID
 	 */
-	public boolean delete(String insuranceID){
-		int index = indexOf(insuranceID);
+	public boolean delete(String id){
+		int index = indexOf(id);
 		if(index != -1) {
 			insuranceList.remove(index);
 			return true;

@@ -28,7 +28,8 @@ public class AccidentDao extends Dao {
 		
 	}
 	
-	public void delete(Accident accident) {
-		
+	public boolean delete(String id) {
+		String query = "delete from accident where id=" + id;
+		return super.delete(query);
 	}
 }

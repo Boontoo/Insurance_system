@@ -41,8 +41,9 @@ public class InsuranceDao extends Dao {
 		
 	}
 	
-	public void delete(Insurance insurance) {
-		
+	public boolean delete(String id) {
+		String query = "delete from insurance where id=" + id;
+		return super.delete(query);
 	}
 
 }

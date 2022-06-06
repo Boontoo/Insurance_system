@@ -27,7 +27,8 @@ public class UserInfoDao extends Dao {
 		
 	}
 	
-	public void delete(UserInfo userInfo) {
-		
+	public boolean delete(String id) {
+		String query = "delete from userinfo where id=" + id;
+		return super.delete(query);
 	}
 }
