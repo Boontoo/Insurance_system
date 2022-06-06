@@ -12,7 +12,7 @@ public class AccidentDao extends Dao {
 		String payed = "X"; // boolean 값 처리 방법
 		if(accident.isPayed()) payed = "O";
 		String query = "insert into accident (id, towTruckCallNum, location, accidentType, payed, contractID) values (" +
-						"'" + accident.getId() + "', " +
+						"'" + accident.getID() + "', " +
 						"'" + accident.getTowTruckCallNum() + "', " +
 						"'" + accident.getLocation() + "', " +
 						"'" + accident.getAccidentType() + "', " +
@@ -33,7 +33,7 @@ public class AccidentDao extends Dao {
 						"accidentType='" + accident.getAccidentType() + "', " +
 						"payed='" + payed + "', " +
 						"contractID='" + accident.getContractID() + "' " +
-						"where id='" + accident.getId() +"';";
+						"where id='" + accident.getID() +"';";
 		System.out.println(query);
 		
 		// 쿼리 실행하기

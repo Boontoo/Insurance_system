@@ -28,7 +28,7 @@ public class AccidentListImpl implements AccidentList {
 		// 새로 만든 함수 - 가입 보험 아이디 받음
 		// 파라미터 변경 (String -> String 3개)
 		accidentList.add(new Accident(15, contractID, accidentLocation, accidentType));
-		accidentList.get(accidentList.size() - 1).setAccidentID(accidentList.size() + "");
+		accidentList.get(accidentList.size() - 1).setID(accidentList.size() + "");
 		return false;
 	}
 
@@ -48,7 +48,7 @@ public class AccidentListImpl implements AccidentList {
 	 */
 	public boolean add(Accident accident) {
 		for (Accident exAccident : accidentList) {
-			if (exAccident.getAccidentID().equals(accident.getAccidentID()))
+			if (exAccident.getID().equals(accident.getID()))
 				return false;
 		}
 		boolean result = false;
@@ -65,7 +65,7 @@ public class AccidentListImpl implements AccidentList {
 		boolean result = false;
 		if (((AccidentDao) this.dao).delete(accidentID)) {
 			for (int i = 0; i < accidentList.size(); i++) {
-				if (accidentList.get(i).getId() == accidentID) {
+				if (accidentList.get(i).getID() == accidentID) {
 					accidentList.remove(i);
 					initializeId();
 					result = true;
@@ -79,7 +79,7 @@ public class AccidentListImpl implements AccidentList {
 	private void initializeId() {
 		// 새로 만든 함수
 		for (int i = 0; i < accidentList.size(); i++)
-			accidentList.get(i).setId(i + 1 + "");
+			accidentList.get(i).setID(i + 1 + "");
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class AccidentListImpl implements AccidentList {
 	 * @param accidentID
 	 */
 	public Accident get(String accidentID) {
-		for (Accident accidentReception : accidentReceptionList) {
+		for (Accident accidentReception : accidentList) {
 			if (accidentReception.getID().equals(accidentID))
 				return accidentReception;
 		}

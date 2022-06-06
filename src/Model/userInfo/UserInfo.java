@@ -8,6 +8,10 @@ public class UserInfo {
 	private String userPw;
 	private boolean userType; // true:직원, false:고객
 	
+	public UserInfo() {
+		
+	}
+	
 	public UserInfo(String userName, String userId, String userPw, boolean userType) {
 		this.userName = userName;
 		this.userId = userId;

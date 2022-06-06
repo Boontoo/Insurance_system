@@ -62,6 +62,7 @@ public class UserInfoListImpl implements UserInfoList {
 	}
 	
 	public ArrayList<UserInfo> getAll(){
+		this.userInfoList =((UserInfoDao) this.dao).retrieveAll();
 		return userInfoList;
 	}
 	
