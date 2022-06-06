@@ -1,6 +1,11 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Model.customer.Customer;
+import Model.insurance.Insurance;
 
 public class CustomerDao extends Dao {
 	public CustomerDao() {
@@ -58,4 +63,32 @@ public class CustomerDao extends Dao {
 		return super.delete(query);
 	}
 
+	public ArrayList<Customer> retrieveAll() {
+		String query = "select * from customer";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<Customer> customerList = new ArrayList<Customer>();
+		try {
+			while(resultSet.next()) {
+				Customer customer = new Customer();
+				customer.setId(resultSet.getString("id"));
+				customer.setInsuranceName(query);
+				customer.setPremiumRate(0);
+				customer.setMonthlyPayAmount(0);
+				customer.setTarget(resultSet.getInt("target"));
+				customer.setTerm(resultSet.getInt("term"));
+				customer.setReInsuranceFee(resultSet.getInt("reInsuranceFee"));
+				String renew = resultSet.getString("renew");
+				if(renew == "X") customer.setRenew(false);
+				else if(renew == "O") customer.setRenew(true);
+				customer.setId(resultSet.getString("salesPerformance"));
+				customer.setId(resultSet.getString("attribute"));
+				customer.setId(resultSet.getString("profitAndLoss"));
+				insuranceList.add(customer);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return insuranceList;
+	}
 }

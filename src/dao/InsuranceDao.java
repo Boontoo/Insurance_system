@@ -76,9 +76,9 @@ public class InsuranceDao extends Dao {
 			while(resultSet.next()) {
 				Insurance insurance = new Insurance();
 				insurance.setId(resultSet.getString("id"));
-				insurance.setInsuranceName(query);
-				insurance.setPremiumRate(0);
-				insurance.setMonthlyPayAmount(0);
+				insurance.setInsuranceName(resultSet.getString("insuranceName"));
+				insurance.setPremiumRate(resultSet.getInt("premiumRate"));
+				insurance.setMonthlyPayAmount(resultSet.getInt("monthlyPayAmount"));
 				insurance.setTarget(resultSet.getInt("target"));
 				insurance.setTerm(resultSet.getInt("term"));
 				insurance.setReInsuranceFee(resultSet.getInt("reInsuranceFee"));
