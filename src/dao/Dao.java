@@ -51,21 +51,43 @@ public class Dao {
 //		}
 //	}
 //	
-//	public void update(String query) { //원칙적으로는 boolean 값을 가져야함
-//	}
+	public boolean update(String query) { //원칙적으로는 boolean 값을 가져야함
+		try {
+			statement = connect.createStatement();
+			if (!statement.execute(query)) {
+				System.out.println("insert OK!!!");
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 //	
-//	public void delete(String query) { //원칙적으로는 boolean 값을 가져야함
-//	}
+	public boolean delete(String query) { //원칙적으로는 boolean 값을 가져야함
+		try {
+			statement = connect.createStatement();
+			if (!statement.execute(query)) {
+				System.out.println("insert OK!!!");
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 //	
-//	public ResultSet retrieve(String query) {
-//		try {
-//			statement = connect.createStatement();
-//			resultSet = statement.executeQuery(query);
-//			return resultSet;
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return resultSet;
-//	}
+	public ResultSet retrieve(String query) {
+		try {
+			statement = connect.createStatement();
+			resultSet = statement.executeQuery(query);
+			return resultSet;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultSet;
+	}
 }
