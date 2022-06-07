@@ -48,6 +48,7 @@ public class BackgroundInfoListImpl implements BackgroundInfoList {
 	@Override
 	public BackgroundInfo get(String insuranceProductDevelopmentInformationID) {
 		// TODO Auto-generated method stub
+		this.backgroundInformationList =((BackgroundInfoDao) this.dao).retrieveAll();
 		int index = indexOf(insuranceProductDevelopmentInformationID);
 		if(index != -1) return backgroundInformationList.get(index);
 		return null;

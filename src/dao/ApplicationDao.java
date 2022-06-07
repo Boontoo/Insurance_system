@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Model.application.Application;
 
 public class ApplicationDao extends Dao {
@@ -60,5 +64,37 @@ public class ApplicationDao extends Dao {
 	public boolean delete(String id) {
 		String query = "delete from application where id=" + id;
 		return super.delete(query);
+	}
+	
+	public ArrayList<Application> retrieveAll() {
+		String query = "select * from accident";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<Application> applicationList = new ArrayList<Application>();
+		try {
+			while(resultSet.next()) {
+				Application application = new Application();
+				application.setId(resultSet.getString("id"));
+				application.setCustomerName(resultSet.getString("customerName"));
+				application.setAge(resultSet.getString("age"));
+				String gender = resultSet.getString("gender");
+				if(gender.equals("M")) application.setGender(true);
+				else if(gender.equals("F")) application.setGender(false);
+				application.setJob(resultSet.getString("job"));
+				application.setPhoneNum(resultSet.getString("phoneNum"));
+				application.setSSN(resultSet.getString("ssn"));
+				application.setInsuranceName(resultSet.getString("insuranceName"));
+				String uwProceed = resultSet.getString("uwProceed");
+				if(uwProceed.equals("O")) application.setUWProceed(true);
+				else if(uwProceed.equals("X")) application.setUWProceed(false);
+				String uwResult = resultSet.getString("uwResult");
+				if(uwResult.equals("O")) application.setUWResult(true);
+				else if(uwResult.equals("X")) application.setUWResult(false);
+				applicationList.add(application);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return applicationList;
 	}
 }

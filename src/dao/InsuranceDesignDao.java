@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Model.insuranceDesign.InsuranceDesign;
 
 public class InsuranceDesignDao extends Dao {
@@ -76,5 +80,45 @@ public class InsuranceDesignDao extends Dao {
 	public boolean delete(String id) {
 		String query = "delete from insurancedesign where id=" + id;
 		return super.delete(query);
+	}
+	
+	public ArrayList<InsuranceDesign> retrieveAll() {
+		String query = "select * from insurancedesign";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<InsuranceDesign> insuranceDesignList = new ArrayList<InsuranceDesign>();
+		try {
+			while(resultSet.next()) {
+				InsuranceDesign insuranceDesign = new InsuranceDesign();
+				insuranceDesign.setId(resultSet.getString("id"));
+				insuranceDesign.setInsuranceName(resultSet.getString("insuranceName"));
+				insuranceDesign.setInsuranceContent(resultSet.getString("insuranceContent"));
+				insuranceDesign.setPlanningPurpose(resultSet.getString("planningPurpose"));
+				insuranceDesign.setTarget(resultSet.getInt("target"));
+				insuranceDesign.setPremiumRate(resultSet.getInt("premiumRate"));
+				insuranceDesign.setTrialWorkHistory(resultSet.getString("trialWorkHistory"));
+				insuranceDesign.setExpectedProfitAndLossAnalysisPrice(resultSet.getString("expectedProfitAndLossAnalysisPrice"));
+				insuranceDesign.setBasicDocuments(resultSet.getString("basicDocuments"));
+				String expectedProfitAndLossAnalysisPrice = resultSet.getString("expectedProfitAndLossAnalysisPrice");
+				if(expectedProfitAndLossAnalysisPrice == "X") insuranceDesign.setCompany(false);
+				else if(expectedProfitAndLossAnalysisPrice == "O") insuranceDesign.setCompany(true);
+				String confirm = resultSet.getString("confirm");
+				if(confirm == "X") insuranceDesign.setConfirm(false);
+				else if(confirm == "O") insuranceDesign.setConfirm(true);
+				String fss = resultSet.getString("fss");
+				if(fss == "X") insuranceDesign.setFSS(false);
+				else if(fss == "O") insuranceDesign.setFSS(true);
+				insuranceDesign.setSubscriptionDesign(resultSet.getString("subscriptionDesign"));
+				insuranceDesign.setSubscription(resultSet.getString("subscription"));
+				insuranceDesign.setContractManagementRelatedSystem(resultSet.getString("contractManagementRelatedSystem"));
+				insuranceDesign.setSalesDepartmentData(resultSet.getString("salesDepartmentData"));
+				insuranceDesign.setProductEducationContent(resultSet.getString("productEducationContent"));
+				insuranceDesign.setGuideline(resultSet.getString("guideline"));
+				insuranceDesignList.add(insuranceDesign);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return insuranceDesignList;
 	}
 }

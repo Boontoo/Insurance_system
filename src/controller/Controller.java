@@ -15,9 +15,6 @@ import Model.contract.Contract;
 import Model.contract.ContractListImpl;
 import Model.customer.Customer;
 import Model.customer.CustomerListImpl;
-import Model.insurance.BuildingFireInsurance;
-import Model.insurance.ForestFireInsurance;
-import Model.insurance.IndustryFireInsurance;
 import Model.insurance.Insurance;
 import Model.insurance.InsuranceListImpl;
 import Model.insuranceDesign.InsuranceDesign;
@@ -70,6 +67,7 @@ public class Controller {
 		this.m_InsuranceListImpl = new InsuranceListImpl();
 		this.m_InsuranceDesignListImpl = new InsuranceDesignListImpl();
 		this.m_UserInfoListImpl = new UserInfoListImpl();
+		this.m_BackgroundInfoListImpl = new BackgroundInfoListImpl();
 
 //		this.m_InsuranceListImpl.add(new BuildingFireInsurance("0", "건물 화재 보험"));
 //		this.m_InsuranceListImpl.getAll().get(m_InsuranceListImpl.getSize() - 1)

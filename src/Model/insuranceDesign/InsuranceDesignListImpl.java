@@ -59,6 +59,7 @@ public class InsuranceDesignListImpl implements InsuranceDesignList {
 	}
 	
 	public ArrayList<InsuranceDesign> getAll() {
+		this.insuranceDesignList =((InsuranceDesignDao) this.dao).retrieveAll();
 		return insuranceDesignList;
 	}
 

@@ -13,6 +13,9 @@ public class Accident {
 	private boolean payed;
 	private String contractID;
 	
+	public Accident() {
+	}
+	
 	public Accident(int towTruckCallNum, String contractID , String accidentLocation, String accidentType) {
 		this.towTruckCallNum = towTruckCallNum;
 		this.contractID = contractID;

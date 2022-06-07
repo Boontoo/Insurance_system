@@ -84,6 +84,7 @@ public class ContractListImpl implements ContractList {
 	}
 	public ArrayList<Contract> getAll(){
 		// 새로 만든 함수
+		this.contractList = ((ContractDao) this.dao).retrieveAll();
 		return contractList;
 	}
 	public int indexOf(String id) {

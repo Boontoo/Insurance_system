@@ -33,10 +33,10 @@ public class ApplicationListImpl implements ApplicationList {
 		// boolean result = applicationForMembershipList.add(applicationForMembership);
 		// applicationForMembershipList.get(applicationForMembershipList.size()-1).
 		// setId(applicationForMembershipList.size() + "");
-		applicationForMembership.setId(applicationForMembershipList.size() + "");
+		applicationForMembership.setId(applicationList.size() + "");
 		boolean result = false;
 		if (((ApplicationDao) this.dao).create(applicationForMembership))
-			result = applicationForMembershipList.add(applicationForMembership);
+			result = applicationList.add(applicationForMembership);
 		return result;
 	}
 
@@ -47,9 +47,9 @@ public class ApplicationListImpl implements ApplicationList {
 	public boolean delete(String id) {
 		boolean result = false;
 		if (((ApplicationDao) this.dao).delete(id)) {
-			for (int i = 0; i < applicationForMembershipList.size(); i++) {
-				if (applicationForMembershipList.get(i).getId() == id) {
-					applicationForMembershipList.remove(i);
+			for (int i = 0; i < applicationList.size(); i++) {
+				if (applicationList.get(i).getId() == id) {
+					applicationList.remove(i);
 					initializeId();
 					result = true;
 					break;
@@ -90,6 +90,7 @@ public class ApplicationListImpl implements ApplicationList {
 	}
 
 	public ArrayList<Application> getAll() {
+		this.applicationList =((ApplicationDao) this.dao).retrieveAll();
 		return applicationList;
 	}
 

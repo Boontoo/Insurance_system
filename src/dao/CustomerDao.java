@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Model.customer.Customer;
-import Model.insurance.Insurance;
 
 public class CustomerDao extends Dao {
 	public CustomerDao() {
@@ -63,38 +62,45 @@ public class CustomerDao extends Dao {
 		return super.delete(query);
 	}
 
-//	public ArrayList<Customer> retrieveAll() {
-//		String query = "select * from customer";
-//		ResultSet resultSet = super.retrieve(query);
-//		ArrayList<Customer> customerList = new ArrayList<Customer>();
-//		try {
-//			while(resultSet.next()) {
-//				Customer customer = new Customer();
-//				customer.setId(resultSet.getString("id"));
-//				customer.setAge(resultSet.getInt("age"));
-//				String renew = resultSet.getString("renew");
-//				if(renew == "F") customer.setGender(false);
-//				else if(renew == "M") customer.setGender(true);
-//				customer.setBirthDate(resultSet.getInt("birthDate"));
-//				customer.setCustomerName(resultSet.getString("customerName"));
-//				customer.setPhoneNum(resultSet.getString("phoneNum"));
-//				customer.setSsn(resultSet.getString("ssn"));
-//				////////////////////
-//				String subscribedInsuranceString = resultSet.getString("subscribedInsurance");
-//				customer.setSubscribedInsurance();
-//				///////////////////////
-//				customer.setUniqueness(resultSet.getString("ssn"));
-//				/////////////////////////////
-//				customer.setAccidentId(resultSet.getString("accidentId"));
-//				////////////////////////////////////
-//				customer.setUserId(resultSet.getString("userId"));
-//				customer.setUserPw(resultSet.getString("userPw"));
-//				customerList.add(customer);
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return customerList;
-//	}
+	public ArrayList<Customer> retrieveAll() {
+		String query = "select * from customer";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<Customer> customerList = new ArrayList<Customer>();
+		try {
+			while(resultSet.next()) {
+				Customer customer = new Customer();
+				customer.setId(resultSet.getString("id"));
+				customer.setAge(resultSet.getInt("age"));
+				String renew = resultSet.getString("renew");
+				if(renew == "F") customer.setGender(false);
+				else if(renew == "M") customer.setGender(true);
+				customer.setBirthDate(resultSet.getInt("birthDate"));
+				customer.setCustomerName(resultSet.getString("customerName"));
+				customer.setPhoneNum(resultSet.getString("phoneNum"));
+				customer.setSsn(resultSet.getString("ssn"));
+				String subscribedInsuranceString = resultSet.getString("subscribedInsurance");
+				String[] subscribedInsuranceArray = subscribedInsuranceString.split(", ");
+				ArrayList<String> subscribedInsurance = new ArrayList<String>();
+				for(String insurance : subscribedInsuranceArray) {
+					subscribedInsurance.add(insurance);
+				}
+				customer.setSubscribedInsurance(subscribedInsurance);
+				customer.setUniqueness(resultSet.getString("ssn"));
+				String accidentIdString = resultSet.getString("accidentId");
+				String[] accidentIdArray = accidentIdString.split(", ");
+				ArrayList<String> accidentId = new ArrayList<String>();
+				for(String id : accidentIdArray) {
+					accidentId.add(id);
+				}
+				customer.setAccidentId(accidentId);
+				customer.setUserId(resultSet.getString("userId"));
+				customer.setUserPw(resultSet.getString("userPw"));
+				customerList.add(customer);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return customerList;
+	}
 }

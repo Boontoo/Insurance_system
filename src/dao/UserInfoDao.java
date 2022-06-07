@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Model.insurance.Insurance;
 import Model.userInfo.UserInfo;
 
 public class UserInfoDao extends Dao {
@@ -50,7 +49,7 @@ public class UserInfoDao extends Dao {
 	}
 	
 	public ArrayList<UserInfo> retrieveAll() {
-		String query = "select * from insurance";
+		String query = "select * from userinfo";
 		ResultSet resultSet = super.retrieve(query);
 		ArrayList<UserInfo> userInfoList = new ArrayList<UserInfo>();
 		try {
@@ -61,8 +60,8 @@ public class UserInfoDao extends Dao {
 				userInfo.setUserId(resultSet.getString("userId"));
 				userInfo.setUserPw(resultSet.getString("userPw"));
 				String userType = resultSet.getString("userType");
-				if(userType == "E") userInfo.setUserType(true);
-				else if(userType == "C") userInfo.setUserType(false);
+				if(userType.equals("E")) userInfo.setUserType(true);
+				else if(userType.equals("C")) userInfo.setUserType(false);
 				userInfoList.add(userInfo);
 			}
 		} catch (SQLException e) {

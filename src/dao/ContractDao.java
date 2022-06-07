@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Model.contract.Contract;
 
 public class ContractDao extends Dao {
@@ -52,5 +56,31 @@ public class ContractDao extends Dao {
 	public boolean delete(String id) {
 		String query = "delete from contract where id=" + id;
 		return super.delete(query);
+	}
+	
+	public ArrayList<Contract> retrieveAll() {
+		String query = "select * from contract";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<Contract> contractList = new ArrayList<Contract>();
+		try {
+			while(resultSet.next()) {
+				Contract contract = new Contract();
+				contract.setId(resultSet.getString("id"));
+				contract.setCustomerID(resultSet.getString("customerId"));
+				contract.setInsuranceID(resultSet.getString("insuranceId"));
+				contract.setExpirationDate(resultSet.getString("expirationDate"));
+				contract.setTotalPayAmount(resultSet.getInt("totalPayAmount"));
+				contract.setPayAmount(resultSet.getInt("payAmount"));
+				String payStatus = resultSet.getString("payStatus");
+				if(payStatus == "X") contract.setPayStatus(true);
+				else if(payStatus == "O") contract.setPayStatus(true);
+				contract.setId(resultSet.getString("renewConsult"));
+				contractList.add(contract);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return contractList;
 	}
 }

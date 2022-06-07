@@ -1111,7 +1111,7 @@ public class View {
 	private void designInsuranceProductMenu(Scanner scanner) {
 		while (true) {
 			// 없애야 할 것 ////////////////
-			controller.setData(); //////
+//			controller.setData(); //////
 			/////////////////////////////
 			System.out.println("1.보험 상품 설계");
 			System.out.println("2.보험 상품 관리");

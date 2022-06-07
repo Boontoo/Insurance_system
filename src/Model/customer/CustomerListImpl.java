@@ -49,6 +49,7 @@ public class CustomerListImpl implements CustomerList {
 	}
 	public ArrayList<Customer> getAll(){
 		// 새로 만든 함수
+		this.customerList =((CustomerDao) this.dao).retrieveAll();
 		return customerList;
 	}
 	public Customer getById(String id) {

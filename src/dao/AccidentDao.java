@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Model.accident.Accident;
 
 public class AccidentDao extends Dao {
@@ -43,5 +47,29 @@ public class AccidentDao extends Dao {
 	public boolean delete(String id) {
 		String query = "delete from accident where id=" + id;
 		return super.delete(query);
+	}
+	
+	public ArrayList<Accident> retrieveAll() {
+		String query = "select * from accident";
+		ResultSet resultSet = super.retrieve(query);
+		ArrayList<Accident> accidentList = new ArrayList<Accident>();
+		try {
+			while(resultSet.next()) {
+				Accident accident = new Accident();
+				accident.setID(resultSet.getString("id"));
+				accident.setTowTruckCallNum(resultSet.getInt("towTruckCallNum"));
+				accident.setLocation(resultSet.getString("location"));
+				accident.setAccidentType(resultSet.getString("accidentType"));
+				String payed = resultSet.getString("payed");
+				if(payed.equals("O")) accident.setPayed(true);
+				else if(payed.equals("X")) accident.setPayed(false);
+				accident.setContractID(resultSet.getString("contractID"));
+				accidentList.add(accident);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return accidentList;
 	}
 }
